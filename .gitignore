@@ -41,3 +41,7 @@ www/media/
 .cache/
 temp/
 homematicip_local/cache/
+
+# Zigbee2MQTT runtime state/logs
+zigbee2mqtt/state.json
+zigbee2mqtt/log/
