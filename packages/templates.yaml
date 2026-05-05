@@ -267,8 +267,6 @@ template:
         unit_of_measurement: kWh
         device_class: energy
         state_class: total_increasing
-        attributes:
-          last_reset: "2024-06-03T00:00:00+00:00"
 
       - name: Total used energy
         unique_id: total_used_energy
@@ -304,7 +302,7 @@ template:
         device_class: power_factor
         state: >
           {% if states('sensor.wr1_daily_pv_generation')|float(0) > 0 %}
-            {{ states('sensor.selfuse_energy_d')|float(0) / states('sensor.wr1_daily_pv_generation')|float(0) }}
+            {{ (states('sensor.selfuse_energy_d')|float(0) / states('sensor.wr1_daily_pv_generation')|float(0) * 100) | round(1) }}
           {% else %}
             0
           {% endif %}
@@ -315,7 +313,7 @@ template:
         device_class: power_factor
         state: >
           {% if states('sensor.pv_generated_energy_m')|float(0) > 0 %}
-            {{ states('sensor.selfuse_energy_m')|float(0) / states('sensor.pv_generated_energy_m')|float(0) }}
+            {{ (states('sensor.selfuse_energy_m')|float(0) / states('sensor.pv_generated_energy_m')|float(0) * 100) | round(1) }}
           {% else %}
             0
           {% endif %}

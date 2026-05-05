@@ -7,7 +7,7 @@ template:
       - name: WP On
         unique_id: wp_on
         state: >-
-          {% if (is_state('sensor.luxtronik_320218_0754_status', ['unavailable'])) %}
+          {% if states('sensor.luxtronik_320218_0754_status') in ['unavailable', 'unknown'] %}
             off
           {% else %}
             on
@@ -16,7 +16,7 @@ template:
       - name: WP Running
         unique_id: wp_running
         state: >-
-          {% if (is_state('sensor.luxtronik_320218_0754_status', ['hot water', 'heating', 'defrost'])) %}
+          {% if states('sensor.luxtronik_320218_0754_status') in ['hot water', 'heating', 'defrost'] %}
             on
           {% else %}
             off

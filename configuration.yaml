@@ -166,19 +166,17 @@ template:
           {# Check external spool(s) #}
           {% if state_attr('sensor.p2s_22e8bj5b1300202_externalspool_externe_spule', 'active') in [true, 'true', 'True'] %}
             0
-          {% endif %}
           {# Check AMS1 trays #}
-          {% if state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_1', 'active') in [true, 'true', 'True'] %}
+          {% elif state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_1', 'active') in [true, 'true', 'True'] %}
             11
-          {% endif %}
-          {% if state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_2', 'active') in [true, 'true', 'True'] %}
+          {% elif state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_2', 'active') in [true, 'true', 'True'] %}
             12
-          {% endif %}
-          {% if state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_3', 'active') in [true, 'true', 'True'] %}
+          {% elif state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_3', 'active') in [true, 'true', 'True'] %}
             13
-          {% endif %}
-          {% if state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_4', 'active') in [true, 'true', 'True'] %}
+          {% elif state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_4', 'active') in [true, 'true', 'True'] %}
             14
+          {% else %}
+            unknown
           {% endif %}
         availability: >
           {{ expand([
