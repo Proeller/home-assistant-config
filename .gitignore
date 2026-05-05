@@ -40,3 +40,4 @@ www/media/
 .venv/
 .cache/
 temp/
+homematicip_local/cache/
