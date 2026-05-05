@@ -1,0 +1,65 @@
+homeassistant:
+  enabled: true
+mqtt:
+  server: mqtt://core-mosquitto:1883
+  user: addons
+  password: aeNg7eepeebiaZo4rai5aet6ohn8Gufah9oocowok6awaiphe8aisa6ahph0kai3
+  keepalive: 60
+  reject_unauthorized: true
+  version: 4
+serial:
+  port: /dev/ttyUSB0
+frontend:
+  enabled: true
+  port: 8099
+advanced:
+  log_level: info
+device_options: {}
+devices:
+  '0x00158d0006d69bfd':
+    friendly_name: Schreibtischleuchte
+    description: NLG-TW light Schreibtischleuchte Büro Uli
+    icon: device_icons/9b3d5ce25b5583be19620c7b236e01db.png
+  '0xd53e0211e00bfdb0':
+    friendly_name: Deckenleuchte Wohnzimmer
+    description: NLG-TW light Deckenleuchte Wohnzimmer
+    icon: device_icons/9b3d5ce25b5583be19620c7b236e01db.png
+  '0x001788010c64991d':
+    friendly_name: Hue Go Box rechts
+    icon: device_icons/cc11dea919c4afbafc121d0f43f24bcc.png
+  '0x001788010cbe0213':
+    friendly_name: Hue Iris Box Links
+    icon: device_icons/f01af289d02023b666152d3474424cf8.png
+  '0x001788010f304d6a':
+    friendly_name: Hue Stehlampe
+    icon: device_icons/7cf74fb3b76a60341c0274d655ada43a.png
+  '0x001788010c65fe7f':
+    friendly_name: Hue Aurelle Decke
+    icon: device_icons/46730f950a235ca0fe15f0ff34de6b23.png
+  '0x001788010e2e0c8f':
+    friendly_name: Hue Lightstrip Fenster
+    icon: device_icons/cc70af6438ff313d1bafd671e7bd2921.png
+  '0x001788010f3a4723':
+    friendly_name: Hue Devote Decke Herrenbad
+    icon: device_icons/af61592cfe967e3c956fb47b40940362.png
+  '0x001788010c658982':
+    friendly_name: Sevi Schreibtisch rechts
+    icon: device_icons/cc11dea919c4afbafc121d0f43f24bcc.png
+  '0x001788010c646800':
+    friendly_name: Sevi Nachttisch
+    icon: device_icons/cc11dea919c4afbafc121d0f43f24bcc.png
+  '0x54ef4410015eaf6b':
+    friendly_name: Aqara FP300
+  '0x781c9dfffe77c62a':
+    friendly_name: Wandleuchte Studio
+    transition: 0.5
+  '0x001788010cb3c87d':
+    friendly_name: Sevi Schreibtisch links
+  '0x7c2c67fffe719050':
+    friendly_name: Shelly Flood Gästezimmer
+availability:
+  enabled: true
+  active:
+    timeout: 5
+ota: {}
+version: 5

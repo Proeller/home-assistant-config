@@ -1,0 +1,73 @@
+mqtt:
+  enabled: True
+  host: ha.int.proeller.com
+  user: Uli
+  password: Pasqua06
+  topic_prefix: frigate
+  # Optional: client id (default: shown below)
+  # WARNING: must be unique if you are running multiple instances
+  client_id: frigate
+  # Optional: interval in seconds for publishing stats (default: shown below)
+  stats_interval: 1
+
+
+# Optional: Detectors configuration. Defaults to a single CPU detector
+detectors:
+  # Required: name of the detector
+  detector_name:
+    # Required: type of the detector
+    # Frigate provided types include 'cpu', 'edgetpu', and 'openvino' (default: shown below)
+    # Additional detector types can also be plugged in.
+    # Detectors may require additional configuration.
+    # Refer to the Detectors configuration page for more information.
+    type: cpu 
+
+birdseye:
+  enabled: True
+  restream: True
+  mode: objects
+
+objects:
+  track:
+    - person
+    - car
+  filters:
+    person:
+      min_area: 5000
+      max_area: 100000
+
+
+go2rtc:
+  streams:
+    Einfahrt: 
+      - rtsp://admin:Atlantis.13@cam0.int.proeller.com:554/einfahrt_standardauflosung
+      - "ffmpeg:rtsp_cam#audio=opus"
+    Einfahrt_sub: 
+      - rtsp://admin:Atlantis.13@cam0.int.proeller.com:554/einfahrt_standardauflosung
+      - "ffmpeg:rtsp_cam#audio=opus"
+
+cameras:
+  Einfahrt_CAM:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/Einfahrt?video=copy&audio=aac
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/Einfahrt_sub?video=copy
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+    detect:
+      width: 1280 
+      height: 720 
+      fps: 5
+    snapshots:
+      enabled: True
+    record:
+      enabled: True
+      retain: 
+        days: 7
+      events:
+        retain: 
+          default: 14

@@ -1,0 +1,338 @@
+template:
+  - sensor:
+      # ******************************************************************************
+      #       POWER
+      # ******************************************************************************
+      # Alternative wäre 'grid_metered_power_raw', aber 'wr1_meter_active_power' ist glatter
+      - name: "Grid metered power"
+        unique_id: grid_metered_power
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        state: >
+          {{ states('sensor.wr1_meter_active_power')|float(default=0) }}
+
+      - name: "Grid export power"
+        unique_id: grid_export_power
+        unit_of_measurement: "W"
+        device_class: power
+        state: >-
+          {% if states('sensor.grid_metered_power')|float(default=0) < 0 %}
+            {{ states('sensor.grid_metered_power')|float(default=0) * (-1.0) }}
+          {% else %}
+            0
+          {% endif %}
+
+      - name: "Grid import power"
+        unique_id: grid_import_power
+        unit_of_measurement: "W"
+        device_class: power
+        state: >-
+          {% if states('sensor.grid_metered_power')|float(default=0) > 0 %}
+            {{ states('sensor.grid_metered_power')|float(default=0) }}
+          {% else %}
+            0
+          {% endif %}
+
+      - name: "Total DC power"
+        unique_id: total_dc_power
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        state: >
+          {{ states('sensor.wr1_total_dc_power')|int(default=0) + states('sensor.wr2_total_dc_power')|int(default=0) }}
+
+      - name: "Load power"
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {{ states('sensor.wr1_load_power')|float(default=0) }}
+
+      # Um die effektive PV-Power von WR1 zu berechnen, muss zur wr1_total_active_power (Wirkleistung)
+      # die wr1_signed_battery_power addiert werden, die negativ ist, wenn der WR Strom aus der Batterie entnimmt.Total PV
+      - name: "Total PV power raw"
+        unique_id: total_pv_power_raw
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {{ states('sensor.wr1_total_active_power')|float(default=0)
+          + states('sensor.wr1_signed_battery_power')|float(default=0)
+          + states('sensor.wr2_total_active_power')|float(default=0) }}
+
+      - name: "Total PV power"
+        unique_id: total_pv_power
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.total_pv_power_raw')|float(default=0) > 0 %}
+            {{ states('sensor.total_pv_power_raw')|float(default=0) }}
+          {% else %}
+              0
+          {% endif %}
+
+      - name: "Wallbox Active Power"
+        unique_id: wallbox_active_power
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {{ states('sensor.em_wallbox_total_active_power')|float(0)|round(0) }}
+
+      - name: "Real load" # includes house power and inverter loss
+        unique_id: real_load
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.load_power')|float(default=0) > 0 %}
+            {{ states('sensor.load_power')|float(default=0) }}
+          {% else %}
+              0
+          {% endif %}
+
+      - name: "Total used power raw"
+        unique_id: total_used_power_raw
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        state: >
+          {{ states('sensor.total_pv_power')|float(0)
+            + states('sensor.grid_metered_power')|float(0)
+            - states('sensor.wr1_signed_battery_power')|float(0) }}
+
+      - name: "Total active power"
+        unique_id: total_active_power
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        state: >
+          {% if states('sensor.total_used_power_raw')|float(0) > 0.0 %}
+            {{ states('sensor.total_used_power_raw')|float(0) }}
+          {% else %}
+              0.0
+          {% endif %}
+
+      - name: "Unspecific consumption"
+        unique_id: unspecific_consumption
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        state: >
+          {{ states('sensor.total_active_power')|float(0)
+            - states('sensor.3em_wallbox_active_power')|float(0)
+            - states('sensor.3em_heatpump_active_power')|float(0)
+            - states('sensor.3em_arbeitszimmer_active_power')|float(0)
+            - states('sensor.3em_server_active_power')|float(0) }}
+
+      - name: "Grid to House" # only positive
+        unique_id: grid_to_house
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if (states('sensor.grid_import_power')|int(0)) > states('sensor.real_load')|int(0) %}
+              {{ states('sensor.load_power')|int(0)}}
+          {% else %}
+              {{ states('sensor.grid_import_power')|int(0) }}
+          {% endif %}
+
+      - name: "Grid to Battery"
+        unique_id: grid_to_battery
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.grid_import_power')|int(0) > states('sensor.total_active_power')|int(0) %}
+              {{ states('sensor.grid_import_power')|int(0) - states('sensor.total_active_power')|int(0) }}
+          {% else %}
+              0
+          {% endif %}
+
+      - name: "Battery to House"
+        unique_id: battery_to_house
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.wr1_signed_battery_power')|float(default=0) < 0 %}
+              {% if states('sensor.wr1_signed_battery_power')|float(default=0)|abs > states('sensor.real_load')|float(default=0) %}
+                  {{ states('sensor.real_load')|float(default=0) }}
+              {% else %}
+                  {{ states('sensor.wr1_signed_battery_power')|float(default=0)|abs }}
+              {% endif %}
+          {% else %}
+              0
+          {% endif %}
+
+      - name: "Battery to Grid"
+        unique_id: battery_to_grid
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.wr1_signed_battery_power')|float(default=0) < 0 %}
+              {% if states('sensor.wr1_signed_battery_power')|float(default=0)|abs > states('sensor.real_load')|float(default=0) %}
+                  {{ states('sensor.wr1_signed_battery_power')|float(default=0)|abs - states('sensor.real_load')|float(default=0) }}
+              {% else %}
+                  0
+              {% endif %}
+          {% else %}
+              0
+          {% endif %}
+
+      - name: "Solar to Grid"
+        unique_id: solar_to_grid
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.grid_export_power')|float(default=0) > states('sensor.battery_to_grid')|float(default=0) %}
+              {{ (states('sensor.grid_export_power')|float(default=0) - states('sensor.battery_to_grid')|float(default=0))|round(1) }}
+          {% else %}
+              0
+          {% endif %}
+
+      - name: "Solar to House"
+        unique_id: solar_to_house
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.total_dc_power')|float(default=0) > 0 and states('sensor.total_active_power')|float(default=0) > states('sensor.battery_to_house')|int(default=0) + states('sensor.grid_import_power')|float(default=0) %}
+              {% if states('sensor.total_dc_power')|float(default=0) > states('sensor.total_active_power')|float(default=0) - states('sensor.battery_to_house')|float(default=0) - states('sensor.grid_to_house')|float(default=0) %}
+                  {{ states('sensor.total_active_power')|float(default=0) - states('sensor.battery_to_house')|float(default=0) - states('sensor.grid_to_house')|float(default=0) }}
+              {% else %}
+                  {{ states('sensor.total_dc_power')|float(default=0) }}
+              {% endif %}
+          {% else %}
+              0
+          {% endif %}
+
+      - name: "Solar to Battery"
+        unique_id: solar_to_battery
+        unit_of_measurement: W
+        device_class: power
+        state: >
+          {% if states('sensor.total_dc_power')|float(default=0) > 0 and states('sensor.wr1_signed_battery_power')|float(default=0) > 0 %}
+              {% if states('sensor.wr1_signed_battery_power')|float(default=0) > states('sensor.grid_to_battery')|float(default=0) %}
+                  {% if states('sensor.total_dc_power')|float(default=0) - states('sensor.solar_to_house')|float(default=0) > states('sensor.wr1_signed_battery_power')|float(default=0) - states('sensor.grid_to_battery')|float(default=0) %}
+                      {{ states('sensor.wr1_signed_battery_power')|float(default=0) - states('sensor.grid_to_battery')|float(default=0) }}
+                  {% else %}
+                      {{ states('sensor.total_dc_power')|float(default=0) - states('sensor.solar_to_house')|float(default=0) - states('sensor.solar_to_grid')|float(default=0) }}
+                  {% endif %}
+              {% else %}
+                  0
+              {% endif %}
+          {% else %}
+              0
+          {% endif %}
+
+      # ******************************************************************************
+      #       ENERGY
+      # ******************************************************************************
+      # We take wr1_total exported_energy instead of grid_exported_energy_raw!
+      - name: Grid exported energy
+        unique_id: grid_exported_energy
+        unit_of_measurement: "kWh"
+        device_class: energy
+        state_class: total
+        state: "{{ states('sensor.wr1_total_exported_energy')|float(0)|round(2) }}"
+
+      # We take wr1_total imported_energy instead of grid_imported_energy_raw!
+      - name: Grid imported energy
+        unique_id: grid_imported_energy
+        unit_of_measurement: "kWh"
+        device_class: energy
+        state_class: total
+        state: "{{ states('sensor.wr1_total_imported_energy')|float(0)|round(2) }}"
+
+      - name: WP used energy
+        unique_id: wp_used_energy
+        unit_of_measurement: "kWh"
+        device_class: energy
+        state_class: total
+        state: "{{ states('sensor.3em_heatpump_total_active_energy')|float(0) }}"
+
+      - name: Selfuse energy
+        unique_id: selfuse_energy
+        unit_of_measurement: "kWh"
+        device_class: energy
+        state_class: total
+        state: "{{ states('sensor.total_pv_generation')|float(0) - states('sensor.grid_exported_energy')|float(0) }}"
+
+      - name: "Total PV Generation"
+        unique_id: total_pv_generation
+        unit_of_measurement: "kWh"
+        device_class: energy
+        state_class: total
+        state: >
+          {{ states('sensor.wr1_total_pv_generation')|float(0) + states('sensor.wr2_total_power_yield')|float(0) }}
+
+      - name: "Wallbox Total Energy"
+        unique_id: wallbox_total_energy
+        state: >
+          {{ states('sensor.em_wallbox_total_active_energy')|float(0)|round(1)}}
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        attributes:
+          last_reset: "2024-06-03T00:00:00+00:00"
+
+      - name: Total used energy
+        unique_id: total_used_energy
+        unit_of_measurement: "kWh"
+        device_class: energy
+        state_class: total
+        availability: >
+          {{ states('sensor.wr1_total_imported_energy') not in ['unknown','unavailable']
+             and states('sensor.total_pv_generation') not in ['unknown','unavailable']
+             and states('sensor.wr1_total_battery_discharge') not in ['unknown','unavailable']
+             and states('sensor.wr1_total_exported_energy') not in ['unknown','unavailable']
+             and states('sensor.wr1_total_battery_charge') not in ['unknown','unavailable'] }}
+        state: >
+          {{ states('sensor.wr1_total_imported_energy')|float + states('sensor.total_pv_generation')|float
+            + states('sensor.wr1_total_battery_discharge')|float
+            - states('sensor.wr1_total_exported_energy')|float - states('sensor.wr1_total_battery_charge')|float
+            }}
+
+      - name: "House Used Energy"
+        unique_id: house_used_energy
+        unit_of_measurement: "kWh"
+        device_class: energy
+        state_class: total
+        state: >
+          {{ states('sensor.total_used_energy')|float(0) - states('sensor.wp_used_energy')|float(0) - states('sensor.wallbox_total_energy')|float(0) }}
+
+      # ******************************************************************************
+      #       PERCENT
+      # ******************************************************************************
+      - name: Self use rate daily
+        unique_id: self_use_rate_daily
+        unit_of_measurement: "%"
+        device_class: power_factor
+        state: >
+          {% if states('sensor.wr1_daily_pv_generation')|float(0) > 0 %}
+            {{ states('sensor.selfuse_energy_d')|float(0) / states('sensor.wr1_daily_pv_generation')|float(0) }}
+          {% else %}
+            0
+          {% endif %}
+
+      - name: Self use rate monthly
+        unique_id: self_use_rate_monthly
+        unit_of_measurement: "%"
+        device_class: power_factor
+        state: >
+          {% if states('sensor.pv_generated_energy_m')|float(0) > 0 %}
+            {{ states('sensor.selfuse_energy_m')|float(0) / states('sensor.pv_generated_energy_m')|float(0) }}
+          {% else %}
+            0
+          {% endif %}
+
+      # ******************************************************************************
+      #       COSTS
+      # ******************************************************************************
+      - name: Gesamte Stromkosten
+        unique_id: total_electricity_costs
+        unit_of_measurement: €
+        device_class: monetary
+        state: >
+          {{ (states('sensor.grid_imported_energy')|float(0) * states('input_number.electricity_price')|float(0))|round(2) }}
+
+      - name: Gesamte Einspeisevergütung
+        unique_id: total_feed_in_compensation
+        unit_of_measurement: €
+        device_class: monetary
+        state: >
+          {{ (states('sensor.grid_exported_energy')|float(0) * states('input_number.feed_in_tariff')|float(0))|round(2) }}

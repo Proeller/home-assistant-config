@@ -1,0 +1,164 @@
+blueprint:
+  name: Circadian Licht mit Lux-Steuerung
+  description: >
+    Steuert Helligkeit anhand eines Lux-Sensors und Farbtemperatur anhand der
+    Tageszeit (Sonnenstand). Passt nur Lichter an, die bereits eingeschaltet sind.
+  domain: automation
+  source_url: https://example.com/prosa/circadian_lux_light
+  input:
+    target_light:
+      name: Ziel-Licht(er)
+      description: Die zu steuernden Lichter.
+      selector:
+        target:
+          entity:
+            domain: light
+
+    lux_sensor:
+      name: Helligkeitssensor (Lux)
+      description: Sensor mit Lux-Wert im entsprechenden Raum/Umfeld.
+      selector:
+        entity:
+          domain: sensor
+          device_class: illuminance
+
+    min_lux:
+      name: Minimaler Lux-Wert
+      description: Unterhalb dieses Lux-Werts wird maximale Helligkeit verwendet.
+      default: 10
+      selector:
+        number:
+          min: 0
+          max: 1000
+          step: 1
+          unit_of_measurement: lx
+          mode: box
+
+    max_lux:
+      name: Maximaler Lux-Wert
+      description: Oberhalb dieses Lux-Werts wird minimale Helligkeit verwendet.
+      default: 300
+      selector:
+        number:
+          min: 10
+          max: 2000
+          step: 10
+          unit_of_measurement: lx
+          mode: box
+
+    min_brightness:
+      name: Minimale Helligkeit (%)
+      description: Helligkeitswert bei sehr hoher Umgebungshelligkeit.
+      default: 20
+      selector:
+        number:
+          min: 1
+          max: 100
+          step: 1
+          unit_of_measurement: "%"
+          mode: slider
+
+    max_brightness:
+      name: Maximale Helligkeit (%)
+      description: Helligkeitswert bei sehr niedriger Umgebungshelligkeit.
+      default: 100
+      selector:
+        number:
+          min: 1
+          max: 100
+          step: 1
+          unit_of_measurement: "%"
+          mode: slider
+
+    warm_mired:
+      name: Warme Farbtemperatur (mired)
+      description: Farbtemperatur nachts/abends, z.B. ~370 mired (ca. 2700K).
+      default: 370
+      selector:
+        number:
+          min: 140
+          max: 500
+          step: 1
+          unit_of_measurement: "mired"
+          mode: box
+
+    cool_mired:
+      name: Kühle Farbtemperatur (mired)
+      description: Farbtemperatur am Mittag, z.B. ~153 mired (ca. 6500K).
+      default: 200
+      selector:
+        number:
+          min: 140
+          max: 500
+          step: 1
+          unit_of_measurement: "mired"
+          mode: box
+
+mode: restart
+max_exceeded: silent
+
+variables:
+  lux_entity: !input lux_sensor
+  min_lux: !input min_lux
+  max_lux: !input max_lux
+  min_bri: !input min_brightness
+  max_bri: !input max_brightness
+  warm_mired: !input warm_mired
+  cool_mired: !input cool_mired
+
+  # Grenzen für Sonnenstand in Grad
+  # Unterhalb elev_low = sehr warm, oberhalb elev_high = kühl,
+  # dazwischen lineare Interpolation
+  elev_low: -6
+  elev_high: 60
+
+trigger:
+  - platform: state
+    entity_id: !input lux_sensor
+  - platform: time_pattern
+    minutes: "/10"
+  - platform: homeassistant
+    event: start
+  - platform: event
+    event_type: automation_reloaded
+
+condition:
+  # Nur anpassen, wenn mindestens ein Ziel-Licht eingeschaltet ist
+  - condition: template
+    value_template: >
+      {% set target = expand(target_light.entity_id | default([])) %}
+      {{ target | selectattr('state', 'equalto', 'on') | list | count > 0 }}
+
+action:
+  - variables:
+      target_light: !input target_light
+      current_lux: "{{ states(lux_entity) | float(0) }}"
+      elevation: "{{ state_attr('sun.sun', 'elevation') | float(0) }}"
+
+      # Helligkeit berechnen (inverse Beziehung: dunkler -> heller Licht)
+      brightness_pct: >
+        {% if current_lux <= min_lux %}
+          {{ max_bri }}
+        {% elif current_lux >= max_lux %}
+          {{ min_bri }}
+        {% else %}
+          {% set ratio = (current_lux - min_lux) / (max_lux - min_lux) %}
+          {{ (max_bri - (max_bri - min_bri) * ratio) | round(0) }}
+        {% endif %}
+
+      # Farbtemperatur anhand Sonnenstand (elev_low .. elev_high)
+      color_temp_mired: >
+        {% if elevation <= elev_low %}
+          {{ warm_mired }}
+        {% elif elevation >= elev_high %}
+          {{ cool_mired }}
+        {% else %}
+          {% set ratio = (elevation - elev_low) / (elev_high - elev_low) %}
+          {{ (warm_mired + (cool_mired - warm_mired) * ratio) | round(0) }}
+        {% endif %}
+
+  - service: light.turn_on
+    target: !input target_light
+    data:
+      brightness_pct: "{{ brightness_pct | int }}"
+      color_temp: "{{ color_temp_mired | int }}"

@@ -1,0 +1,42 @@
+{
+  // ---- FORMATTER ----
+  "editor.formatOnSave": true,
+
+  // ---- MISC ----
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+
+  // Python-Interpreter für Studio Code Server (Container-Interpreter)
+  "python.defaultInterpreterPath": "/usr/bin/python3",
+
+  // Wichtig, damit die Linter im Studio-Code-Server nicht ins Leere laufen
+  "python.linting.enabled": true,
+
+  // ---- PYTHON / PYLANCE ----
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.useLibraryCodeForTypes": true,
+
+  // Home-Assistant-Core-Importrouten sind im Studio Code Server nicht sichtbar.
+  // Wir schalten deshalb "Missing Imports" aus, ABER ALLES ANDERE bleibt aktiv.
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "none",
+    "reportMissingModuleSource": "none",
+    "reportIncompatibleMethodOverride": "none",
+    "reportUnknownMemberType": "none",
+    "reportUnknownArgumentType": "none"
+  },
+  "python.analysis.extraPaths": ["/usr/src/homeassistant"]
+
+  // // ---- LINTING: RUFF ----
+  // "ruff.enabled": true,
+  // "ruff.select": [
+  //   "E", // Errors
+  //   "F", // Pyflakes
+  //   "W", // Warnings
+  //   "I" // Import sorting
+  // ],
+  // "ruff.fixAll": true,
+}

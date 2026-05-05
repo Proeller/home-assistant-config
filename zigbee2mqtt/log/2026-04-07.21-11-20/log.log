@@ -1,0 +1,27 @@
+[2026-04-07 21:11:20] info: 	z2m: Logging to console, file (filename: log.log)
+[2026-04-07 21:11:20] info: 	z2m: Starting Zigbee2MQTT version 2.9.2 (commit #unknown)
+[2026-04-07 21:11:20] info: 	z2m: Starting zigbee-herdsman (10.0.5)
+[2026-04-07 21:11:20] info: 	zh:adapter:discovery: Matched adapter=zstack path=/dev/ttyUSB0, score=4
+[2026-04-07 21:11:20] info: 	zh:zstack:znp: Opening SerialPort with {"path":"/dev/ttyUSB0","baudRate":115200,"rtscts":false,"autoOpen":false}
+[2026-04-07 21:11:20] info: 	zh:zstack:znp: Serialport opened
+[2026-04-07 21:11:21] info: 	z2m: zigbee-herdsman started (resumed)
+[2026-04-07 21:11:21] info: 	z2m: Coordinator firmware version: '{"meta":{"maintrel":1,"majorrel":2,"minorrel":7,"product":1,"revision":20210708,"transportrev":2},"type":"ZStack3x0"}'
+[2026-04-07 21:11:21] info: 	z2m: Schreibtischleuchte (0x00158d0006d69bfd): NLG-TW light - Paul Neuhaus Various tunable white lights (e.g. 8195-55) (Router)
+[2026-04-07 21:11:21] info: 	z2m: Deckenleuchte Wohnzimmer (0xd53e0211e00bfdb0): NLG-TW light - Paul Neuhaus Various tunable white lights (e.g. 8195-55) (Router)
+[2026-04-07 21:11:21] info: 	z2m: Hue Go Box rechts (0x001788010c64991d): 7602031P7 - Philips Hue Go with Bluetooth (Router)
+[2026-04-07 21:11:21] info: 	z2m: Hue Iris Box Links (0x001788010cbe0213): 929002376201 - Philips Hue Iris (generation 2, black) (Router)
+[2026-04-07 21:11:21] info: 	z2m: Hue Stehlampe (0x001788010f304d6a): 8720169392182 - Philips Hue Essential White and Color Ambiance A60 (Router)
+[2026-04-07 21:11:21] info: 	z2m: Hue Aurelle Decke (0x001788010c65fe7f): 929003099001 - Philips Hue white ambiance Aurelle square panel light (Router)
+[2026-04-07 21:11:21] info: 	z2m: Hue Lightstrip Fenster (0x001788010e2e0c8f): 929003816901 - Philips Philips Hue indoor 10 Ft smart LED solo lightstrip (Router)
+[2026-04-07 21:11:21] info: 	z2m: Hue Devote Decke Herrenbad (0x001788010f3a4723): 929004297401 - Philips Hue Devote S Ceiling Light Panel White & Color Ambiance (White) (Router)
+[2026-04-07 21:11:21] info: 	z2m: Schreibtisch rechts (0x001788010c658982): 7602031P7 - Philips Hue Go with Bluetooth (Router)
+[2026-04-07 21:11:21] info: 	z2m: Aqara FP300 (0x54ef4410015eaf6b): PS-S04D - Aqara Presence sensor FP300 (EndDevice)
+[2026-04-07 21:11:21] info: 	z2m: Wandleuchte Studio (0x781c9dfffe77c62a): L2206 - IKEA JETSTROM ceiling light panel, color/white spectrum, 30x30 cm (Router)
+[2026-04-07 21:11:21] info: 	z2m: Currently 11 devices are joined.
+[2026-04-07 21:11:21] info: 	z2m: Connecting to MQTT server at mqtt://core-mosquitto:1883
+[2026-04-07 21:11:21] error: 	z2m: MQTT failed to connect, exiting... ()
+[2026-04-07 21:11:21] info: 	z2m: Stopping zigbee-herdsman...
+[2026-04-07 21:11:28] info: 	zh:controller: Wrote coordinator backup to '/config/zigbee2mqtt/coordinator_backup.json'
+[2026-04-07 21:11:28] info: 	zh:zstack:znp: closing
+[2026-04-07 21:11:28] info: 	zh:zstack:znp: Port closed
+[2026-04-07 21:11:29] info: 	z2m: Stopped zigbee-herdsman

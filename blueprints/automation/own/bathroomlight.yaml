@@ -1,0 +1,211 @@
+blueprint:
+  name: Bathroom Light
+  description: >
+    # Bathroom Light
+
+    **Version: 0.2.0**
+
+    Steuert die Lichter im Badezimmer basierend auf Helligkeit und Tageszeit mit fließenden Farbübergängen.
+
+  author: Ulrich Proeller
+  homeassistant:
+    min_version: "2025.12.0"
+  domain: automation
+
+  ###############################################
+  #                  INPUTS                     #
+  ###############################################
+  input:
+    button_on:
+      name: Ein-Taster
+      description: Der oder die Taster zum Einschalten des Lichts
+      default: []
+      selector:
+        entity:
+          device_class: button
+
+    button_off:
+      name: Aus-Taster
+      description: Der oder die Taster zum Ausschalten des Lichts
+      default: []
+      selector:
+        entity:
+          device_class: button
+
+    ceiling_light:
+      name: Deckenlicht
+      description: Die Deckenleuchte
+      selector:
+        entity:
+          multiple: true
+          filter:
+            domain: light
+
+    shower_light:
+      name: Duschlicht
+      description: Die Leuchte in der Dusche
+      selector:
+        entity:
+          multiple: true
+          filter:
+            domain: light
+
+    mirror_light:
+      name: Spiegellicht
+      description: Die Spiegelbeleuchtung
+      selector:
+        entity:
+          multiple: true
+          filter:
+            domain: light
+
+    target_brightness_sensor:
+      name: Target Brightness Sensor
+      description: Die gewünschte Helligkeit
+      selector:
+        entity:
+          filter:
+            - integration: natural_lights
+              domain: sensor
+
+    target_kelvin_sensor:
+      name: Target White Temperature Sensor
+      description: Die gewünschte Weiss-Temperatur
+      selector:
+        entity:
+          filter:
+            - integration: natural_lights
+              domain: sensor
+
+    target_color_sensor:
+      name: Target Color Sensor
+      description: Die gewünschte Farbe
+      selector:
+        entity:
+          filter:
+            - integration: natural_lights
+              domain: sensor
+
+    activation_switch:
+      name: Interne Statusvariable für das Badlicht
+      selector:
+        entity:
+          filter:
+            domain: input_boolean
+
+    transition_time_on:
+      name: Übergangszeit beim Einschalten (Sekunden)
+      default: 1.0
+      selector:
+        number:
+          min: 0.0
+          max: 10.0
+          step: 0.25
+
+    transition_time_off:
+      name: Übergangszeit beim Ausschalten (Sekunden)
+      default: 2.0
+      selector:
+        number:
+          min: 0.0
+          max: 10.0
+          step: 0.25
+
+mode: restart
+trace:
+  stored_traces: 20
+
+###############################################
+#                 VARIABLES                   #
+###############################################
+variables:
+  # Inputs
+  ceiling_light: !input ceiling_light
+  shower_light: !input shower_light
+  mirror_light: !input mirror_light
+  bright_sensor: !input target_brightness_sensor
+  kelvin_sensor: !input target_kelvin_sensor
+  color_sensor: !input target_color_sensor
+  transition_time_on: !input transition_time_on
+  transition_time_off: !input transition_time_off
+  activation_switch: !input activation_switch
+
+  # NATURAL LIGHTS Werte robust laden
+  target_bright: "{{ states(bright_sensor) | float(200) }}"
+  target_color: >
+    {% set raw = states(color_sensor) %}
+    {% if raw and ',' in raw %}
+      {{ raw }}
+    {% else %}
+      0.32,0.32
+    {% endif %}
+  target_kelvin: "{{ states(kelvin_sensor) | int(4000) }}"
+  light_is_on: "{{ states(activation_switch) }}"
+
+###############################################
+#                  TRIGGERS                   #
+###############################################
+triggers:
+  - trigger: state
+    id: button_on_pressed
+    entity_id: !input button_on
+
+  - trigger: state
+    id: button_off_pressed
+    entity_id: !input button_off
+
+condition: []
+
+###############################################
+#                   ACTION                    #
+###############################################
+action:
+  - choose:
+      - alias: "Lichter einschalten"
+        conditions:
+          - condition: trigger
+            id: button_on_pressed
+        sequence:
+          - action: input_boolean.turn_on
+            target:
+              entity_id: "{{ activation_switch }}"
+          - service: light.turn_on
+            data:
+              xy_color: "{{ target_color }}"
+              brightness: "{{ target_bright }}"
+              transition: "{{ transition_time_on }}"
+            target:
+              entity_id: "{{ ceiling_light }}"
+          - if:
+              - condition: time
+                after: "06:00:00"
+            then:
+              - service: light.turn_on
+                data:
+                  color_temp_kelvin: "{{ target_kelvin }}"
+                  brightness: "{{ target_bright }}"
+                  transition: "{{ transition_time_on }}"
+                target:
+                  entity_id: "{{ shower_light }}"
+
+      - alias: "Lichter ausschalten"
+        conditions:
+          - condition: trigger
+            id: button_off_pressed
+        sequence:
+          - service: light.turn_off
+            target:
+              entity_id: "{{ ceiling_light }}"
+            data:
+              transition: "{{ transition_time_off }}"
+          - service: light.turn_off
+            target:
+              entity_id: "{{ shower_light }}"
+            data:
+              transition: "{{ transition_time_off }}"
+          - service: light.turn_off
+            target:
+              entity_id: "{{ mirror_light }}"
+          - action: input_boolean.turn_off
+            target:
+              entity_id: "{{ activation_switch }}"

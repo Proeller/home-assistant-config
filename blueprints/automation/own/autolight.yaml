@@ -1,0 +1,295 @@
+blueprint:
+  name: Auto Light
+  description: >
+    # Auto Light
+
+    **Version: 0.6.0**
+
+    Steuert Lichter basierend auf Bewegung, Helligkeit und Tageszeit mit fließenden Farbübergängen.
+    Vollständig robust gegen Reloads, HA-Restarts und Natural Lights Ladezustände.
+
+  author: Ulrich Proeller
+  homeassistant:
+    min_version: "2025.12.0"
+  domain: automation
+
+  input:
+    light_target:
+      name: Licht
+      description: Die zu steuernde Lampe oder Lampengruppe
+      selector:
+        entity:
+          multiple: true
+          filter:
+            domain: light
+
+    area_sensor:
+      name: Präsenz- oder Bewegungsmelder für den zu steuernden Bereich
+      selector:
+        entity:
+          filter:
+            domain: binary_sensor
+            device_class:
+              - motion
+              - occupancy
+              - presence
+
+    room_sensor:
+      name: Präsenz- oder Bewegungsmelder für den ganzen Raum
+      selector:
+        entity:
+          filter:
+            domain: binary_sensor
+            device_class:
+              - motion
+              - occupancy
+              - presence
+
+    target_brightness_sensor:
+      name: Target Brightness Sensor
+      selector:
+        entity:
+          filter:
+            domain: sensor
+
+    target_kelvin_sensor:
+      name: Target White Temperature Sensor
+      selector:
+        entity:
+          filter:
+            domain: sensor
+
+    target_color_sensor:
+      name: Target Color Sensor
+      selector:
+        entity:
+          filter:
+            domain: sensor
+
+    lux_sensor:
+      name: Helligkeitssensor
+      selector:
+        entity:
+          filter:
+            domain: sensor
+            device_class: illuminance
+
+    lights:
+      name: "Advanced"
+      description: "Advanced settings (optional)"
+      icon: mdi:Advanced
+      collapsed: true
+      input:
+        target_lux:
+          name: Ziel Beleuchtungsstärke
+          description:
+            Die Beleuchtungsstärke, unterhalb derer die Steuerung aktiv wird.
+            Je weiter die gemessene Helligkeit von der Zielhelligkeit
+            entfernt ist, desto heller leuchten die Lampen
+          default: 1000
+          selector:
+            number:
+              min: 100
+              max: 3000
+              step: 100
+              unit_of_measurement: lx
+
+        standby_brightness:
+          name: Standby Helligkeit [0..255]
+          default: 40
+          selector:
+            number:
+              min: 0
+              max: 255
+              step: 1
+
+        motion_timeout:
+          name: Bewegungs-Timeout (Minuten)
+          default: 3
+          selector:
+            number:
+              min: 1
+              max: 15
+              step: 1
+              unit_of_measurement: min
+
+        transition_time:
+          name: Übergangszeit (Sekunden)
+          default: 4
+          selector:
+            number:
+              min: 0
+              max: 60
+              step: 1
+
+        off_time:
+          name: Ausschaltzeit (Sekunden)
+          default: 1
+          selector:
+            number:
+              min: 0
+              max: 60
+              step: 1
+
+mode: restart
+trace:
+  stored_traces: 20
+
+###############################################
+#                 VARIABLES                   #
+###############################################
+variables:
+  # Inputs
+  target_lux: !input target_lux
+  motion_timeout: !input motion_timeout
+  light_entities: !input light_target
+  area_entity: !input area_sensor
+  room_entity: !input room_sensor
+  lux_entity: !input lux_sensor
+  bright_sensor: !input target_brightness_sensor
+  kelvin_sensor: !input target_kelvin_sensor
+  color_sensor: !input target_color_sensor
+  transition_time: !input transition_time
+  off_time: !input off_time
+  standby_bright: !input standby_brightness
+
+  # Presence
+  area_presence: "{{ states(area_entity) == 'on' }}"
+  room_presence: "{{ states(room_entity) == 'on' }}"
+
+  ###################################
+  # NATURAL LIGHTS Werte robust laden
+  ###################################
+  target_bright: "{{ states(bright_sensor) | float(0) }}"
+  target_color: >
+    {% set raw = states(color_sensor) %}
+    {% if raw and ',' in raw %}
+      {{ raw }}
+    {% else %}
+      0.32,0.32
+    {% endif %}
+  target_kelvin: "{{ states(kelvin_sensor) | int(0) }}"
+  current_lux: "{{ states(lux_entity) | float(0) }}"
+
+  ###################################
+  # Target Sensoren Ready Check
+  ###################################
+  target_ready: >
+    {{
+      bright_sensor                    != '' and
+      kelvin_sensor                    != '' and
+      color_sensor                     != '' and
+      (states(bright_sensor)           != 'unknown')
+    }}
+
+  ###################################
+  # Berechnung nur wenn Target Sensoren bereit
+  ###################################
+  lux_fraction: "{{ [(1.0 - (current_lux / target_lux)), 0.0] | max | float(0) }}"
+  tg: >
+    {% if area_presence %}
+      {{ target_bright / 255.0 | float(0) }}
+    {% elif room_presence %}
+      {{ standby_bright / 255.0 | float(0) }}
+    {% else %}
+      {{ 0.0 }}
+    {% endif %}
+
+  req_bright: >
+    {% if target_ready %}
+      {{ [(tg * lux_fraction * 255.0), 255] | min | int(0) }}
+    {% else %}
+      -1
+    {% endif %}
+
+  onoff_value: "{{ area_presence }}"
+
+###############################################
+#                  TRIGGERS                   #
+###############################################
+triggers:
+  - trigger: event
+    event_type: automation_reloaded
+
+  - trigger: homeassistant
+    event: start
+
+  - trigger: state
+    entity_id: !input area_sensor
+    to: "on"
+    id: presence_detected
+
+  - trigger: state
+    entity_id: !input room_sensor
+    to: "on"
+    id: room_presence_detected
+
+  - trigger: state
+    entity_id: !input area_sensor
+    from: "on"
+    to: "off"
+    for:
+      minutes: "{{ motion_timeout }}"
+    id: motion_timeout
+
+  - trigger: time_pattern
+    minutes: "/2"
+    id: periodic_update
+
+  - trigger: state
+    entity_id: !input lux_sensor
+    id: lux_changed
+
+condition: []
+
+###############################################
+#                   ACTION                    #
+###############################################
+action:
+  ##################################################
+  # 1) NATURAL LIGHTS NICHT BEREIT → LOG + STOP
+  ##################################################
+  - if:
+      - condition: template
+        value_template: "{{ not target_ready }}"
+    then:
+      - service: logbook.log
+        data:
+          name: "AutoLight"
+          message: >
+            Natural Lights Instanz '{{ entry_id }}' ist nicht bereit.
+            Lichter werden NICHT verändert.
+      - stop: "Natural Lights nicht bereit"
+
+    ##################################################
+    # 2) NORMALE LOGIK (wenn NL bereit ist)
+    ##################################################
+    else:
+      - if:
+          - condition: template
+            value_template: "{{ req_bright > 0 }}"
+          - condition: template
+            value_template: "{{ room_presence }}"
+        then:
+          - action: logbook.log
+            data:
+              name: AutoLight
+              message: Current Lux = '{{ current_lux }}'; lux_fraction = '{{ lux_fraction }}'; tg = '{{ tg }}'
+              domain: light
+
+          - service: script.set_lights
+            data:
+              {
+                light_entities: "{{ light_entities }}",
+                xy_color: "{{ target_color }}",
+                color_temp_kelvin: "{{ target_kelvin }}",
+                brightness: "{{ req_bright }}",
+                transition: "{{ transition_time }}",
+                onoff_value: "{{ onoff_value }}",
+              }
+        else:
+          - service: light.turn_off
+            target:
+              entity_id: "{{ light_entities }}"
+            data:
+              transition: "{{ off_time }}"

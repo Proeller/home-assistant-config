@@ -1,0 +1,60 @@
+esphome:
+  name: esp32-herrenbad
+  friendly_name: ESP32 Herrenbad
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "Y+EPiFVmGBqX8BKjWebsHYBxmC7LO6dTcsAU3JfanTg="
+
+ota:
+  - platform: esphome
+    password: "85b4b7b51dcb631d3a008a4c38ecac89"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  use_address: esp32-herrenbad.internal
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esp32-Herrenbad Fallback Hotspot"
+    password: "h9tbLY5i3EKN"
+
+captive_portal:
+
+i2c:
+  - sda: GPIO21
+    scl: GPIO22
+    scan: true
+
+sensor:
+  - platform: bme280_i2c
+    address: 0x76
+    update_interval: 20s
+    temperature:
+      name: "Temperatur"
+      filters:
+        - calibrate_linear:
+            - 18.3 -> 16.5
+            - 25.2 -> 23.6
+    pressure:
+      name: "Luftdruck"
+      disabled_by_default: true
+    humidity:
+      name: "Luftfeuchtigkeit"
+      accuracy_decimals: 0
+      oversampling: 4x
+
+  - platform: bh1750
+    address: 0x23
+    name: "Helligkeit"
+    update_interval: 20s

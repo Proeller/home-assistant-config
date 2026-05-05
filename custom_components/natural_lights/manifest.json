@@ -1,0 +1,18 @@
+{
+  "domain": "natural_lights",
+  "name": "Natural Lights",
+  "version": "0.3.0",
+  "icons": [
+    {
+      "name": "day_arc",
+      "path": "icons/day_arc.svg"
+    }
+  ],
+  "icon": "day_arc",
+  "config_flow": true,
+  "documentation": "https://example.invalid/natural_lights",
+  "codeowners": ["@uproeller"],
+  "iot_class": "local_polling",
+  "requirements": [],
+  "loggers": ["custom_components.natural_lights"]
+}

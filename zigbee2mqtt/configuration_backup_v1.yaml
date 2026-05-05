@@ -1,0 +1,29 @@
+homeassistant: {}
+mqtt:
+  server: mqtt://core-mosquitto:1883
+  user: addons
+  password: aeNg7eepeebiaZo4rai5aet6ohn8Gufah9oocowok6awaiphe8aisa6ahph0kai3
+  keepalive: 60
+  reject_unauthorized: true
+  version: 4
+serial:
+  port: /dev/ttyUSB0
+frontend:
+  port: 8099
+advanced:
+  homeassistant_legacy_entity_attributes: false
+  legacy_api: false
+  legacy_availability_payload: false
+  log_level: info
+device_options:
+  legacy: false
+devices:
+  '0x00158d0006d69bfd':
+    friendly_name: Schreibtischleuchte
+  '0xd53e0211e00bfdb0':
+    friendly_name: Deckenleuchte Wohnzimmer
+availability:
+  active:
+    timeout: 5
+ota:
+  ikea_ota_use_test_url: false

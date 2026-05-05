@@ -1,0 +1,21 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Uli Logic konfigurieren",
+        "description": "Konfiguriere die Basisparameter für deine Lichtlogik.",
+        "data": {
+          "instance_name": "Name der Instanz",
+          "file_name": "Name der Konfigurations-Datei"
+        }
+      }
+    }
+  },
+  "error": {
+    "cannot_connect": "Es konnte keine Verbindung aufgebaut werden.",
+    "unknown": "Unbekannter Fehler."
+  },
+  "abort": {
+    "already_configured": "Diese Konfiguration existiert bereits."
+  }
+}

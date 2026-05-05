@@ -1,0 +1,141 @@
+blueprint:
+  name: Night Light
+  description: >
+    # Night Light
+
+    **Version: 0.1.0**
+
+    Steuert Nachtlichter abhängig von Sonnenstand, Badbelegung und Fenstersensoren.
+
+  author: Ulrich Proeller
+  homeassistant:
+    min_version: "2025.12.0"
+  domain: automation
+
+  input:
+    light_target:
+      name: Licht
+      description: Die zu steuernden Lichter
+      selector:
+        entity:
+          multiple: true
+          filter:
+            domain: light
+
+    window_sensors:
+      name: Fenstersensoren
+      description: Die zu überwachenden Fenster
+      selector:
+        entity:
+          multiple: true
+          filter:
+            domain: binary_sensor
+
+    occupancy_sensor:
+      name: Belegtmelder für das Bad
+      selector:
+        entity:
+          filter:
+            domain:
+              - binary_sensor
+              - input_boolean
+
+mode: restart
+trace:
+  stored_traces: 20
+
+###############################################
+#                 VARIABLES                   #
+###############################################
+variables:
+  # Inputs
+  signal_lights: !input light_target
+  window_sensors: !input window_sensors
+  occupancy_sensor: !input occupancy_sensor
+
+  # Binary conditions
+  is_occupied: "{{ states(occupancy_sensor) == 'on' }}"
+  is_window_open: "{{ window_sensors | select('is_state','on') | list | count > 0 }}"
+  is_night: "{{ state_attr('sun.sun', 'elevation') < 0 }}"
+
+###############################################
+#                  TRIGGERS                   #
+###############################################
+triggers:
+  - trigger: event
+    event_type: automation_reloaded
+
+  - trigger: homeassistant
+    event: start
+
+  - trigger: state
+    entity_id: !input window_sensors
+    id: window_changed
+
+  - trigger: state
+    entity_id: !input occupancy_sensor
+    id: occupancy_changed
+
+  - trigger: time_pattern
+    minutes: "/1"
+    id: periodic_update
+
+condition: []
+
+###############################################
+#                   ACTION                    #
+###############################################
+action:
+  - choose:
+    - alias: Belegt
+      conditions:
+        - condition: template
+          value_template: "{{ is_occupied }}"
+
+      sequence:
+        - action: light.turn_on
+          data:
+            rgb_color:
+              - 255
+              - 0
+              - 0
+            brightness_pct: 70
+          target:
+            entity_id: "{{ signal_lights }}"
+
+    - alias: Fenster offen
+      conditions:
+        - condition: template
+          value_template: "{{ is_window_open }}"
+
+      sequence:
+        - action: light.turn_on
+          data:
+            rgb_color:
+              - 255
+              - 255
+              - 255
+            brightness_pct: 70
+          target:
+            entity_id: "{{ signal_lights }}"
+
+    - alias: Nachtlicht
+      conditions:
+        - condition: template
+          value_template: "{{ is_night }}"
+
+      sequence:
+        - action: light.turn_on
+          data:
+            rgb_color:
+              - 0
+              - 0
+              - 255
+            brightness_pct: 70
+          target:
+            entity_id: "{{ signal_lights }}"
+
+    default:
+      - service: light.turn_off
+        target:
+          entity_id: "{{ signal_lights }}"

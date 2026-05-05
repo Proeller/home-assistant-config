@@ -1,0 +1,409 @@
+# Home Assistant Sungrow inverter integration
+# https://github.com/mkaiser/Sungrow-SHx-Inverter-Modbus-Home-Assistant
+# by Martin Kaiser
+# last update: 2023-03-24
+
+modbus:
+  - name: SungrowSGx
+    type: tcp
+    host: !secret sungrow_modbus_host_ip2
+    port: !secret sungrow_modbus_port
+    delay: 5
+    # timeout: 5
+    sensors:
+      - name: Sungrow inverter serial 2
+        unique_id: sg_inverter_serial_2
+        device_address: !secret sungrow_modbus_slave_2
+        address: 4989 # reg 4990
+        input_type: input
+        data_type: string
+        count: 10
+        scan_interval: 600
+
+      - name: WR2 Sungrow device type code
+        unique_id: wr2_dev_code
+        slave: !secret sungrow_modbus_slave_2
+        address: 4999 # reg 5000
+        input_type: input
+        data_type: uint16
+        scan_interval: 600
+
+      - name: WR2 Nominal active power
+        unique_id: wr2_nominal_active_power
+        slave: !secret sungrow_modbus_slave_2
+        address: 5000 # reg 5001
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR2 Daily PV generation
+        unique_id: wr2_daily_power_yield
+        slave: !secret sungrow_modbus_slave_2
+        address: 5002 # reg 5003
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR2 Total PV generation
+        unique_id: wr2_total_power_yield
+        slave: !secret sungrow_modbus_slave_2
+        address: 5003 # reg 5004
+        input_type: input
+        data_type: uint32
+        swap: word
+        unit_of_measurement: kWh
+        precision: 1
+        device_class: energy
+        state_class: total
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR2 Inverter temperature
+        unique_id: wr2_inverter_temperature
+        slave: !secret sungrow_modbus_slave_2
+        address: 5007 # reg 5008
+        input_type: input
+        data_type: int16
+        precision: 1
+        unit_of_measurement: °C
+        device_class: temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 MPPT1 voltage
+        unique_id: wr2_mppt1_voltage
+        slave: !secret sungrow_modbus_slave_2
+        address: 5010 # reg 5011
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 MPPT1 current
+        unique_id: wr2_mppt1_current
+        slave: !secret sungrow_modbus_slave_2
+        address: 5011 # reg 5012
+        input_type: input
+        data_type: uint16
+        precision: 2
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 MPPT2 voltage
+        unique_id: wr2_mppt2_voltage
+        slave: !secret sungrow_modbus_slave_2
+        address: 5012 # reg 5013
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 MPPT2 current
+        unique_id: wr2_mppt2_current
+        slave: !secret sungrow_modbus_slave_2
+        address: 5013 # reg 5014
+        input_type: input
+        data_type: uint16
+        precision: 2
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 Total DC power
+        unique_id: wr2_total_dc_power
+        slave: !secret sungrow_modbus_slave_2
+        address: 5016 # reg 5017
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR2 Phase A voltage
+        unique_id: wr2_phase_a_voltage
+        slave: !secret sungrow_modbus_slave_2
+        address: 5018 # reg: 5019
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 Phase B voltage
+        unique_id: wr2_phase_b_voltage
+        slave: !secret sungrow_modbus_slave_2
+        address: 5019 # reg: 5020
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 Phase C voltage
+        unique_id: wr2_phase_c_voltage
+        slave: !secret sungrow_modbus_slave_2
+        address: 5020 # reg: 5021
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 Phase A current
+        unique_id: wr2_phase_a_current
+        slave: !secret sungrow_modbus_slave_2
+        address: 5021 # reg: 5022
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 Phase B current
+        unique_id: wr2_phase_b_current
+        slave: !secret sungrow_modbus_slave_2
+        address: 5022 # reg: 5023
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 Phase C current
+        unique_id: wr2_phase_c_current
+        slave: !secret sungrow_modbus_slave_2
+        address: 5023 # reg: 5024
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 Grid frequency
+        unique_id: wr2_grid_frequency
+        slave: !secret sungrow_modbus_slave_2
+        address: 5035 # reg 5036
+        input_type: input
+        data_type: uint16
+        precision: 2
+        unit_of_measurement: "Hz"
+        device_class: frequency
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR2 Total Active power
+        unique_id: wr2_total_active_power
+        slave: !secret sungrow_modbus_slave_2
+        address: 5030 # reg 5031
+        input_type: input
+        data_type: int32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR2 Reactive power
+        unique_id: wr2_reactive_power
+        slave: !secret sungrow_modbus_slave_2
+        address: 5032 # reg 5033
+        input_type: input
+        data_type: int32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR2 Power factor
+        unique_id: wr2_power_factor
+        slave: !secret sungrow_modbus_slave_2
+        address: 5034 # reg 5035
+        input_type: input
+        data_type: int16
+        precision: 3
+        unit_of_measurement: "%"
+        device_class: power_factor
+        state_class: measurement
+        scale: 0.001
+        scan_interval: 10
+
+      # - name: WR2 Load power
+      #   unique_id: wr2_load_power
+      #   slave: !secret sungrow_modbus_slave_2
+      #   address: 5090 # reg 5091
+      #   input_type: input
+      #   data_type: int32
+      #   swap: word
+      #   precision: 0
+      #   unit_of_measurement: "W"
+      #   device_class: power
+      #   state_class: measurement
+      #   scale: 1
+      #   scan_interval: 10
+
+# ------------------------------------------------------------------------------
+# 'virtual' template sensors for better readability
+template:
+  - binary_sensor:
+      - name: WR2 PV generating
+        unique_id: wr2_pv_generating
+        availability: >-
+          {{ states('sensor.wr2_total_dc_power')|is_number }}
+        state: >-
+          {# workaround for SH*RS inverters without working running_state #}
+          {% if states('sensor.wr2_total_dc_power')|int > 0 %}
+            1
+          {% else %} 
+            0 
+          {% endif %}
+
+  - sensor:
+      - name: WR2 MPPT1 power
+        unique_id: wr2_mppt1_power
+        unit_of_measurement: W
+        device_class: power
+        availability: "{{states('sensor.wr2_mppt1_voltage')|is_number and states('sensor.wr2_mppt1_current')|is_number }}"
+        state: "{{ (states('sensor.wr2_mppt1_voltage') | float * states('sensor.wr2_mppt1_current') | float) |int }}"
+
+      - name: WR2 MPPT2 power
+        unique_id: wr2_mppt2_power
+        unit_of_measurement: W
+        device_class: power
+        availability: "{{states('sensor.wr2_mppt2_voltage')|is_number and states('sensor.wr2_mppt2_current')|is_number }}"
+        state: "{{ (states('sensor.wr2_mppt2_voltage') | float * states('sensor.wr2_mppt2_current') | float) |int }}"
+
+      - name: WR2 Phase A power
+        unique_id: wr2_phase_a_power
+        unit_of_measurement: W
+        device_class: power
+        availability: "{{states('sensor.wr2_phase_a_voltage')|is_number and states('sensor.wr2_phase_a_current')|is_number }}"
+        state: "{{ (states('sensor.wr2_phase_a_voltage') | float * states('sensor.wr2_phase_a_current') | float) |int }}"
+
+      - name: WR2 Phase B power
+        unique_id: wr2_phase_b_power
+        unit_of_measurement: W
+        device_class: power
+        availability: "{{states('sensor.wr2_phase_b_voltage')|is_number and states('sensor.wr2_phase_b_current')|is_number }}"
+        state: "{{ (states('sensor.wr2_phase_b_voltage') | float * states('sensor.wr2_phase_b_current') | float) |int }}"
+
+      - name: WR2 Phase C power
+        unique_id: wr2_phase_c_power
+        unit_of_measurement: W
+        device_class: power
+        availability: "{{states('sensor.wr2_phase_c_voltage')|is_number and states('sensor.wr2_phase_c_current')|is_number }}"
+        state: "{{ (states('sensor.wr2_phase_c_voltage') | float * states('sensor.wr2_phase_c_current') | float) |int }}"
+
+      - name: WR2 Sungrow device type
+        unique_id: wr2_device_type
+        state: >-
+          {% if ((states('sensor.wr2_sungrow_device_type_code') | int(default=0))  == 0x243D) %}
+            SG3.0RT
+          {% elif ((states('sensor.wr2_sungrow_device_type_code') | int(default=0)) == 0x243E) %}
+            SG4.0RT
+          {% elif ((states('sensor.wr2_sungrow_device_type_code') | int(default=0)) == 0x2430) %}
+            SG5.0RT  
+          {% elif ((states('sensor.wr2_sungrow_device_type_code') | int(default=0)) == 0x2431) %}
+            SG6.0RT
+          {% elif ((states('sensor.wr2_sungrow_device_type_code') | int(default=0)) == 0x243C) %}
+            SG7.0RT
+          {% elif ((states('sensor.wr2_sungrow_device_type_code') | int(default=0)) == 0x2432) %}
+            SG8.0RT
+          {% elif ((states('sensor.wr2_sungrow_device_type_code') | int(default=0)) == 0x2433) %}
+            SG10RT
+          {% elif ((states('sensor.wr2_sungrow_device_type_code') | int(default=0)) == 0x2434) %}
+            SG12RT
+          {% elif ((states('sensor.wr2_sungrow_device_type_code') | int(default=0)) == 0x2435) %}
+            SG15RT
+          {% elif ((states('sensor.wr2_sungrow_device_type_code') | int(default=0)) == 0x2436) %}
+            SG17RT
+          {% elif ((states('sensor.wr2_sungrow_device_type_code') | int(default=0)) == 0x2437) %}
+            SG20RT
+          {% else %}
+            Unknown device code!
+          {% endif %}
+
+input_select:
+  set_wr2_start_stop_mode:
+    name: Inverter mode 2
+    options:
+      - "Start"
+      - "Stop"
+# Automations: Write modbus registers on input changes via GUI
+# note: If you change a value by the sliders, it will take up to 60 seconds until the state variables are updated
+# Unfortunately, I could not find a way to "force update" modbus registers, yet...
+# automation:
+#   - id: "automation_sungrow_inverter2_start_stop"
+#     alias: "sungrow inverter start stop"
+#     description: "Starts/ Stops the inverter"
+#     trigger:
+#       - platform: state
+#         entity_id:
+#           - input_select.set_wr2_start_stop_mode
+#     condition: []
+#     variables:
+#       wr2_start: 0xCF
+#       wr2_stop: 0xCE
+#     action:
+#       - service: modbus.write_register
+#         data_template:
+#           hub: SungrowSGx
+#           slave: !secret sungrow_modbus_slave_2
+#           address: 5005 # reg 5006
+#           value: >
+#             {% if is_state('input_select.set_wr2_start_stop_mode', 'Start') %}
+#             {{wr2_start}}
+#             {% else %}
+#             {{wr2_stop}}
+#             {% endif %}
+#     mode: single

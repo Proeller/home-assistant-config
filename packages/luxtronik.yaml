@@ -1,0 +1,71 @@
+# Home Assistant Luxtronik / AlphaInnotech integration
+# # by Ulrich Proeller
+# last update: 2025-10-04
+
+template:
+  - binary_sensor:
+      - name: WP On
+        unique_id: wp_on
+        state: >-
+          {% if (is_state('sensor.luxtronik_320218_0754_status', ['unavailable'])) %}
+            off
+          {% else %}
+            on
+          {% endif %}
+
+      - name: WP Running
+        unique_id: wp_running
+        state: >-
+          {% if (is_state('sensor.luxtronik_320218_0754_status', ['hot water', 'heating', 'defrost'])) %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+      - name: WP Heating On
+        unique_id: wp_heating_on
+        state: >-
+          {% if (is_state('sensor.luxtronik_320218_0754_status', 'heating')) %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+      - name: WP BW On
+        unique_id: wp_bw_on
+        state: >-
+          {% if (is_state('sensor.luxtronik_320218_0754_status', 'hot water')) %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+      - name: WP Defrost On
+        unique_id: wp_defrost_on
+        state: >-
+          {% if (is_state('sensor.luxtronik_320218_0754_status', 'defrost')) %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+      - name: WP Cooling On
+        unique_id: wp_cooling_on
+        state: >-
+          {% if (is_state('sensor.luxtronik_320218_0754_status', 'cooling')) %}
+            on
+          {% else %}
+            off
+          {% endif %}
+
+  - sensor:
+      - name: "WP COP aktuell"
+        unit_of_measurement: ""
+        state: >
+          {% set p = states('sensor.luxtronik_320218_0754_current_power_consumption') | float(0) %}
+          {% set q = states('sensor.luxtronik_320218_0754_current_heat_output') | float(0) %}
+          {% if p > 300 %}
+            {{ (q / p) | round(2) }}
+          {% else %}
+            unknown
+          {% endif %}

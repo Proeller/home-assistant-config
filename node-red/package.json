@@ -1,0 +1,13 @@
+{
+    "name": "node-red-project",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "@ptweety/node-red-contrib-ccu": "~3.6.2",
+        "node-red-contrib-aedes": "~0.9.0",
+        "node-red-contrib-huemagic": "~4.2.2",
+        "node-red-contrib-zigbee2mqtt": "~2.6.3",
+        "node-red-contrib-zigbee2mqtt-devices": "~0.19.6"
+    }
+}

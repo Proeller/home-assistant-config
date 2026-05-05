@@ -1,0 +1,1394 @@
+- id: '1668688741158'
+  alias: Bürobeleuchtung einschalten
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: 033f7310a06ba811465d61544162485e
+    event_type: homematic.keypress
+    address: 0019DD89A14B79
+    device_type: HmIP-BRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 2
+    trigger: device
+  - domain: homematicip_local
+    device_id: 561d6b91236c4799943cb4fafa91cdcd
+    event_type: homematic.keypress
+    address: 00019D89ACA216
+    device_type: HMIP-WRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 2
+    trigger: device
+  - domain: homematicip_local
+    device_id: 706a1b280ab7479f90efb6f719868769
+    event_type: homematic.keypress
+    address: 0019DD89BAF514
+    device_type: HmIP-BRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 2
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    target:
+      entity_id: scene.burobeleuchtung_an_2
+    data: {}
+  - action: automation.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - automation.auto_light_haustur
+      - automation.autolight_teppich
+      - automation.autolight_schreibtisch
+  mode: single
+- id: '1669037358155'
+  alias: Bürobeleuchtung ausschalten
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: 033f7310a06ba811465d61544162485e
+    event_type: homematic.keypress
+    address: 0019DD89A14B79
+    device_type: HmIP-BRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 1
+    trigger: device
+  - domain: homematicip_local
+    device_id: 561d6b91236c4799943cb4fafa91cdcd
+    event_type: homematic.keypress
+    address: 00019D89ACA216
+    device_type: HMIP-WRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 1
+    trigger: device
+  - domain: homematicip_local
+    device_id: 3fadee9612b1c4d048e695b8d673ba51
+    event_type: homematic.keypress
+    address: 00085D89A3BC2C
+    device_type: HmIP-BSM
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 1
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.burobeleuchtung_aus
+    metadata: {}
+    action: scene.turn_on
+  - action: automation.turn_off
+    metadata: {}
+    data:
+      stop_actions: true
+    target:
+      entity_id:
+      - automation.auto_light_haustur
+      - automation.autolight_teppich
+      - automation.autolight_schreibtisch
+  mode: single
+- id: '1669553765530'
+  alias: Esszimmer Abendbeleuchtung
+  description: Esszimmer Abendbeleuchtung
+  triggers:
+  - domain: homematicip_local
+    device_id: 5acd1d53bd55234c7fc3d7bb52f7df2a
+    event_type: homematic.keypress
+    address: 000B5D8995C57E
+    device_type: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 5
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.eg_am_abend
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1669622709276'
+  alias: 'Esszimmer 2: Essensbeleuchtung einschalten'
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: 5acd1d53bd55234c7fc3d7bb52f7df2a
+    event_type: homematic.keypress
+    address: 000B5D8995C57E
+    device_type: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 2
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.esszimmer_am_morgen
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1669657779076'
+  alias: Wohnzimmer aus
+  description: Wohnzimmer ausschalten
+  triggers:
+  - domain: homematicip_local
+    device_id: 7055b9ed823329ad1cb472c7b1b467eb
+    event_type: homematic.keypress
+    address: 000B5D8995C5C5
+    device_type: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 5
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.wohnzimmer_aus
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1669658714001'
+  alias: TV-Beleuchtung Wohnzimmer
+  description: Abendbeleuchtung einschalten
+  triggers:
+  - domain: homematicip_local
+    device_id: 7055b9ed823329ad1cb472c7b1b467eb
+    event_type: homematic.keypress
+    address: 000B5D8995C5C5
+    device_type: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 1
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.wohnzimmer_abendbeleuchtung
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1669710118054'
+  alias: 'Esszimmer 1: Rollladen im EG hochfahren'
+  description: 'Rollläden und Jalousien im EG öffnen '
+  triggers:
+  - domain: homematicip_local
+    device_id: 5acd1d53bd55234c7fc3d7bb52f7df2a
+    event_type: homematic.keypress
+    address: 000B5D8995C57E
+    device_type: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 1
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.rolladen_und_jalousieen_eg_offnen
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1669737487558'
+  alias: Taster Wohnzimmer Deckenleuchte einschalten
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: dfb6cd11961c4c5907d5eefa6c01f829
+    event_type: homematic.keypress
+    address: 0019DD89A14B97
+    device_type: HmIP-BRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 2
+    trigger: device
+  conditions: []
+  actions:
+  - type: turn_on
+    device_id: d53f0df80f8cb7987dc87b74cb3ceeb1
+    entity_id: light.deckenleuchte_wohnzimmer
+    domain: light
+  mode: single
+- id: '1669737990239'
+  alias: Deckenbeleuchtung Wohnzimmer
+  description: Wohnzimmer ganz hell
+  triggers:
+  - domain: homematicip_local
+    device_id: 7055b9ed823329ad1cb472c7b1b467eb
+    event_type: homematic.keypress
+    address: 000B5D8995C5C5
+    device_type: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 2
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.wohnzimmer_abendbeleuchtung_duplizieren
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1669739120862'
+  alias: 'Esszimmer 3: Südbeschattung'
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: 5acd1d53bd55234c7fc3d7bb52f7df2a
+    event_type: homematic.keypress
+    address: 000B5D8995C57E
+    device_type: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 3
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.beschattung_kuche
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1669840266366'
+  alias: Taster Wohnzimmer Deckenleuchte ausschalten
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: dfb6cd11961c4c5907d5eefa6c01f829
+    event_type: homematic.keypress
+    address: 0019DD89A14B97
+    device_type: HmIP-BRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 1
+    trigger: device
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: d53f0df80f8cb7987dc87b74cb3ceeb1
+    entity_id: light.deckenleuchte_wohnzimmer
+    domain: light
+  mode: single
+- id: '1669840757605'
+  alias: Deckenleuchte Wohnzimmer dunkler
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: dfb6cd11961c4c5907d5eefa6c01f829
+    event_type: homematic.keypress
+    address: 0019DD89A14B97
+    device_type: HmIP-BRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_long
+    subtype: 1
+    trigger: device
+  conditions: []
+  actions:
+  - device_id: d53f0df80f8cb7987dc87b74cb3ceeb1
+    domain: light
+    entity_id: light.deckenleuchte_wohnzimmer
+    type: brightness_decrease
+  mode: single
+- id: '1669840865554'
+  alias: Deckenleuchte Wohnzimmer heller
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: dfb6cd11961c4c5907d5eefa6c01f829
+    event_type: homematic.keypress
+    address: 0019DD89A14B97
+    device_type: HmIP-BRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_long
+    subtype: 2
+    trigger: device
+  conditions: []
+  actions:
+  - device_id: d53f0df80f8cb7987dc87b74cb3ceeb1
+    domain: light
+    entity_id: light.deckenleuchte_wohnzimmer
+    type: brightness_increase
+  mode: single
+- id: '1669910675549'
+  alias: Zentral aus
+  description: 'Schaltet die Beleuchtung im ganzen Haus aus '
+  triggers:
+  - domain: homematicip_local
+    device_id: af877fba8d29fb92eb6755775ca3653e
+    event_type: homematic.keypress
+    address: 0019DD89A14943
+    device_type: HmIP-BRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_long
+    subtype: 1
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.burobeleuchtung_aus
+    metadata: {}
+    action: scene.turn_on
+  - target:
+      entity_id: scene.esszimmer_aus
+    metadata: {}
+    action: scene.turn_on
+  - target:
+      entity_id: scene.wohnzimmer_aus
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1684231663215'
+  alias: 'Esszimmer 4: Kochen'
+  description: Szene Beschattung Küche
+  triggers:
+  - domain: homematicip_local
+    device_id: 5acd1d53bd55234c7fc3d7bb52f7df2a
+    event_type: homematic.keypress
+    address: 000B5D8995C57E
+    device_type: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 4
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.kuche_kochen
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1684231963327'
+  alias: Esszimmer Aus
+  description: Esszimmer & Wohnzimmer aus
+  triggers:
+  - domain: homematicip_local
+    device_id: 5acd1d53bd55234c7fc3d7bb52f7df2a
+    event_type: homematic.keypress
+    address: 000B5D8995C57E
+    device_type: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 6
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.esszimmer_aus
+    metadata: {}
+    action: scene.turn_on
+  - target:
+      entity_id: scene.wohnzimmer_aus
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1684479814448'
+  alias: Beschattung runterfahren
+  description: Taster Schreibtisch Beschattung an
+  triggers:
+  - domain: homematicip_local
+    device_id: 561d6b91236c4799943cb4fafa91cdcd
+    event_type: homematic.keypress
+    address: 00019D89ACA216
+    device_type: HMIP-WRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_long
+    subtype: 1
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.beschattung_buro
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1684479941932'
+  alias: Rollladen hochfahren
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: 561d6b91236c4799943cb4fafa91cdcd
+    event_type: homematic.keypress
+    address: 00019D89ACA216
+    device_type: HMIP-WRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_long
+    subtype: 2
+    trigger: device
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.rollladen_buro_auf
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1684482484619'
+  alias: Beschattung Ost automatisch runterfahren
+  description: Vormittags bei heller Sonne Beschattung an
+  triggers:
+  - entity_id:
+    - binary_sensor.helligkeit_ost
+    to: 'on'
+    from: 'off'
+    trigger: state
+  - at: 08:10:00
+    trigger: time
+  conditions:
+  - condition: state
+    state: 'on'
+    entity_id: binary_sensor.helligkeit_ost
+  - condition: state
+    entity_id: binary_sensor.sun_azimuth_below_120
+    state: 'on'
+  actions:
+  - target:
+      entity_id: scene.beschattung_buro
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1684482870795'
+  alias: Beschattung Ost automatisch hochfahren
+  description: Beschattung von Büro Uli hochfahren
+  triggers:
+  - entity_id:
+    - binary_sensor.helligkeit_ost
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    trigger: state
+  - entity_id:
+    - binary_sensor.sun_azimuth_below_120
+    to: 'off'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: input_boolean.buro_uli_beschattung
+    state: 'on'
+  actions:
+  - target:
+      entity_id: scene.rollladen_buro_auf
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1687533379994'
+  alias: Gartenbeleuchtung bei Sonnenuntergang einschalten
+  description: ''
+  triggers:
+  - event: sunset
+    offset: 0
+    trigger: sun
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.gartenbeleuchtung_an
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1687533453940'
+  alias: Gartenbeleuchtung um Mitternacht ausschalten
+  description: ''
+  triggers:
+  - at: 00:00:00
+    trigger: time
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.gartenbeleuchtung_aus
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1688808384323'
+  alias: Rolläden EG um 8 Uhr hochfahren
+  description: ''
+  triggers:
+  - at: 08:00:00
+    trigger: time
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.rolladen_und_jalousieen_eg_offnen
+    metadata: {}
+    action: scene.turn_on
+  - metadata: {}
+    target:
+      entity_id: scene.jalousien_offen
+    action: scene.turn_on
+  mode: single
+- id: '1689066637203'
+  alias: Rollläden EG nach Dämmerung runterfahren
+  description: ''
+  triggers:
+  - at: sensor.hainbuchenstrasse_17_sun_dusk
+    trigger: time
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.rolladen_und_jalousieen_eg_schliessen
+    metadata: {}
+    action: scene.turn_on
+  - device_id: ae3ae7a99f503a25637f8afa59574d6f
+    domain: cover
+    entity_id: 08208353462c0977604fbfd1fbd08191
+    type: set_position
+    position: 0
+  - device_id: 305e6201fcd658170b5c39e86aceaa85
+    domain: cover
+    entity_id: 5414ae72b02512c52e7b6c3c62bc648f
+    type: set_position
+    position: 0
+  - device_id: 7d742c8ca8e0812e1e69c5df365d8c98
+    domain: cover
+    entity_id: 69dd4d24bc5576ed3f7b12f7df8d461c
+    type: set_position
+    position: 20
+  - device_id: 6defd1e104b06b5833d511230da72110
+    domain: cover
+    entity_id: eb6aac1999bf3ddac367f046a1348723
+    type: set_position
+    position: 0
+  mode: single
+- id: '1689068486930'
+  alias: Beschattung Süd automatisch runterfahren
+  description: Bei hoher Temperatur Süd-Beschattung an
+  triggers:
+  - entity_id:
+    - binary_sensor.sud_sonne
+    - binary_sensor.raumaufheizung
+    to: 'on'
+    trigger: state
+  - domain: homematicip_local
+    device_id: 561d6b91236c4799943cb4fafa91cdcd
+    event_type: homematic.keypress
+    address: 00019D89ACA216
+    device_type: HMIP-WRC2
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_long_release
+    subtype: 1
+    trigger: device
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.sud_sonne
+    state: 'on'
+  - condition: state
+    entity_id: binary_sensor.raumaufheizung
+    state: 'on'
+  actions:
+  - target:
+      entity_id: scene.sudbeschattung
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1689072842735'
+  alias: Beschattung West automatisch runterfahren
+  description: Bei hoher Temperatur West-Beschattung an
+  triggers:
+  - entity_id:
+    - binary_sensor.raumaufheizung
+    - binary_sensor.west_sonne
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    state: 'on'
+    entity_id: binary_sensor.west_sonne
+  - condition: state
+    entity_id: binary_sensor.raumaufheizung
+    state: 'on'
+  actions:
+  - target:
+      entity_id: scene.beschattung_west
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1689147496289'
+  alias: Rollläden bei Morgendämmerung öffnen
+  description: ''
+  triggers:
+  - at: sensor.hainbuchenstrasse_17_sun_rising
+    trigger: time
+  - at: 06:45:00
+    trigger: time
+  conditions:
+  - condition: time
+    after: 06:44:50
+  actions:
+  - target:
+      entity_id: scene.rolladen_eg_sonnenaufgang
+    metadata: {}
+    action: scene.turn_on
+  - device_id: ae3ae7a99f503a25637f8afa59574d6f
+    domain: cover
+    entity_id: 08208353462c0977604fbfd1fbd08191
+    type: set_position
+    position: 100
+  - device_id: 6defd1e104b06b5833d511230da72110
+    domain: cover
+    entity_id: eb6aac1999bf3ddac367f046a1348723
+    type: set_position
+    position: 100
+  - device_id: 305e6201fcd658170b5c39e86aceaa85
+    domain: cover
+    entity_id: 5414ae72b02512c52e7b6c3c62bc648f
+    type: set_position
+    position: 100
+  - device_id: 7d742c8ca8e0812e1e69c5df365d8c98
+    domain: cover
+    entity_id: 69dd4d24bc5576ed3f7b12f7df8d461c
+    type: set_position
+    position: 100
+  mode: single
+- id: '1689148153053'
+  alias: Rollläden OG nach Dämmerung runterfahren
+  description: ''
+  triggers:
+  - at: sensor.hainbuchenstrasse_17_sun_dusk
+    trigger: time
+  conditions: []
+  actions:
+  - target:
+      entity_id: scene.rollladen_og_geschlossen
+    metadata: {}
+    action: scene.turn_on
+  mode: single
+- id: '1696162564572'
+  alias: Jalousien schließen bei Esszimmer aus
+  description: Nach Dämmerung werden alle Jalousien im Ess- Wohnzimmer bei Esszimmer
+    off geschlossen
+  triggers:
+  - domain: homematicip_local
+    device_id: 5acd1d53bd55234c7fc3d7bb52f7df2a
+    event_type: homematic.keypress
+    address: 000B5D8995C57E
+    device_type: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 6
+    trigger: device
+  conditions:
+  - condition: or
+    conditions:
+    - condition: time
+      after: sensor.hainbuchenstrasse_17_sun_dusk
+    - condition: time
+      before: sensor.hainbuchenstrasse_17_sun_dawn
+  actions:
+  - device_id: 305e6201fcd658170b5c39e86aceaa85
+    domain: cover
+    entity_id: 5414ae72b02512c52e7b6c3c62bc648f
+    type: set_position
+    position: 0
+  - device_id: 7d742c8ca8e0812e1e69c5df365d8c98
+    domain: cover
+    entity_id: 69dd4d24bc5576ed3f7b12f7df8d461c
+    type: set_position
+    position: 15
+  - device_id: 6defd1e104b06b5833d511230da72110
+    domain: cover
+    entity_id: eb6aac1999bf3ddac367f046a1348723
+    type: set_position
+    position: 0
+  - device_id: 5875846175dc3eef7e345a9374b65a3a
+    domain: cover
+    entity_id: 31d156d8fda73b6ae6e4362a3199aaf5
+    type: set_position
+    position: 15
+  mode: single
+- id: '1717780525949'
+  alias: Garagentor öffnen
+  description: Wenn BMW, Uli oder Ulrike die Zonen Ottmaring oder Hainbuchenstraße
+    betreten, wird das Garagentor geöffnet
+  triggers:
+  - trigger: zone
+    entity_id: person.ulrike
+    zone: zone.ottmaring
+    event: enter
+  - trigger: zone
+    entity_id: person.uli
+    zone: zone.ottmaring
+    event: enter
+  - trigger: zone
+    entity_id: person.uli
+    zone: zone.home
+    event: enter
+  - trigger: zone
+    entity_id: person.ulrike
+    zone: zone.home
+    event: enter
+  conditions:
+  - condition: state
+    entity_id: cover.garagentor
+    state: closed
+  actions:
+  - device_id: 8cdf5a0552dab420f28011262210ef05
+    domain: cover
+    entity_id: ecef46f7491e9daafcf580a57e906616
+    type: open
+  mode: single
+- id: '1717780597617'
+  alias: Garagentor schließen
+  description: Wenn Uli, Ulrike oder BMW die Hainbuchenstraße verlässt, Garagentor
+    schließen
+  triggers:
+  - trigger: zone
+    entity_id: person.uli
+    zone: zone.home
+    event: leave
+  - trigger: zone
+    entity_id: person.ulrike
+    zone: zone.home
+    event: leave
+  conditions: []
+  actions:
+  - device_id: 8cdf5a0552dab420f28011262210ef05
+    domain: cover
+    entity_id: ecef46f7491e9daafcf580a57e906616
+    type: close
+  mode: single
+- id: '1757758654574'
+  alias: Nachricht wenn Wassereinbruch im Studio
+  description: ''
+  triggers:
+  - type: moist
+    device_id: 59702843280f20523f5167c3bf3ef864
+    entity_id: 80005a0159ed9b14a893e252712aba23
+    domain: binary_sensor
+    metadata:
+      secondary: false
+    trigger: device
+  conditions: []
+  actions:
+  - action: notify.persistent_notification
+    metadata: {}
+    data:
+      message: Wasser im Studio/Gästezimmer entdeckt
+      title: Wassereinbruch entdeckt
+  mode: single
+- id: '1760272583348'
+  alias: Flurlicht EG
+  description: Schaltet das Flurlicht untertags an, wenn es zu dunkel ist
+  use_blueprint:
+    path: Blackshome/sensor-light.yaml
+    input:
+      motion_trigger:
+      - binary_sensor.hmip_smi_00091d899464ea_bewegung
+      light_switch:
+        entity_id: light.flur_eg
+      include_bypass: bypass_disabled
+      include_sun: sun_disabled
+      include_ambient: ambient_enabled
+      ambient_light_sensor: sensor.hmip_smi_00091d899464ea_beleuchtungsstarke
+      ambient_light_options: ambient_light_option_enabled
+      ambient_light_value: 40
+      after_time: 05:30:00
+      before_time: '23:00:00'
+      time_delay: 3
+      include_time: time_enabled
+      light_transition_on: 0.5
+      night_light_brightness: 10
+      include_night_light_control:
+      - use_brightness
+      night_lights_after_time: '23:00:00'
+      night_lights_before_time: 05:30:00
+      night_light_colour_temperature: 2200
+- id: '1760273920957'
+  alias: Treppenlicht
+  description: ''
+  use_blueprint:
+    path: Blackshome/sensor-light.yaml
+    input:
+      motion_trigger:
+      - binary_sensor.hmip_smi_00091d899464ea_bewegung
+      light_switch:
+        entity_id: light.dimmer_flur_eg_treppe
+      time_delay: 3
+      include_sun: sun_disabled
+      after_time: 06:00:00
+      before_time: '22:30:00'
+      include_night_lights: night_lights_enabled
+      include_time: time_disabled
+      motion_bypass: event.dimmer_flur_eg_treppe_ch1
+      ambient_light_sensor: sensor.hmip_smi_00091d899464ea_beleuchtungsstarke
+      ambient_light_options: ambient_light_option_enabled
+      include_light_control:
+      - use_brightness
+      - use_transition
+      light_brightness: 27
+      light_transition_on: 0.5
+      light_transition_off: 2
+      include_ambient: ambient_enabled
+      include_bypass: bypass_disabled
+      zone: zone.home
+      night_lights:
+        entity_id: light.dimmer_flur_eg_treppe
+      night_time_delay: 3
+      include_night_light_control:
+      - use_brightness
+      - use_transition
+      night_light_brightness: 19
+      night_light_transition_on: 0.5
+      night_lights_after_time: '23:00:00'
+      night_lights_before_time: 05:00:00
+      night_light_colour_temperature: 2000
+      night_light_transition_off: 2
+- id: '1763134238523'
+  alias: Lichter aus nach Tastendruck
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: d3b54bb7a7f19f2a09e9603e243cabf2
+    event_type: homematic.keypress
+    address: 000B5D8995C38A
+    model: HmIP-WRC6
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_short
+    subtype: 1
+    trigger: device
+  conditions: []
+  actions:
+  - action: scene.turn_on
+    metadata: {}
+    data:
+      transition: 1
+    target:
+      entity_id: scene.lichter_aus
+  mode: single
+- id: '1763309037160'
+  alias: Auto Light Haustür
+  description: ''
+  use_blueprint:
+    path: own/autolight.yaml
+    input:
+      light_target:
+      - light.schalter_1_haustur_buro_uli
+      area_sensor: binary_sensor.prasenzmelder_buro_uli_anwesenheit
+      room_sensor: binary_sensor.prasenzmelder_buro_uli_anwesenheit
+      target_brightness_sensor: sensor.natural_lights_buro_uli_brightness
+      target_kelvin_sensor: sensor.natural_lights_buro_uli_color_temp
+      target_color_sensor: sensor.natural_lights_buro_uli_color_x_y
+      lux_sensor: sensor.aggregierte_helligkeit_ost
+      transition_time: 0
+- id: '1763378633063'
+  alias: Autolight Schreibtisch
+  description: ''
+  use_blueprint:
+    path: own/autolight.yaml
+    input:
+      light_target:
+      - light.schreibtischleuchte
+      - light.hue_stehlampe
+      - light.hue_lightstrip_fenster
+      area_sensor: binary_sensor.prasenzmelder_buro_uli_anwesenheit
+      room_sensor: binary_sensor.prasenzmelder_buro_uli_anwesenheit
+      target_brightness_sensor: sensor.natural_lights_buro_uli_brightness
+      target_kelvin_sensor: sensor.natural_lights_buro_uli_color_temp
+      target_color_sensor: sensor.natural_lights_buro_uli_color_x_y
+      lux_sensor: sensor.aggregierte_helligkeit_ost
+      motion_timeout: 15
+      transition_time: 0
+      standby_brightness: 80
+      target_lux: 1000
+- id: '1763479128418'
+  alias: Badspiegel einschalten
+  description: "Der Badspiegel wird direkt über den Schalter oder dann eingeschaltet,
+    wenn\n- Das Bad-Licht an ist und\n- entweder\n  - die Luftfeuchtigkeit schneller
+    als 5% pro Minute steigt oder\n  - die aktuelle Luftfeuchtigkeit > 70% ist"
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.feuchtigkeitsanstieg_herrenbad
+    above: 3
+  - trigger: state
+    entity_id:
+    - input_boolean.licht_herrenbad_an
+    to:
+    - 'on'
+  - device_id: 81e2f7106d84664c51ffd38f8c9a5f21
+    domain: shelly
+    type: single_push
+    subtype: button1
+    trigger: device
+    id: button_on
+  conditions:
+  - condition: or
+    conditions:
+    - condition: trigger
+      id:
+      - button_on
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.licht_herrenbad_an
+        state:
+        - 'on'
+      - condition: or
+        conditions:
+        - condition: numeric_state
+          entity_id: sensor.feuchtigkeitsanstieg_herrenbad
+          above: 5
+        - condition: numeric_state
+          entity_id: sensor.esp32_herrenbad_luftfeuchtigkeit
+          above: 70
+  - condition: device
+    type: is_off
+    device_id: 81e2f7106d84664c51ffd38f8c9a5f21
+    entity_id: 51cd4037e49e0e5a8b095520368e274d
+    domain: switch
+  actions:
+  - action: script.badspiegel_mit_heizung_einschalten
+    data: {}
+  mode: single
+- id: '1763495497785'
+  alias: Alle Lichter im Herrenbad einschalten
+  description: ''
+  triggers:
+  - domain: homematicip_local
+    device_id: 09d572800c1016b4a7fb1967d88c0bc2
+    event_type: homematic.keypress
+    address: 00085D89A3BC7D
+    model: HmIP-BSM
+    interface_id: RaspberryMatic-HmIP-RF
+    type: press_long
+    subtype: 2
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.turn_on
+    metadata: {}
+    data:
+      color_temp_kelvin: 5000
+      brightness_pct: 100
+    target:
+      device_id:
+      - 9992135f28ac89fe77c1146bb9d8a692
+      entity_id: light.hue_devote_decke_herrenbad
+  - condition: state
+    state:
+    - 'off'
+    entity_id: light.shelly_badspiegel_2
+  - action: script.badspiegel_mit_heizung_einschalten
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1763570369384'
+  alias: Autolight Teppich
+  description: ''
+  use_blueprint:
+    path: own/autolight.yaml
+    input:
+      light_target:
+      - light.hue_go_box_links
+      - light.hue_go_box_rechts
+      - light.hue_aurelle_decke
+      area_sensor: binary_sensor.prasenzmelder_buro_uli_anwesenheit
+      room_sensor: binary_sensor.prasenzmelder_buro_uli_anwesenheit
+      target_brightness_sensor: sensor.natural_lights_buro_uli_brightness
+      target_kelvin_sensor: sensor.natural_lights_buro_uli_color_temp
+      target_color_sensor: sensor.natural_lights_buro_uli_color_x_y
+      lux_sensor: sensor.aggregierte_helligkeit_ost
+      transition_time: 1
+      motion_timeout: 5
+      standby_brightness: 80
+      target_lux: 800
+- id: '1764584044442'
+  alias: Lichterkette ausschalten
+  description: Lichterkette  wird Mitternachts und bei Helligkeit ausgeschaltet.
+  triggers:
+  - trigger: time
+    at: 00:00:00
+  - trigger: numeric_state
+    entity_id:
+    - sensor.hmip_smo230_a_003122698b0586_beleuchtungsstarke_ch1
+    above: 650
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: 1d934351dafe6e718182317456f937a8
+    entity_id: b53f010c7133bc684f3350a2b7e2527d
+    domain: switch
+  mode: single
+- id: '1764584329410'
+  alias: Lichterkette einschalten
+  description: Lichterkette wird bei Dunkelheit ab 6:00 Uhr eingeschaltet
+  triggers:
+  - trigger: sun
+    event: sunset
+    offset: 0
+  - trigger: numeric_state
+    entity_id:
+    - sensor.hmip_smo230_a_003122698b0586_beleuchtungsstarke_ch1
+    below: 600
+  - trigger: time
+    at: 06:00:01
+  conditions:
+  - condition: time
+    after: 06:00:00
+  - condition: numeric_state
+    entity_id: sensor.hmip_smo230_a_003122698b0586_beleuchtungsstarke_ch1
+    below: 600
+  actions:
+  - type: turn_off
+    device_id: 1d934351dafe6e718182317456f937a8
+    entity_id: b53f010c7133bc684f3350a2b7e2527d
+    domain: switch
+  mode: single
+- id: '1765545106672'
+  alias: Nachtlicht Nord
+  description: ''
+  use_blueprint:
+    path: own/nightlight.yaml
+    input:
+      light_target:
+      - light.taster_nord_flur_og_nachtlicht_nord_oben
+      - light.taster_nord_flur_og_nachtlicht_nord_unten
+      window_sensors:
+      - binary_sensor.shelly_blu_herrenbad_window
+      occupancy_sensor: input_boolean.licht_herrenbad_an
+- id: '1765720566962'
+  alias: Bathroom Light
+  description: ''
+  use_blueprint:
+    path: own/bathroomlight.yaml
+    input:
+      button_on: event.hmip_bsm_00085d89a3bc7d_ch2
+      button_off: event.hmip_bsm_00085d89a3bc7d_ch1
+      ceiling_light:
+      - light.hue_devote_decke_herrenbad
+      shower_light:
+      - light.shellybulbduo_3494546be535
+      target_brightness_sensor: sensor.natural_lights_herrenbad_brightness
+      target_kelvin_sensor: sensor.natural_lights_herrenbad_color_temp
+      target_color_sensor: sensor.natural_lights_herrenbad_color_x_y
+      activation_switch: input_boolean.licht_herrenbad_an
+      transition_time: 2
+      mirror_light:
+      - light.shelly_badspiegel_2
+      transition_time_off: 1
+- id: '1765729580175'
+  alias: Werkbank ein
+  description: ''
+  triggers:
+  - device_id: 36740698562b26735647669ac12fa56d
+    domain: bthome
+    type: button_1
+    subtype: press
+    trigger: device
+  conditions: []
+  actions:
+  - type: turn_on
+    device_id: 8c7fee14d2eaed0444557c77f4fc9b89
+    entity_id: b833d2ab6e360b47c1bbafdc4ab1f8b7
+    domain: light
+    brightness_pct: 100
+  mode: single
+- id: '1765730090038'
+  alias: Werkbank aus
+  description: ''
+  triggers:
+  - device_id: 36740698562b26735647669ac12fa56d
+    domain: bthome
+    type: button_2
+    subtype: press
+    trigger: device
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: 8c7fee14d2eaed0444557c77f4fc9b89
+    entity_id: b833d2ab6e360b47c1bbafdc4ab1f8b7
+    domain: light
+  mode: single
+- id: '1765730221903'
+  alias: Elektronikwerkbank ein
+  description: ''
+  triggers:
+  - device_id: 36740698562b26735647669ac12fa56d
+    domain: bthome
+    type: button_3
+    subtype: press
+    trigger: device
+  conditions: []
+  actions:
+  - type: turn_on
+    device_id: db6e072695b9cb984fa31a9e935bd5ed
+    entity_id: 04a7082c0d1b7e44f261960d45c59df5
+    domain: light
+    brightness_pct: 100
+  mode: single
+- id: '1765730339699'
+  alias: Elektronikwerkbank aus
+  description: ''
+  triggers:
+  - device_id: 36740698562b26735647669ac12fa56d
+    domain: bthome
+    type: button_4
+    subtype: press
+    trigger: device
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: db6e072695b9cb984fa31a9e935bd5ed
+    entity_id: 04a7082c0d1b7e44f261960d45c59df5
+    domain: light
+  mode: single
+- id: '1772478045380'
+  alias: 'Beleuchtungssteuerung '
+  description: ''
+  use_blueprint:
+    path: own/circadian_lux_light.yaml
+    input:
+      lux_sensor: sensor.prasenzmelder_buro_uli_beleuchtungsstarke
+      min_brightness: 1
+      target_light:
+        area_id: buro_uli
+- id: '1775749614642'
+  alias: Werkstatt Lichter aus
+  description: ''
+  triggers:
+  - type: turned_off
+    device_id: 2a9ac1076afb6787168c2b8d50783aff
+    entity_id: 24acdb88ecd4951ac9b08e40a5964931
+    domain: switch
+    trigger: device
+  conditions: []
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    target:
+      area_id: werkstatt
+    data: {}
+  mode: single
+
+# =============================================================================
+# SpoolmanSync Automation: Track Spool Usage
+#
+# Auto-generated by SpoolmanSync for printer: 22e8bj5b1300202
+# Supports 5 tray(s) across 2 AMS unit(s)
+#
+# This automation tracks:
+# 1. Tray changes - when the AMS switches to a different tray (or external spool)
+# 2. Print completion - to log final filament usage
+#
+# Tray encoding: composite_id = ams_number * 10 + tray_number
+# - 0 = external spool
+# - 11-14 = AMS1 trays 1-4
+# - 21-24 = AMS2 trays 1-4
+# - etc.
+# =============================================================================
+- id: 'spoolmansync_update_spool_22e8bj5b1300202'
+  alias: SpoolmanSync - Update Spool (22e8bj5b1300202)
+  description: Track spool usage and sync with Spoolman
+  triggers:
+    - entity_id: sensor.spoolmansync_22e8bj5b1300202_active_tray
+      id: tray
+      trigger: state
+    - entity_id: sensor.p2s_22e8bj5b1300202_aktueller_arbeitsschritt
+      to:
+        - finished
+        - idle
+      id: print_end
+      trigger: state
+  variables:
+    # For tray trigger: get the old tray composite ID (what we're switching FROM)
+    old_tray: |-
+      {% if trigger.id == 'tray' and trigger.from_state is not none and trigger.from_state.state not in [None, '', 'unknown', 'unavailable'] %}
+        {{ trigger.from_state.state | int(-1) }}
+      {% else %}
+        -1
+      {% endif %}
+    # For tray trigger: get the new tray composite ID (what we're switching TO)
+    new_tray: |-
+      {% if trigger.id == 'tray' and trigger.to_state is not none and trigger.to_state.state not in [None, '', 'unknown', 'unavailable'] %}
+        {{ trigger.to_state.state | int(-1) }}
+      {% else %}
+        -1
+      {% endif %}
+    # For print_end: use the helper
+    tray_composite: |-
+      {% if trigger.id == 'print_end' %}
+        {{ states('input_number.spoolmansync_22e8bj5b1300202_last_tray') | int(-1) }}
+      {% else %}
+        {{ old_tray }}
+      {% endif %}
+    # Build sensor entity ID for the tray we're logging
+    tray_sensor: "{% if tray_composite == 0 %}sensor.p2s_22e8bj5b1300202_externalspool_externe_spule{% endif %}{% if tray_composite == 11 %}sensor.p2s_22e8bj5b1300202_ams_1_slot_1{% endif %}{% if tray_composite == 12 %}sensor.p2s_22e8bj5b1300202_ams_1_slot_2{% endif %}{% if tray_composite == 13 %}sensor.p2s_22e8bj5b1300202_ams_1_slot_3{% endif %}{% if tray_composite == 14 %}sensor.p2s_22e8bj5b1300202_ams_1_slot_4{% endif %}"
+    tray_weight: "{{ states('sensor.spoolmansync_22e8bj5b1300202_filament_usage_meter') | float(0) | round(2) }}"
+    tray_uuid: "{{ state_attr(tray_sensor, 'tray_uuid') | default('') }}"
+    material: "{{ state_attr(tray_sensor, 'type') | default('') }}"
+    name: "{{ state_attr(tray_sensor, 'name') | default('') }}"
+    color: "{{ state_attr(tray_sensor, 'color') | default('') }}"
+  actions:
+    - choose:
+        # =====================================================================
+        # TRAY CHANGE - Log old tray usage (if valid), ALWAYS update helper
+        # =====================================================================
+        - conditions:
+            - condition: template
+              value_template: "{{ trigger.id == 'tray' }}"
+          sequence:
+            # Log usage from OLD tray if:
+            # 1. old_tray was valid (>= 0)
+            # 2. we have weight to log (>= 0.01g)
+            # 3. tray_sensor resolved to a valid entity (defense-in-depth)
+            # Note: We don't check current stage because accumulated weight on the
+            # utility meter represents real filament consumption that should be logged.
+            # This handles cancelled prints where the user unloads filament while idle.
+            - choose:
+                - conditions:
+                    - condition: template
+                      value_template: "{{ old_tray >= 0 and tray_weight >= 0.01 and tray_sensor != '' }}"
+                  sequence:
+                    - action: system_log.write
+                      data:
+                        message: >-
+                          SPOOLMANSYNC TRAY CHANGE | Old tray {{ old_tray }} -> New tray {{ new_tray }} |
+                          Sensor: {{ tray_sensor }} |
+                          Spool: {{ name }} ({{ material }}) |
+                          Weight used: {{ tray_weight }}g |
+                          Spool Serial: {{ tray_uuid }}
+                        level: info
+                    - action: rest_command.spoolmansync_update_spool
+                      data:
+                        filament_name: "{{ name }}"
+                        filament_material: "{{ material }}"
+                        filament_tray_uuid: "{{ tray_uuid }}"
+                        filament_used_weight: "{{ tray_weight }}"
+                        filament_color: "{{ color }}"
+                        filament_active_tray_id: "{{ tray_sensor }}"
+                    - action: utility_meter.calibrate
+                      target:
+                        entity_id: sensor.spoolmansync_22e8bj5b1300202_filament_usage_meter
+                      data:
+                        value: "0"
+              default:
+                - action: system_log.write
+                  data:
+                    message: >-
+                      SPOOLMANSYNC TRAY CHANGE (no usage logged) | Old: {{ old_tray }} -> New: {{ new_tray }} |
+                      Weight: {{ tray_weight }}g |
+                      Reason: {{ 'old_tray invalid' if old_tray < 0 else 'no weight to log' }}
+                    level: debug
+                # Reset meter anyway to prevent stale values from accumulating
+                - action: utility_meter.calibrate
+                  target:
+                    entity_id: sensor.spoolmansync_22e8bj5b1300202_filament_usage_meter
+                  data:
+                    value: "0"
+            # ALWAYS update helper to new tray composite ID
+            - condition: template
+              value_template: "{{ new_tray >= 0 }}"
+            - action: input_number.set_value
+              target:
+                entity_id: input_number.spoolmansync_22e8bj5b1300202_last_tray
+              data:
+                value: "{{ new_tray }}"
+            - action: system_log.write
+              data:
+                message: "SPOOLMANSYNC HELPER UPDATED | input_number.spoolmansync_22e8bj5b1300202_last_tray -> {{ new_tray }}"
+                level: info
+
+        # =====================================================================
+        # PRINT END - Log final tray usage from helper
+        # =====================================================================
+        - conditions:
+            - condition: template
+              value_template: >-
+                {{ trigger.id == 'print_end'
+                  and trigger.from_state is not none
+                  and trigger.from_state.state not in ['unavailable', 'unknown', 'idle', 'finished'] }}
+          sequence:
+            - choose:
+                - conditions:
+                    - condition: template
+                      value_template: "{{ tray_composite >= 0 and tray_weight >= 0.01 and tray_sensor != '' }}"
+                  sequence:
+                    - action: system_log.write
+                      data:
+                        message: >-
+                          SPOOLMANSYNC PRINT END | Tray {{ tray_composite }} |
+                          Sensor: {{ tray_sensor }} |
+                          Spool: {{ name }} ({{ material }}) |
+                          Weight used: {{ tray_weight }}g |
+                          Spool Serial: {{ tray_uuid }}
+                        level: info
+                    - action: rest_command.spoolmansync_update_spool
+                      data:
+                        filament_name: "{{ name }}"
+                        filament_material: "{{ material }}"
+                        filament_tray_uuid: "{{ tray_uuid }}"
+                        filament_used_weight: "{{ tray_weight }}"
+                        filament_color: "{{ color }}"
+                        filament_active_tray_id: "{{ tray_sensor }}"
+              default:
+                - action: system_log.write
+                  data:
+                    message: >-
+                      SPOOLMANSYNC PRINT END (skipped) | Tray: {{ tray_composite }} | Weight: {{ tray_weight }}g |
+                      Reason: {{ 'no tray in helper' if tray_composite < 0 else 'no weight' }}
+                    level: warning
+            # Always reset meter after print
+            - action: utility_meter.calibrate
+              target:
+                entity_id: sensor.spoolmansync_22e8bj5b1300202_filament_usage_meter
+              data:
+                value: "0"
+            - action: system_log.write
+              data:
+                message: "SPOOLMANSYNC METER RESET after print end"
+                level: info
+  mode: single
+
+# =============================================================================
+# SpoolmanSync Automation: Tray Change Detection
+#
+# Detects physical spool changes (insert/remove) and syncs with Spoolman.
+# Triggers when any AMS tray or external spool sensor changes state.
+# =============================================================================
+- id: 'spoolmansync_tray_change_22e8bj5b1300202'
+  alias: SpoolmanSync - Tray Change (22e8bj5b1300202)
+  description: Detect physical spool changes and auto-assign/unassign in Spoolman
+  triggers:
+    # Trigger on any state or attribute change for tray sensors
+    - entity_id:
+        - sensor.p2s_22e8bj5b1300202_externalspool_externe_spule
+        - sensor.p2s_22e8bj5b1300202_ams_1_slot_1
+        - sensor.p2s_22e8bj5b1300202_ams_1_slot_2
+        - sensor.p2s_22e8bj5b1300202_ams_1_slot_3
+        - sensor.p2s_22e8bj5b1300202_ams_1_slot_4
+      trigger: state
+  conditions:
+    # Only trigger if the entity is actually available
+    - condition: template
+      value_template: "{{ trigger.to_state is not none and trigger.to_state.state not in ['unavailable', 'unknown'] }}"
+    # Debounce: only trigger if tray_uuid or name actually changed between old and new state
+    - condition: template
+      value_template: >-
+        {{ trigger.from_state is none or trigger.to_state is none or
+          trigger.to_state.attributes.get('tray_uuid', '') != trigger.from_state.attributes.get('tray_uuid', '') or
+          trigger.to_state.attributes.get('name', '') != trigger.from_state.attributes.get('name', '') }}
+  variables:
+    tray_entity_id: "{{ trigger.entity_id }}"
+    tray_uuid: "{{ state_attr(trigger.entity_id, 'tray_uuid') | default('') }}"
+    name: "{{ state_attr(trigger.entity_id, 'name') | default('') }}"
+    material: "{{ state_attr(trigger.entity_id, 'type') | default('') }}"
+    color: "{{ state_attr(trigger.entity_id, 'color') | default('') }}"
+  actions:
+    - action: system_log.write
+      data:
+        message: >-
+          SPOOLMANSYNC TRAY CHANGE DETECTED | {{ tray_entity_id }} |
+          Name: {{ name }} | Material: {{ material }} |
+          Spool Serial: {{ tray_uuid }} | Color: {{ color }}
+        level: info
+    - action: rest_command.spoolmansync_tray_change
+      data:
+        tray_entity_id: "{{ tray_entity_id }}"
+        tray_uuid: "{{ tray_uuid }}"
+        name: "{{ name }}"
+        material: "{{ material }}"
+        color: "{{ color }}"
+  mode: queued
+  max: 10
+

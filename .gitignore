@@ -1,0 +1,42 @@
+# Secrets
+secrets.yaml
+*.secret
+*.key
+*.pem
+*.crt
+*.token
+*.env
+
+# Home Assistant runtime / databases / logs
+home-assistant.log*
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+OZW_Log.txt
+
+# HA internals / UI state
+.storage/
+.cloud/
+.google.token
+.uuid
+.HA_VERSION
+ip_bans.yaml
+known_devices.yaml
+
+# Backups / media / generated
+backups/
+tts/
+www/community/
+deps/
+__pycache__/
+
+# Large/generated files found during first push
+home-assistant_v2.db*
+custom_icons/*.zip
+www/media/
+*.gcode
+*.gcode.gcode
+.venv/
+.cache/
+temp/

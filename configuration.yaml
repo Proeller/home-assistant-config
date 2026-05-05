@@ -1,0 +1,201 @@
+# TLS
+http:
+  server_port: 8123
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 10.10.10.10 # NPM
+    - 10.10.10.0/24
+    - 10.10.20.0/24 # HA Subnetz (NPM Container)
+    - 172.16.0.0/12 # Docker networks
+  ip_ban_enabled: false
+  # login_attempts_threshold: 10
+
+# Include Files
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+custom_icons:
+  packs:
+    uli:
+      url: /local/custom_icons/uli/
+
+debugpy:
+  start: true
+  wait: false
+  port: 5678
+
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+homeassistant:
+  packages: !include_dir_named packages
+
+# Influx DB
+influxdb:
+  username: hainfluxuser
+  password: Atlantis.13
+  tags:
+    source: HA
+  tags_attributes:
+    - friendly_name
+  default_measurement: state
+  exclude:
+    entities:
+      - zone.home
+    domains:
+      - persistent_notification
+      - person
+  include:
+    domains:
+      - sensor
+      - binary_sensor
+      - sun
+      - light
+      - cover
+
+ios:
+
+logger:
+  default: info
+  logs:
+    custom_components.natural_lights: debug
+
+powercalc:
+  create_energy_sensors: true
+  create_domain_groups: true
+  sensors:
+    - create_group: Beleuchtung
+      include:
+        domain: light
+        filter:
+          area: buro_uli
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+#udev support for USB
+usb:
+
+var:
+  autolight_buro_uli:
+    friendly_name: "Automatic Light Control Büro Uli"
+    initial_value: False
+    icon: mdi:lightbulb-auto
+
+# =============================================================================
+# SpoolmanSync Configuration
+# Auto-generated for printer(s): 22e8bj5b1300202
+# Supports 5 tray(s) across 1 printer(s)
+#
+# Tray encoding: composite_id = ams_number * 10 + tray_number
+# - 0 = external spool
+# - 11-14 = AMS1 trays 1-4
+# - 21-24 = AMS2 trays 1-4
+# - etc.
+# =============================================================================
+
+# Helper to track last active tray per printer
+input_number:
+  spoolmansync_22e8bj5b1300202_last_tray:
+    name: "SpoolmanSync 22e8bj5b1300202 Last Tray"
+    min: 0
+    max: 99
+    step: 1
+
+# Utility meter to track filament usage per printer
+utility_meter:
+  spoolmansync_22e8bj5b1300202_filament_usage_meter:
+    unique_id: spoolmansync-22e8bj5b1300202-filament-usage-meter
+    source: sensor.spoolmansync_22e8bj5b1300202_filament_usage
+
+# REST commands to send updates to SpoolmanSync webhook
+rest_command:
+  spoolmansync_update_spool:
+    url: "http://spoolman.internal:3000/api/webhook"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    payload: >
+      {
+        "event": "spool_usage",
+        "name": "{{ filament_name }}",
+        "material": "{{ filament_material }}",
+        "tray_uuid": "{{ filament_tray_uuid }}",
+        "used_weight": {{ filament_used_weight | default(0) | round(2) }},
+        "used_length": {{ filament_used_length | default(0) | round(2) }},
+        "color": "{{ filament_color }}",
+        "active_tray_id": "{{ filament_active_tray_id }}"
+      }
+
+  spoolmansync_tray_change:
+    url: "http://spoolman.internal:3000/api/webhook"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+    payload: >
+      {
+        "event": "tray_change",
+        "tray_entity_id": "{{ tray_entity_id }}",
+        "tray_uuid": "{{ tray_uuid }}",
+        "name": "{{ name }}",
+        "material": "{{ material }}",
+        "color": "{{ color }}"
+      }
+
+template:
+  # Template sensors for filament tracking
+  - sensor:
+      # 22e8bj5b1300202: Calculate filament usage during print
+      - name: "SpoolmanSync 22e8bj5b1300202 Filament Usage"
+        unique_id: spoolmansync-22e8bj5b1300202-filament-usage
+        state: >
+          {{ states('sensor.p2s_22e8bj5b1300202_gewicht_des_drucks') | float(0) / 100 *
+            states('sensor.p2s_22e8bj5b1300202_druckfortschritt') | float(0) }}
+        availability: >
+          {{ states('sensor.p2s_22e8bj5b1300202_gewicht_des_drucks') not in ['unknown', 'unavailable'] }}
+
+      # 22e8bj5b1300202: Detect active AMS tray from all sensors
+      - name: "SpoolmanSync 22e8bj5b1300202 Active Tray"
+        unique_id: spoolmansync-22e8bj5b1300202-active-tray
+        state: >
+          {# Check external spool(s) #}
+          {% if state_attr('sensor.p2s_22e8bj5b1300202_externalspool_externe_spule', 'active') in [true, 'true', 'True'] %}
+            0
+          {% endif %}
+          {# Check AMS1 trays #}
+          {% if state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_1', 'active') in [true, 'true', 'True'] %}
+            11
+          {% endif %}
+          {% if state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_2', 'active') in [true, 'true', 'True'] %}
+            12
+          {% endif %}
+          {% if state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_3', 'active') in [true, 'true', 'True'] %}
+            13
+          {% endif %}
+          {% if state_attr('sensor.p2s_22e8bj5b1300202_ams_1_slot_4', 'active') in [true, 'true', 'True'] %}
+            14
+          {% endif %}
+        availability: >
+          {{ expand([
+            'sensor.p2s_22e8bj5b1300202_externalspool_externe_spule',
+            'sensor.p2s_22e8bj5b1300202_ams_1_slot_1',
+            'sensor.p2s_22e8bj5b1300202_ams_1_slot_2',
+            'sensor.p2s_22e8bj5b1300202_ams_1_slot_3',
+            'sensor.p2s_22e8bj5b1300202_ams_1_slot_4'
+          ]) | rejectattr('state', 'eq', 'unavailable') | list | count > 0 }}
+  # Storage for Bubble Card Modules
+  - trigger:
+      - trigger: event
+        event_type: bubble_card_update_modules
+    sensor:
+      - name: "Bubble Card Modules"
+        state: "saved"
+        icon: "mdi:puzzle"
+        attributes:
+          modules: "{{ trigger.event.data.modules }}"
+          last_updated: "{{ trigger.event.data.last_updated }}"

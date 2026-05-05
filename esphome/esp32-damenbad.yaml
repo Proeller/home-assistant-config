@@ -1,0 +1,51 @@
+esphome:
+  name: esp32-damenbad
+  friendly_name: ESP32 Damenbad
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "r/tMi6GWlI1o/+K4ynUcHERxCRiLIkKy4hVlAOt5DPo="
+
+ota:
+  - platform: esphome
+    password: "1d0d4402fb767ff3944c07fa40e272cb"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  use_address: esp32-damenbad.internal
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esp32-Damenbad Fallback Hotspot"
+    password: "K1QxxXz1M4IY"
+
+captive_portal:
+
+i2c:
+  - sda: GPIO8
+    scl: GPIO9
+    scan: true
+
+sensor:
+  - platform: sht3xd
+    address: 0x44
+    update_interval: 5s
+    temperature:
+      name: "Temperatur"
+    humidity:
+      name: "Luftfeuchtigkeit"
+
+  - platform: bh1750
+    address: 0x23
+    name: "Helligkeit"
+    update_interval: 20s

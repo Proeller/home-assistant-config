@@ -1,0 +1,152 @@
+jalousien_offnen:
+  alias: Jalousien öffnen
+  sequence:
+  - data: {}
+    target:
+      device_id:
+      - ae3ae7a99f503a25637f8afa59574d6f
+      - 305e6201fcd658170b5c39e86aceaa85
+      - 5875846175dc3eef7e345a9374b65a3a
+      - 7d742c8ca8e0812e1e69c5df365d8c98
+      - 6defd1e104b06b5833d511230da72110
+    action: cover.open_cover
+  mode: parallel
+  icon: mdi:blinds-open
+jalousien_schliessen:
+  alias: Jalousien schließen
+  sequence:
+  - data: {}
+    target:
+      device_id:
+      - ae3ae7a99f503a25637f8afa59574d6f
+      - 5875846175dc3eef7e345a9374b65a3a
+      - 305e6201fcd658170b5c39e86aceaa85
+      - 7d742c8ca8e0812e1e69c5df365d8c98
+      - 6defd1e104b06b5833d511230da72110
+    action: cover.close_cover
+  mode: parallel
+  icon: mdi:blinds-vertical-closed
+  max: 10
+garagentor_offnen:
+  sequence:
+  - device_id: 8cdf5a0552dab420f28011262210ef05
+    domain: cover
+    entity_id: ecef46f7491e9daafcf580a57e906616
+    type: open
+  alias: Garagentor öffnen
+  description: ''
+  icon: mdi:garage-open-variant
+garagentor_schliesen:
+  sequence:
+  - device_id: 8cdf5a0552dab420f28011262210ef05
+    domain: cover
+    entity_id: ecef46f7491e9daafcf580a57e906616
+    type: close
+  alias: Garagentor schließen
+  description: ''
+  icon: mdi:garage-variant
+badspiegel_mit_heizung_einschalten:
+  sequence:
+  - type: turn_on
+    device_id: 81e2f7106d84664c51ffd38f8c9a5f21
+    entity_id: 51cd4037e49e0e5a8b095520368e274d
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - type: turn_off
+    device_id: 81e2f7106d84664c51ffd38f8c9a5f21
+    entity_id: 51cd4037e49e0e5a8b095520368e274d
+    domain: switch
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 500
+  - type: turn_on
+    device_id: 81e2f7106d84664c51ffd38f8c9a5f21
+    entity_id: 51cd4037e49e0e5a8b095520368e274d
+    domain: switch
+  - action: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.badspiegel_herrenbad_an
+  alias: 'Badspiegel mit Heizung einschalten '
+  description: ''
+  icon: mdi:heat-wave
+set_lights:
+  fields:
+    light_entities:
+      description: The light entities to deal with
+    xy_color:
+      description: The desired color in CIE xy values
+    color_temp_kelvin:
+      description: The desired color temperature in Kelvin
+    brightness:
+      description: The desired brightness
+    onoff_value:
+      description: The desired state of onoff_lights (true/false)
+    transition:
+      description: The desired transition time in seconds
+  variables:
+    kelvin: '{{ ([color_temp_kelvin, 2000] | max) }}'
+    color_lights: '{{ expand(light_entities)  | selectattr(''attributes.supported_color_modes'',
+      ''contains'', ''xy'')  | map(attribute=''entity_id'')  | list }}
+
+      '
+    kelvin_lights: '{{ expand(light_entities)  | selectattr(''attributes.supported_color_modes'',
+      ''contains'', ''color_temp'')  | map(attribute=''entity_id'')  | reject(''in'',
+      color_lights)  | list }}
+
+      '
+    bright_lights: '{{ expand(light_entities)  | selectattr(''attributes.supported_color_modes'',
+      ''contains'', ''brightness'')  | map(attribute=''entity_id'')  | reject(''in'',
+      [color_lights, kelvin_lights])  | list }}
+
+      '
+    onoff_lights: '{{ expand(light_entities)  | selectattr(''attributes.supported_color_modes'',
+      ''contains'', ''onoff'')  | map(attribute=''entity_id'')  | reject(''in'', [color_lights,
+      kelvin_lights, bright_lights])  | list }}
+
+      '
+  sequence:
+  - action: light.turn_on
+    target:
+      entity_id: '{{ color_lights }}'
+    data:
+      xy_color: '{{ xy_color }}'
+      brightness: '{{ brightness }}'
+      transition: '{{ transition }}'
+  - action: light.turn_on
+    target:
+      entity_id: '{{ kelvin_lights }}'
+    data:
+      color_temp_kelvin: '{{ kelvin }}'
+      brightness: '{{ brightness }}'
+      transition: '{{ transition }}'
+  - action: light.turn_on
+    target:
+      entity_id: '{{ bright_lights }}'
+    data:
+      brightness: '{{ brightness }}'
+      transition: '{{ transition }}'
+  - sequence:
+    - if:
+      - condition: template
+        value_template: '{{ onoff_value }}'
+      then:
+      - action: light.turn_on
+        target:
+          entity_id: '{{ onoff_lights }}'
+      else:
+      - action: light.turn_off
+        target:
+          entity_id: '{{ onoff_lights }}'
+  alias: Set_Lights
+  description: Sets all lights according to their type
+  mode: restart
+  trace:
+    stored_traces: 20

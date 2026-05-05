@@ -1,0 +1,21 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Uli Logic",
+        "description": "Configure the Uli Logic light integration.",
+        "data": {
+          "instance_name": "Instance name",
+          "file_name": "Name of the configuration file"
+        }
+      }
+    }
+  },
+  "error": {
+    "cannot_connect": "Connection could not be established.",
+    "unknown": "Unknown error."
+  },
+  "abort": {
+    "already_configured": "This configuration already exists."
+  }
+}

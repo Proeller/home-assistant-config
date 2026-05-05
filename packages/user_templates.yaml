@@ -1,0 +1,15 @@
+# Home Assistant User Templates
+# by Ulrich Proeller
+
+template:
+  - sensor:
+      - name: "Garden Sun Brightness"
+        unique_id: garden_sun_brightness
+        unit_of_measurement: "lx"
+        device_class: illuminance
+        state: >-
+          {% if states('sensor.wetterstation_beleuchtungsstarke')|float(default=100000) > 0 %}
+            {{ states('sensor.wetterstation_beleuchtungsstarke')|float(default=100000) }}
+          {% else %}
+            0
+          {% endif %}

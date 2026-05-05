@@ -1,0 +1,1823 @@
+- id: '1669048066010'
+  name: Bürobeleuchtung aus
+  entities:
+    light.schreibtischleuchte:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Schreibtischleuchte
+      supported_features: 44
+      state: 'off'
+    switch.taster_3_buro_uli_steckdosen_buro_uli:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52D9:4
+      model: HmIP-BS2
+      value_state: valid
+      schedule_data: {}
+      device_class: switch
+      friendly_name: Geschaltete Steckdosen Steckdosen Büro Uli
+      state: 'off'
+    switch.taster_3_buro_uli_taster_3_schalter_2:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52D9:8
+      model: HmIP-BS2
+      value_state: valid
+      schedule_data: {}
+      device_class: switch
+      friendly_name: Geschaltete Steckdosen Taster 3 Schalter 2
+      state: 'off'
+    light.hue_lightstrip_fenster:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - candle
+      - fireplace
+      - colorloop
+      - finish_effect
+      - stop_effect
+      - stop_hue_effect
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Hue Lightstrip Fenster
+      supported_features: 44
+      state: 'off'
+    light.hue_aurelle_decke:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - candle
+      - finish_effect
+      - stop_effect
+      - stop_hue_effect
+      supported_color_modes:
+      - color_temp
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Hue Aurelle Decke
+      supported_features: 44
+      state: 'off'
+    light.hue_go_box_rechts:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6666
+      min_mireds: 150
+      max_mireds: 500
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - candle
+      - fireplace
+      - colorloop
+      - finish_effect
+      - stop_effect
+      - stop_hue_effect
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Hue Go Box rechts
+      supported_features: 44
+      state: 'off'
+    light.hue_go_box_links:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - candle
+      - fireplace
+      - colorloop
+      - finish_effect
+      - stop_effect
+      - stop_hue_effect
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Hue Iris Box Links
+      supported_features: 44
+      state: 'off'
+    light.hue_stehlampe:
+      min_color_temp_kelvin: 2237
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 447
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - candle
+      - fireplace
+      - colorloop
+      - finish_effect
+      - stop_effect
+      - stop_hue_effect
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Hue Stehlampe
+      supported_features: 44
+      state: 'off'
+    light.schalter_1_haustur_buro_uli:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Deckenleuchte Tür Büro Uli
+      supported_features: 0
+      state: 'off'
+  icon: mdi:lightbulb-group-off
+  metadata:
+    light.schalter_1_haustur_buro_uli:
+      entity_only: true
+- id: '1669553621998'
+  name: Esszimmer Aus
+  entities:
+    switch.kochinsel_kuche:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00351F298A5150:3
+      model: HmIP-PS-2
+      value_state: restored
+      device_class: outlet
+      icon: mdi:stove
+      friendly_name: Sockelbeleuchtung Kochinsel
+      state: 'off'
+    switch.schalter_kuche:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00085D89A3C68E:4
+      model: HmIP-BSM
+      value_state: restored
+      device_class: switch
+      friendly_name: Schalter Küche
+      state: 'off'
+    switch.deckenbeleuchtung_kochinsel:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52DD:4
+      model: HmIP-BS2
+      value_state: restored
+      device_class: switch
+      icon: mdi:wall-sconce-flat
+      friendly_name: Deckenbeleuchtung Kochinsel
+      state: 'off'
+    switch.schaltsteckdosen_esszimmer:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52DD:8
+      model: HmIP-BS2
+      value_state: restored
+      device_class: switch
+      icon: mdi:lamp
+      friendly_name: Schaltsteckdosen Esszimmer
+      state: 'off'
+    light.esszimmertitsch_beleuchtung:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Esszimmertitsch-Beleuchtung
+      supported_features: 0
+      state: 'off'
+  icon: mdi:lightbulb-multiple-off
+  metadata:
+    switch.deckenbeleuchtung_kochinsel:
+      entity_only: true
+    switch.schaltsteckdosen_esszimmer:
+      entity_only: true
+- id: '1669622561186'
+  name: Esszimmer Essen
+  entities:
+    light.dimmer_esszimmer:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 178
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 0008DD899C5290:4
+      model: HmIP-BDT
+      entity_type: custom
+      value_state: valid
+      channel_brightness: 178
+      friendly_name: Dimmer Esszimmer
+      supported_features: 32
+      state: 'on'
+    switch.kochinsel_kuche:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00351F298A5150:3
+      model: HmIP-PS-2
+      entity_type: custom
+      value_state: valid
+      device_class: outlet
+      icon: mdi:stove
+      friendly_name: Kochinsel Küche
+      state: 'on'
+    switch.schaltsteckdosen_esszimmer:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52DD:8
+      model: HmIP-BS2
+      entity_type: custom
+      value_state: valid
+      device_class: switch
+      icon: mdi:lamp
+      friendly_name: Schaltsteckdosen Esszimmer
+      state: 'on'
+  icon: mdi:weather-sunset-up
+  metadata:
+    switch.schaltsteckdosen_esszimmer:
+      entity_only: true
+- id: '1669657310698'
+  name: Wohnzimmer aus
+  entities:
+    light.deckenleuchte_wohnzimmer:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      friendly_name: Deckenleuchte Wohnzimmer
+      supported_features: 44
+      state: 'off'
+    light.dimmer_wohnzimmer:
+      supported_color_modes:
+      - brightness
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 0008DD89A259DE:4
+      model: HmIP-BDT
+      entity_type: custom
+      value_state: valid
+      friendly_name: Dimmer Wohnzimmer
+      supported_features: 32
+      state: 'off'
+  icon: mdi:lightbulb-group-off
+  metadata: {}
+- id: '1669658006986'
+  name: Wohnzimmer TV-Beleuchtung
+  entities:
+    light.deckenleuchte_wohnzimmer:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      friendly_name: Deckenleuchte Wohnzimmer
+      supported_features: 44
+      state: 'off'
+    light.dimmer_wohnzimmer:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 76
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 0008DD89A259DE:4
+      model: HmIP-BDT
+      entity_type: custom
+      value_state: valid
+      friendly_name: Dimmer Wohnzimmer
+      supported_features: 32
+      channel_brightness: 76
+      state: 'on'
+  icon: mdi:lightbulb-on-30
+  metadata: {}
+- id: '1669709920034'
+  name: Esszimmer Abendbeleuchtung
+  entities:
+    switch.kochinsel_kuche:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00351F298A5150:3
+      model: HmIP-PS-2
+      value_state: valid
+      schedule_data:
+        entries: {}
+      device_class: outlet
+      icon: mdi:stove
+      friendly_name: Sockelbeleuchtung Kochinsel
+      state: 'on'
+    switch.schaltsteckdosen_esszimmer:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52DD:8
+      model: HmIP-BS2
+      value_state: valid
+      schedule_data:
+        entries: {}
+      device_class: switch
+      icon: mdi:lamp
+      friendly_name: Schaltsteckdosen Esszimmer
+      state: 'on'
+    switch.deckenbeleuchtung_kochinsel:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52DD:4
+      model: HmIP-BS2
+      value_state: valid
+      schedule_data:
+        entries: {}
+      device_class: switch
+      icon: mdi:wall-sconce-flat
+      friendly_name: Deckenbeleuchtung Kochinsel
+      state: 'off'
+    switch.schalter_kuche:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00085D89A3C68E:4
+      model: HmIP-BSM
+      value_state: valid
+      schedule_data:
+        entries: {}
+      device_class: switch
+      friendly_name: Schalter Küche
+      state: 'off'
+    light.esszimmertitsch_beleuchtung:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Esszimmertitsch-Beleuchtung
+      supported_features: 0
+      state: 'off'
+  icon: mdi:weather-sunset
+  metadata:
+    switch.schaltsteckdosen_esszimmer:
+      entity_only: true
+    switch.deckenbeleuchtung_kochinsel:
+      entity_only: true
+    switch.schalter_kuche:
+      entity_only: true
+    light.esszimmertitsch_beleuchtung:
+      entity_only: true
+- id: '1669737914096'
+  name: Wohnzimmer Hell
+  entities:
+    light.deckenleuchte_wohnzimmer:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      effect:
+      color_mode: color_temp
+      brightness: 255
+      color_temp_kelvin: 6535
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 254
+      - 250
+      xy_color:
+      - 0.326
+      - 0.333
+      friendly_name: Deckenleuchte Wohnzimmer
+      supported_features: 44
+      state: 'on'
+    light.dimmer_wohnzimmer:
+      supported_color_modes:
+      - brightness
+      color_mode:
+      brightness:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 0008DD89A259DE:4
+      model: HmIP-BDT
+      entity_type: custom
+      value_state: valid
+      channel_brightness: 0
+      friendly_name: Dimmer Wohnzimmer
+      supported_features: 32
+      state: 'off'
+  icon: mdi:lightbulb-on
+  metadata: {}
+- id: '1669738953908'
+  name: Esszimmer Arbeiten
+  entities:
+    light.dimmer_esszimmer:
+      supported_color_modes:
+      - brightness
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 0008DD899C5290:4
+      model: HmIP-BDT
+      entity_type: custom
+      value_state: valid
+      friendly_name: Dimmer Esszimmer
+      supported_features: 32
+      color_mode: brightness
+      brightness: 255
+      state: 'on'
+    switch.schaltsteckdosen_esszimmer:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52DD:8
+      model: HmIP-BS2
+      entity_type: custom
+      value_state: valid
+      device_class: switch
+      icon: mdi:lamp
+      friendly_name: Schaltsteckdosen Esszimmer
+      state: 'on'
+  icon: mdi:lightbulb-on
+  metadata:
+    switch.schaltsteckdosen_esszimmer:
+      entity_only: true
+- id: '1683273415086'
+  name: Beschattung Büro
+  entities:
+    cover.rolladen_buro_uli_ost_gross:
+      current_position: 67
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F0E3:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Ost Groß
+      supported_features: 15
+      state: open
+    cover.rolladen_buro_uli_ost_klein:
+      current_position: 79
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E210:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Ost klein
+      supported_features: 15
+      state: open
+    input_boolean.buro_uli_beschattung:
+      editable: true
+      icon: mdi:order-bool-ascending
+      friendly_name: Büro Uli Beschattung
+      state: 'on'
+  metadata:
+    input_boolean.buro_uli_beschattung:
+      entity_only: true
+  icon: mdi:window-shutter-alert
+- id: '1683529018852'
+  name: Rollläden EG offen
+  entities:
+    cover.rolladen_bad_eg:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F032:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Bad EG
+      supported_features: 15
+      state: open
+    cover.rolladen_buro_uli_nord:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E156:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Nord
+      supported_features: 15
+      state: open
+    cover.rolladen_buro_uli_ost_gross:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F0E3:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Ost Groß
+      supported_features: 15
+      state: open
+    cover.rolladen_buro_uli_ost_klein:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E210:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Ost klein
+      supported_features: 15
+      state: open
+    cover.rolladen_gaste_wc:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F0D9:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Gäste WC
+      supported_features: 15
+      state: open
+    cover.rolladen_speis:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E18B:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Speis
+      supported_features: 15
+      state: open
+    cover.jalousie_buro_ulrike:
+      current_position: 100
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B559EF:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Büro Ulrike
+      supported_features: 255
+      state: open
+    cover.jalousie_esszimmer:
+      current_position: 100
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55A9E:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Esszimmer
+      supported_features: 255
+      state: open
+    cover.jalousie_wohnzimmer_nord:
+      current_position: 100
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55863:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Wohnzimmer Nord
+      supported_features: 255
+      state: open
+    cover.jalousie_kuche:
+      current_position: 100
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55989:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Küche
+      supported_features: 255
+      state: open
+    cover.jalousie_wohnzimmer_west:
+      current_position: 100
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55973:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Wohnzimmer West
+      supported_features: 255
+      state: open
+  icon: mdi:transfer-up
+  metadata: {}
+- id: '1683733750754'
+  name: Rollläden EG geschlossen
+  entities:
+    cover.rolladen_bad_eg:
+      current_position: 0
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F032:4
+      model: HmIP-BROLL
+      value_state: valid
+      channel_position: 0
+      device_class: shutter
+      friendly_name: Rolladen Bad EG
+      supported_features: 15
+      state: closed
+    cover.rolladen_buro_uli_nord:
+      current_position: 0
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E156:4
+      model: HmIP-BROLL
+      value_state: valid
+      channel_position: 0
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Nord
+      supported_features: 15
+      state: closed
+    cover.rolladen_buro_uli_ost_gross:
+      current_position: 0
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F0E3:4
+      model: HmIP-BROLL
+      value_state: valid
+      channel_position: 0
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Ost Groß
+      supported_features: 15
+      state: closed
+    cover.rolladen_buro_uli_ost_klein:
+      current_position: 0
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E210:4
+      model: HmIP-BROLL
+      value_state: valid
+      channel_position: 0
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Ost klein
+      supported_features: 15
+      state: closed
+    cover.rolladen_gaste_wc:
+      current_position: 0
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F0D9:4
+      model: HmIP-BROLL
+      value_state: valid
+      channel_position: 0
+      device_class: shutter
+      friendly_name: Rolladen Gäste WC
+      supported_features: 15
+      state: closed
+    cover.rolladen_speis:
+      current_position: 0
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E18B:4
+      model: HmIP-BROLL
+      value_state: valid
+      channel_position: 0
+      device_class: shutter
+      friendly_name: Rolladen Speis
+      supported_features: 15
+      state: closed
+  icon: mdi:transfer-down
+  metadata: {}
+- id: '1684226688709'
+  name: Küchenbeleuchtung an
+  entities:
+    switch.kochinsel_kuche:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00351F298A5150:3
+      model: HmIP-PS-2
+      entity_type: custom
+      value_state: valid
+      device_class: outlet
+      icon: mdi:stove
+      friendly_name: Kochinsel Küche
+      state: 'on'
+    switch.schalter_kuche:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00085D89A3C68E:4
+      model: HmIP-BSM
+      entity_type: custom
+      value_state: valid
+      device_class: switch
+      friendly_name: Schalter Küche
+      state: 'on'
+    switch.deckenbeleuchtung_kochinsel:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52DD:4
+      model: HmIP-BS2
+      entity_type: custom
+      value_state: valid
+      device_class: switch
+      icon: mdi:wall-sconce-flat
+      friendly_name: Deckenbeleuchtung Kochinsel
+      state: 'on'
+  icon: mdi:lightbulb
+  metadata:
+    switch.deckenbeleuchtung_kochinsel:
+      entity_only: true
+- id: '1684320173169'
+  name: Büro Uli Rollladen auf
+  entities:
+    cover.rolladen_buro_uli_ost_gross:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F0E3:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Ost Groß
+      supported_features: 15
+      state: open
+    cover.rolladen_buro_uli_ost_klein:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E210:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Ost klein
+      supported_features: 15
+      state: open
+    cover.rolladen_buro_uli_nord:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E156:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Nord
+      supported_features: 15
+      state: open
+    input_boolean.buro_uli_beschattung:
+      editable: true
+      icon: mdi:order-bool-ascending
+      friendly_name: Büro Uli Beschattung
+      state: 'on'
+  metadata:
+    input_boolean.buro_uli_beschattung:
+      entity_only: true
+  icon: mdi:window-shutter-open
+- id: '1687533276976'
+  name: Gartenbeleuchtung an
+  entities:
+    switch.gartenschalter_1:
+      device_class: switch
+      friendly_name: Gartenschalter 1
+      state: unavailable
+    light.gartenschalter_1:
+      supported_color_modes:
+      - onoff
+      friendly_name: Gartenlicht 1
+      supported_features: 0
+      state: unavailable
+    switch.gartenschalter_2:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00089F29B10E8A:2
+      model: HmIP-FSM
+      entity_type: custom
+      value_state: valid
+      device_class: switch
+      friendly_name: Gartenschalter 2
+      state: 'on'
+    light.gartenschalter_2:
+      supported_color_modes:
+      - onoff
+      color_mode: onoff
+      friendly_name: Gartenlicht 2
+      supported_features: 0
+      state: 'on'
+  icon: mdi:coach-lamp
+  metadata: {}
+- id: '1687533314560'
+  name: Gartenbeleuchtung aus
+  entities:
+    switch.gartenschalter_1:
+      device_class: switch
+      friendly_name: Gartenschalter 1
+      state: unavailable
+    light.gartenschalter_1:
+      supported_color_modes:
+      - onoff
+      friendly_name: Gartenlicht 1
+      supported_features: 0
+      state: unavailable
+    switch.gartenschalter_2:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00089F29B10E8A:2
+      model: HmIP-FSM
+      entity_type: custom
+      value_state: valid
+      device_class: switch
+      friendly_name: Gartenschalter 2
+      state: 'off'
+    light.gartenschalter_2:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Gartenlicht 2
+      supported_features: 0
+      state: 'off'
+  icon: mdi:coach-lamp
+  metadata: {}
+- id: '1688809818832'
+  name: Beschattung Küche
+  entities:
+    cover.jalousie_kuche:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55989:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Küche
+      supported_features: 255
+      current_position: 52
+      current_tilt_position: 17
+      state: open
+  icon: mdi:blinds-horizontal
+  metadata: {}
+- id: '1689068348228'
+  name: Südbeschattung
+  entities:
+    cover.jalousie_kuche:
+      current_position: 46
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55989:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Küche
+      supported_features: 255
+      state: open
+    cover.rolladen_damenbad_sud:
+      current_position: 69
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E155:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Damenbad Süd
+      supported_features: 15
+      state: open
+    cover.rolladen_svea_sud:
+      current_position: 38
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F030:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Svea Süd
+      supported_features: 15
+      state: open
+  icon: mdi:blinds-horizontal
+  metadata: {}
+- id: '1689072049967'
+  name: Beschattung West
+  entities:
+    cover.jalousie_wohnzimmer_west:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55973:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Wohnzimmer West
+      supported_features: 255
+      current_position: 16
+      current_tilt_position: 100
+      state: open
+    cover.rolladen_svea_west:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E15D:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Svea West
+      supported_features: 15
+      current_position: 52
+      state: open
+    cover.rolladen_schlafzimmer_ulrike:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F0D2:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Schlafzimmer Ulrike
+      supported_features: 15
+      current_position: 20
+      state: open
+    cover.rolladen_schlafzimmer_uli:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E18F:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Schlafzimmer Uli
+      supported_features: 15
+      current_position: 30
+      state: open
+    cover.rolladen_sevi_west:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E150:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Sevi West
+      supported_features: 15
+      current_position: 96
+      state: closing
+  icon: mdi:blinds-horizontal
+  metadata: {}
+- id: '1689072661637'
+  name: Rollläden OG offen
+  entities:
+    cover.rolladen_damenbad_ost:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E161:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Damenbad Ost
+      supported_features: 15
+      state: open
+    cover.rolladen_damenbad_sud:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E155:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Damenbad Süd
+      supported_features: 15
+      state: open
+    cover.rolladen_flur_og:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E15F:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Flur OG
+      supported_features: 15
+      state: open
+    cover.rolladen_herrenbad:
+      device_class: shutter
+      friendly_name: Rolladen Herrenbad
+      supported_features: 15
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E169:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      state: open
+    cover.rolladen_schlafzimmer_uli:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E18F:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Schlafzimmer Uli
+      supported_features: 15
+      state: open
+    cover.rolladen_sevi_nord:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E2CF:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Sevi Nord
+      supported_features: 15
+      state: open
+    cover.rolladen_sevi_west:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E150:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Sevi West
+      supported_features: 15
+      state: open
+    cover.rolladen_svea_sud:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F030:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Svea Süd
+      supported_features: 15
+      state: open
+    cover.rolladen_svea_west:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E15D:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Svea West
+      supported_features: 15
+      state: open
+  icon: mdi:window-shutter-open
+  metadata: {}
+- id: '1689146534641'
+  name: Rollläden Sonnenaufgang
+  entities:
+    cover.rolladen_bad_eg:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F032:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Bad EG
+      supported_features: 15
+      state: open
+    cover.rolladen_buro_uli_nord:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E156:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Nord
+      supported_features: 15
+      state: open
+    cover.rolladen_buro_uli_ost_gross:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F0E3:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Ost Groß
+      supported_features: 15
+      state: open
+    cover.rolladen_buro_uli_ost_klein:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E210:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Büro Uli Ost klein
+      supported_features: 15
+      state: open
+    cover.rolladen_gaste_wc:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F0D9:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Gäste WC
+      supported_features: 15
+      state: open
+    cover.rolladen_flur_og:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E15F:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Flur OG
+      supported_features: 15
+      state: open
+    cover.rolladen_herrenbad:
+      device_class: shutter
+      friendly_name: Rolladen Herrenbad
+      supported_features: 15
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E169:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      state: open
+    cover.rolladen_damenbad_ost:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E161:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Damenbad Ost
+      supported_features: 15
+      state: open
+    cover.rolladen_damenbad_sud:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E155:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Damenbad Süd
+      supported_features: 15
+      state: open
+    cover.rolladen_speis:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E18B:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Speis
+      supported_features: 15
+      state: open
+  icon: mdi:window-shutter-open
+  metadata: {}
+- id: '1689148072729'
+  name: Rollläden OG geschlossen
+  entities:
+    cover.rolladen_damenbad_ost:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E161:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Damenbad Ost
+      supported_features: 15
+      current_position: 0
+      state: closed
+    cover.rolladen_damenbad_sud:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E155:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Damenbad Süd
+      supported_features: 15
+      current_position: 26
+      state: open
+    cover.rolladen_flur_og:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E15F:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Flur OG
+      supported_features: 15
+      current_position: 0
+      state: closed
+    cover.rolladen_herrenbad:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E169:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Herrenbad
+      supported_features: 15
+      current_position: 0
+      state: closed
+    cover.rolladen_schlafzimmer_uli:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E18F:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Schlafzimmer Uli
+      supported_features: 15
+      current_position: 23
+      state: open
+    cover.rolladen_schlafzimmer_ulrike:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998F0D2:4
+      model: HmIP-BROLL
+      entity_type: custom
+      value_state: valid
+      device_class: shutter
+      friendly_name: Rolladen Schlafzimmer Ulrike
+      supported_features: 15
+      current_position: 23
+      state: open
+  icon: mdi:window-shutter
+  metadata: {}
+- id: '1718198409719'
+  name: Jalousien offen
+  entities:
+    cover.jalousie_buro_ulrike:
+      current_position: 100
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B559EF:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Büro Ulrike
+      supported_features: 255
+      state: open
+    cover.jalousie_esszimmer:
+      current_position: 100
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55A9E:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Esszimmer
+      supported_features: 255
+      state: open
+    cover.jalousie_kuche:
+      current_position: 100
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55989:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Küche
+      supported_features: 255
+      state: open
+    cover.jalousie_wohnzimmer_nord:
+      current_position: 100
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55863:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Wohnzimmer Nord
+      supported_features: 255
+      state: open
+    cover.jalousie_wohnzimmer_west:
+      current_position: 100
+      current_tilt_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00135D89B55973:4
+      model: HmIP-BBL
+      entity_type: custom
+      value_state: valid
+      device_class: blind
+      friendly_name: Jalousie Wohnzimmer West
+      supported_features: 255
+      state: open
+  icon: mdi:blinds-open
+  metadata: {}
+- id: '1760982463246'
+  name: Küchenbeleuchtung aus
+  entities:
+    light.kochinsel_kuche:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Kochinsel Küche
+      supported_features: 0
+      state: 'off'
+    light.schalter_kuche:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Schalter Küche
+      supported_features: 0
+      state: 'off'
+  icon: mdi:lightbulb-group-off
+  metadata: {}
+- id: '1761406006223'
+  name: Esszimmerbeleuchtung an
+  entities: {}
+  icon: mdi:lightbulb
+  metadata: {}
+- id: '1761472407449'
+  name: Grundbeleuchtung Esszimmer
+  entities:
+    light.2_fach_taster_esszimmer_schaltaktor_steckdosen_esszimmer:
+      supported_color_modes:
+      - onoff
+      color_mode: onoff
+      friendly_name: Deckenbeleuchtung Kochinsel
+      supported_features: 0
+      state: 'on'
+    light.2_fach_taster_esszimmer_schaltaktor_licht_kochinsel:
+      supported_color_modes:
+      - onoff
+      color_mode: onoff
+      friendly_name: Schaltsteckdosen Esszimmer
+      supported_features: 0
+      state: 'on'
+    light.kochinsel_kuche:
+      supported_color_modes:
+      - onoff
+      color_mode: onoff
+      friendly_name: Kochinsel Küche
+      supported_features: 0
+      state: 'on'
+  icon: mdi:lightbulb-multiple
+  metadata:
+    light.2_fach_taster_esszimmer_schaltaktor_steckdosen_esszimmer:
+      entity_only: true
+    light.2_fach_taster_esszimmer_schaltaktor_licht_kochinsel:
+      entity_only: true
+    light.kochinsel_kuche:
+      entity_only: true
+- id: '1763132215262'
+  name: Uli Abends
+  entities:
+    light.schalter_tur_uli_steckdosen_uli:
+      supported_color_modes:
+      - onoff
+      color_mode: onoff
+      friendly_name: Schalter Tür Uli Steckdosen Uli
+      supported_features: 0
+      state: 'on'
+    light.stehlampe_uli:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 9000
+      min_mireds: 111
+      max_mireds: 500
+      effect_list:
+      - none
+      - sunrise
+      - sunset
+      - movie
+      - dating
+      - romantic
+      - twinkle
+      - candlelight
+      - snowflake
+      - energetic
+      - breathe
+      - crossing
+      supported_color_modes:
+      - color_temp
+      - rgb
+      effect:
+      color_mode: rgb
+      brightness: 255
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 26.032
+      - 74.118
+      rgb_color:
+      - 255
+      - 148
+      - 66
+      xy_color:
+      - 0.562
+      - 0.379
+      friendly_name: Stehlampe Uli
+      supported_features: 4
+      state: 'on'
+  icon: mdi:weather-sunset
+  metadata:
+    light.schalter_tur_uli_steckdosen_uli:
+      entity_only: true
+- id: '1763132499448'
+  name: 'Uli aufwachen '
+  entities:
+    cover.rolladen_schlafzimmer_uli:
+      current_position: 100
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00111D8998E18F:4
+      model: HmIP-BROLL
+      value_state: valid
+      channel_position: 100
+      device_class: shutter
+      friendly_name: Rolladen Schlafzimmer Uli
+      supported_features: 15
+      state: open
+    light.stehlampe_uli:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 9000
+      min_mireds: 111
+      max_mireds: 500
+      effect_list:
+      - none
+      - sunrise
+      - sunset
+      - movie
+      - dating
+      - romantic
+      - twinkle
+      - candlelight
+      - snowflake
+      - energetic
+      - breathe
+      - crossing
+      supported_color_modes:
+      - color_temp
+      - rgb
+      effect:
+      color_mode: color_temp
+      brightness: 255
+      color_temp_kelvin: 9000
+      color_temp: 111
+      hs_color:
+      - 222.461
+      - 17.81
+      rgb_color:
+      - 210
+      - 223
+      - 255
+      xy_color:
+      - 0.285
+      - 0.293
+      friendly_name: Stehlampe Uli
+      supported_features: 4
+      state: 'on'
+  metadata: {}
+  icon: mdi:weather-sunset-up
+- id: '1763134034674'
+  name: Lichter aus
+  entities:
+    light.stehlampe_uli:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 9000
+      min_mireds: 111
+      max_mireds: 500
+      effect_list:
+      - none
+      - sunrise
+      - sunset
+      - movie
+      - dating
+      - romantic
+      - twinkle
+      - candlelight
+      - snowflake
+      - energetic
+      - breathe
+      - crossing
+      supported_color_modes:
+      - color_temp
+      - rgb
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      friendly_name: Stehlampe Uli
+      supported_features: 4
+      state: 'off'
+    light.up_aktor_uli_licht_schrank_uli_1:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: UP-Aktor Uli Licht Schrank Uli 1
+      supported_features: 0
+      state: 'off'
+    light.schalter_tur_uli_steckdosen_uli:
+      supported_color_modes:
+      - onoff
+      color_mode:
+      friendly_name: Schalter Tür Uli Steckdosen Uli
+      supported_features: 0
+      state: 'off'
+  icon: mdi:lightbulb-multiple-off
+  metadata:
+    light.schalter_tur_uli_steckdosen_uli:
+      entity_only: true
+- id: '1770576174026'
+  name: Bürobeleuchtung an
+  entities:
+    light.schreibtischleuchte:
+      min_color_temp_kelvin: 2702
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      supported_color_modes:
+      - color_temp
+      effect:
+      color_mode: color_temp
+      brightness: 189
+      color_temp_kelvin: 6535
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 255
+      - 251
+      xy_color:
+      - 0.325
+      - 0.333
+      friendly_name: Schreibtischleuchte
+      supported_features: 44
+      state: 'on'
+    switch.taster_3_buro_uli_steckdosen_buro_uli:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52D9:4
+      model: HmIP-BS2
+      value_state: valid
+      schedule_data: {}
+      device_class: switch
+      friendly_name: Geschaltete Steckdosen Steckdosen Büro Uli
+      state: 'on'
+    switch.taster_3_buro_uli_taster_3_schalter_2:
+      interface_id: RaspberryMatic-HmIP-RF
+      address: 00315F298E52D9:8
+      model: HmIP-BS2
+      value_state: valid
+      schedule_data: {}
+      device_class: switch
+      friendly_name: Geschaltete Steckdosen Taster 3 Schalter 2
+      state: 'on'
+    light.hue_lightstrip_fenster:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - candle
+      - fireplace
+      - colorloop
+      - finish_effect
+      - stop_effect
+      - stop_hue_effect
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode: color_temp
+      brightness: 193
+      color_temp_kelvin: 6535
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 255
+      - 251
+      xy_color:
+      - 0.325
+      - 0.333
+      friendly_name: Hue Lightstrip Fenster
+      supported_features: 44
+      state: 'on'
+    light.hue_aurelle_decke:
+      min_color_temp_kelvin: 2202
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 454
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - candle
+      - finish_effect
+      - stop_effect
+      - stop_hue_effect
+      supported_color_modes:
+      - color_temp
+      effect:
+      color_mode: color_temp
+      brightness: 193
+      color_temp_kelvin: 6535
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 255
+      - 251
+      xy_color:
+      - 0.325
+      - 0.333
+      friendly_name: Hue Aurelle Decke
+      supported_features: 44
+      state: 'on'
+    light.hue_go_box_rechts:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6666
+      min_mireds: 150
+      max_mireds: 500
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - candle
+      - fireplace
+      - colorloop
+      - finish_effect
+      - stop_effect
+      - stop_hue_effect
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode: color_temp
+      brightness: 193
+      color_temp_kelvin: 6535
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 255
+      - 251
+      xy_color:
+      - 0.325
+      - 0.333
+      friendly_name: Hue Go Box rechts
+      supported_features: 44
+      state: 'on'
+    light.hue_go_box_links:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - candle
+      - fireplace
+      - colorloop
+      - finish_effect
+      - stop_effect
+      - stop_hue_effect
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode: color_temp
+      brightness: 193
+      color_temp_kelvin: 6535
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 255
+      - 251
+      xy_color:
+      - 0.325
+      - 0.333
+      friendly_name: Hue Iris Box Links
+      supported_features: 44
+      state: 'on'
+    light.hue_stehlampe:
+      min_color_temp_kelvin: 2237
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 447
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - candle
+      - fireplace
+      - colorloop
+      - finish_effect
+      - stop_effect
+      - stop_hue_effect
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect:
+      color_mode: color_temp
+      brightness: 193
+      color_temp_kelvin: 6535
+      color_temp: 153
+      hs_color:
+      - 54.768
+      - 1.6
+      rgb_color:
+      - 255
+      - 255
+      - 251
+      xy_color:
+      - 0.325
+      - 0.333
+      friendly_name: Hue Stehlampe
+      supported_features: 44
+      state: 'on'
+    light.schalter_1_haustur_buro_uli:
+      supported_color_modes:
+      - onoff
+      color_mode: onoff
+      friendly_name: Deckenleuchte Tür Büro Uli
+      supported_features: 0
+      state: 'on'
+  icon: mdi:lightbulb-group
+  metadata:
+    light.schalter_1_haustur_buro_uli:
+      entity_only: true

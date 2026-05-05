@@ -1,0 +1,1839 @@
+# Home Assistant Sungrow inverter integration
+# https://github.com/mkaiser/Sungrow-SHx-Inverter-Modbus-Home-Assistant
+# by Martin Kaiser
+# last update: 2023-03-24
+
+modbus:
+  - name: SungrowSH10RT
+    type: tcp
+    host: !secret sungrow_modbus_host_ip1
+    port: !secret sungrow_modbus_port
+    delay: 5
+    timeout: 5
+    close_comm_on_error: true
+
+    sensors:
+      - name: WR1 Sungrow device type code
+        unique_id: wr1_dev_code
+        slave: !secret sungrow_modbus_slave
+        address: 4999 # reg 5000
+        input_type: input
+        data_type: uint16
+        scan_interval: 600
+
+      - name: WR1 Daily PV generation & battery discharge
+        unique_id: wr1_daily_pv_gen_battery_discharge
+        slave: !secret sungrow_modbus_slave
+        address: 5002 # reg 5003
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR1 Total PV generation & battery discharge
+        unique_id: wr1_total_pv_gen_battery_discharge
+        slave: !secret sungrow_modbus_slave
+        address: 5003 # reg 5004
+        input_type: input
+        data_type: uint32
+        swap: word
+        unit_of_measurement: kWh
+        precision: 1
+        device_class: energy
+        state_class: total
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR1 Inverter temperature
+        unique_id: wr1_inverter_temperature
+        slave: !secret sungrow_modbus_slave
+        address: 5007 # reg 5008
+        input_type: input
+        data_type: int16
+        precision: 1
+        unit_of_measurement: °C
+        device_class: temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 MPPT1 voltage
+        unique_id: wr1_mppt1_voltage
+        slave: !secret sungrow_modbus_slave
+        address: 5010 # reg 5011
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 MPPT1 current
+        unique_id: wr1_mppt1_current
+        slave: !secret sungrow_modbus_slave
+        address: 5011 # reg 5012
+        input_type: input
+        data_type: uint16
+        precision: 2
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 MPPT2 voltage
+        unique_id: wr1_mppt2_voltage
+        slave: !secret sungrow_modbus_slave
+        address: 5012 # reg 5013
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 MPPT2 current
+        unique_id: wr1_mppt2_current
+        slave: !secret sungrow_modbus_slave
+        address: 5013 # reg 5014
+        input_type: input
+        data_type: uint16
+        precision: 2
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Total DC power
+        unique_id: wr1_total_dc_power
+        slave: !secret sungrow_modbus_slave
+        address: 5016 # reg 5017
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Phase A voltage
+        unique_id: wr1_phase_a_voltage
+        slave: !secret sungrow_modbus_slave
+        address: 5018 # reg: 5019
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Phase B voltage
+        unique_id: wr1_phase_b_voltage
+        slave: !secret sungrow_modbus_slave
+        address: 5019 # reg: 5020
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Phase C voltage
+        unique_id: wr1_phase_c_voltage
+        slave: !secret sungrow_modbus_slave
+        address: 5020 # reg: 5021
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: V
+        device_class: voltage
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Reactive power
+        unique_id: wr1_reactive_power
+        device_address: !secret sungrow_modbus_slave
+        address: 5032 # reg 5033
+        input_type: input
+        data_type: int32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Power factor
+        unique_id: wr1_power_factor
+        device_address: !secret sungrow_modbus_slave
+        address: 5034 # reg 5035
+        input_type: input
+        data_type: int16
+        precision: 3
+        device_class: power_factor
+        state_class: measurement
+        scale: 0.001
+        scan_interval: 10
+
+      - name: WR1 Grid Frequency
+        unique_id: wr1_grid_frequency
+        slave: !secret sungrow_modbus_slave
+        address: 5035
+        input_type: input
+        data_type: uint16
+        precision: 2
+        unit_of_measurement: "Hz"
+        device_class: frequency
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Meter active power raw
+        unique_id: wr1_meter_active_power_raw
+        device_address: !secret sungrow_modbus_slave
+        address: 5600 # reg 5601
+        input_type: input
+        data_type: int32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Meter phase A active power raw
+        unique_id: wr1_meter_phase_a_active_power_raw
+        device_address: !secret sungrow_modbus_slave
+        address: 5602 # reg 5603
+        input_type: input
+        data_type: int32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Meter phase B active power raw
+        unique_id: wr1_meter_phase_b_active_power_raw
+        device_address: !secret sungrow_modbus_slave
+        address: 5604 # reg 5605
+        input_type: input
+        data_type: int32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Meter phase C active power raw
+        unique_id: wr1_meter_phase_c_active_power_raw
+        device_address: !secret sungrow_modbus_slave
+        address: 5606 # reg 5607
+        input_type: input
+        data_type: int32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 BDC rated power
+        unique_id: wr1_bdc_rated_power
+        device_address: !secret sungrow_modbus_slave
+        address: 5627 # reg 5628
+        input_type: input
+        data_type: uint16
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        scale: 100
+        scan_interval: 600
+
+      - name: WR1 BMS max. charging current
+        unique_id: wr1_bms_max_charging_current
+        device_address: !secret sungrow_modbus_slave
+        address: 5634 # reg 5635
+        input_type: input
+        data_type: uint16
+        precision: 0
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 1
+        scan_interval: 60
+
+      - name: WR1 BMS max. discharging current
+        unique_id: wr1_bms_max_discharging_current
+        device_address: !secret sungrow_modbus_slave
+        address: 5635 # reg 5636
+        input_type: input
+        data_type: uint16
+        precision: 0
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 1
+        scan_interval: 60
+
+      #https://www.photovoltaikforum.com/thread/166134-daten-lesen-vom-sungrow-wechselrichtern-modbus/?pageNo=13
+      #Phase A Backup Power: 5723 S16 W (Backup Leistung Phase A)
+      #Phase B Backup Power: 5724 S16 W (Backup Leistung Phase B)
+      #Phase C Backup Power: 5725 S16 W (Backup Leistung Phase C)
+      - name: WR1 Total backup power
+        device_address: !secret sungrow_modbus_slave
+        unique_id: wr1_total_backup_power
+        address: 5725 # reg 5726
+        input_type: input
+        data_type: int16
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Backup phase A power
+        unique_id: wr1_backup_phase_a_power
+        device_address: !secret sungrow_modbus_slave
+        address: 5722 # reg 5723
+        input_type: input
+        data_type: int16
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Backup phase B power
+        unique_id: wr1_backup_phase_b_power
+        device_address: !secret sungrow_modbus_slave
+        address: 5723 # reg 5724
+        input_type: input
+        data_type: int16
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Backup phase C power
+        unique_id: wr1_backup_phase_c_power
+        device_address: !secret sungrow_modbus_slave
+        address: 5724 # reg 5725
+        input_type: input
+        data_type: int16
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 System state
+        unique_id: wr1_system_state
+        slave: !secret sungrow_modbus_slave
+        address: 12999 # reg 13000
+        input_type: input
+        data_type: uint16
+        precision: 0
+        scale: 1
+        state_class: measurement
+        scan_interval: 10
+
+      # register running state is not available for certain SH*RS inverters
+      # template sensors are used to determine the states based on other sensors
+      - name: WR1 Running state
+        unique_id: wr1_running_state
+        slave: !secret sungrow_modbus_slave
+        address: 13000 # reg 13001
+        input_type: input
+        data_type: uint16
+        state_class: measurement
+        precision: 0
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Daily PV generation
+        unique_id: wr1_daily_pv_generation
+        slave: !secret sungrow_modbus_slave
+        address: 13001 # reg 13002
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR1 Total PV generation
+        unique_id: wr1_total_pv_generation
+        slave: !secret sungrow_modbus_slave
+        address: 13002 # reg 13003
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR1 Daily exported energy from PV
+        unique_id: wr1_daily_exported_energy_from_PV
+        slave: !secret sungrow_modbus_slave
+        address: 13004 # reg 13005
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR1 Total exported energy from PV
+        unique_id: wr1_total_exported_energy_from_pv
+        slave: !secret sungrow_modbus_slave
+        address: 13005 # reg 13006
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        scale: 0.1
+        scan_interval: 60
+
+      # this value returns the power which flows from the battery to the house
+      - name: WR1 Load power
+        unique_id: wr1_load_power
+        slave: !secret sungrow_modbus_slave
+        address: 13007 # reg 13008
+        input_type: input
+        data_type: int32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      # this value returns a positive value when exporting and a negative value when importing power
+      - name: WR1 Signed Export Power
+        unique_id: wr1_signed_export_power
+        slave: !secret sungrow_modbus_slave
+        address: 13009 # reg 13010
+        input_type: input
+        data_type: int32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Daily battery charge from PV
+        unique_id: wr1_daily_battery_charge_from_pv
+        slave: !secret sungrow_modbus_slave
+        address: 13011 # reg 13012
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scale: 0.1
+        scan_interval: 60
+
+      - name: WR1 Total battery charge from PV
+        unique_id: wr1_total_battery_charge_from_pv
+        slave: !secret sungrow_modbus_slave
+        address: 13012 # reg 13013
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        scale: 0.1
+        scan_interval: 60
+
+      - name: WR1 Daily direct energy consumption
+        unique_id: wr1_daily_direct_energy_consumption
+        slave: !secret sungrow_modbus_slave
+        address: 13016 # reg 13017
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scale: 0.1
+        scan_interval: 60
+
+      - name: WR1 Total direct energy consumption
+        unique_id: wr1_total_direct_energy_consumption
+        slave: !secret sungrow_modbus_slave
+        address: 13017 # reg 13018
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        scale: 0.1
+        scan_interval: 60
+
+      - name: WR1 Battery voltage
+        unique_id: wr1_battery_voltage
+        slave: !secret sungrow_modbus_slave
+        address: 13019 # reg 13020
+        input_type: input
+        data_type: uint16
+        precision: 0
+        unit_of_measurement: V
+        device_class: voltage
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Battery current
+        unique_id: wr1_battery_current
+        slave: !secret sungrow_modbus_slave
+        address: 13020 # reg 13021
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: A
+        state_class: measurement
+        device_class: current
+        scale: 0.1
+        scan_interval: 10
+
+      # always positive battery power
+      # use binary_sensor.wr1_battery_charging | discharging to retrieve the direction of the energy flow
+      - name: WR1 Battery power raw
+        unique_id: wr1_battery_power_raw
+        slave: !secret sungrow_modbus_slave
+        address: 13021 # reg 13022
+        input_type: input
+        data_type: uint16
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Battery level
+        unique_id: wr1_battery_level
+        slave: !secret sungrow_modbus_slave
+        address: 13022 # reg 13023
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: "%"
+        device_class: battery
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 60
+
+      - name: WR1 Battery state of health
+        unique_id: wr1_battery_state_of_health
+        slave: !secret sungrow_modbus_slave
+        address: 13023 # reg 13024
+        input_type: input
+        data_type: uint16
+        precision: 0
+        unit_of_measurement: "%"
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Battery temperature
+        unique_id: wr1_battery_temperature
+        slave: !secret sungrow_modbus_slave
+        address: 13024 # reg 13025
+        input_type: input
+        data_type: int16
+        precision: 1
+        unit_of_measurement: °C
+        device_class: temperature
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 60
+
+      - name: WR1 Daily battery discharge
+        unique_id: wr1_daily_battery_discharge
+        slave: !secret sungrow_modbus_slave
+        address: 13025 # reg 13026
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scale: 0.1
+        scan_interval: 60
+
+      - name: WR1 Total battery discharge
+        unique_id: wr1_total_battery_discharge
+        slave: !secret sungrow_modbus_slave
+        address: 13026 # reg 13027
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Phase A current
+        unique_id: wr1_phase_a_current
+        slave: !secret sungrow_modbus_slave
+        address: 13030 # reg 13031
+        input_type: input
+        data_type: int16
+        precision: 1
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Phase B current
+        unique_id: wr1_phase_b_current
+        slave: !secret sungrow_modbus_slave
+        address: 13031 # reg 13032
+        input_type: input
+        data_type: int16
+        precision: 1
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Phase C current
+        unique_id: wr1_phase_c_curren
+        slave: !secret sungrow_modbus_slave
+        address: 13032 # reg 13033
+        input_type: input
+        data_type: int16
+        precision: 1
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Total active power
+        unique_id: wr1_total_active_power
+        slave: !secret sungrow_modbus_slave
+        address: 13033 # reg 13034
+        input_type: input
+        data_type: int32
+        swap: word
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: WR1 Daily imported energy
+        unique_id: wr1_daily_imported_energy
+        slave: !secret sungrow_modbus_slave
+        address: 13035 # reg 13036
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR1 Total imported energy
+        unique_id: wr1_total_imported_energy
+        slave: !secret sungrow_modbus_slave
+        address: 13036 # reg 13037
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR1 Daily battery charge
+        unique_id: wr1_daily_battery_charge
+        slave: !secret sungrow_modbus_slave
+        address: 13039 # reg 13040
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR1 Total battery charge
+        unique_id: wr1_total_battery_charge
+        slave: !secret sungrow_modbus_slave
+        address: 13040 # reg 13041
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR1 Daily exported energy
+        unique_id: wr1_daily_exported_energy
+        slave: !secret sungrow_modbus_slave
+        address: 13044 # reg 13045
+        input_type: input
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        scale: 0.1
+        scan_interval: 600
+
+      - name: WR1 Total exported energy
+        unique_id: wr1_total_exported_energy
+        slave: !secret sungrow_modbus_slave
+        address: 13045 # reg 13046
+        input_type: input
+        data_type: uint32
+        swap: word
+        precision: 1
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        scale: 0.1
+        scan_interval: 600
+
+      #####################
+      # holding registers
+      #####################
+      - name: WR1 Inverter start stop
+        unique_id: wr1_inverter_start_stop
+        slave: !secret sungrow_modbus_slave
+        address: 12999 # reg 13000
+        input_type: holding
+        data_type: uint16
+        precision: 0
+        scan_interval: 10
+
+      - name: WR1 EMS mode selection raw
+        unique_id: wr1_ems_mode_selection_raw
+        slave: !secret sungrow_modbus_slave
+        address: 13049 # reg 13050
+        input_type: holding
+        data_type: uint16
+        scan_interval: 10
+
+      - name: WR1 Battery forced charge discharge cmd raw
+        unique_id: wr1_battery_forced_charge_discharge_cmd_raw
+        slave: !secret sungrow_modbus_slave
+        address: 13050 # reg 13051
+        input_type: holding
+        data_type: uint16
+        precision: 0
+        scan_interval: 10
+
+      - name: WR1 Battery forced charge discharge power
+        unique_id: wr1_battery_forced_charge_discharge_power
+        slave: !secret sungrow_modbus_slave
+        address: 13051 # reg 13052
+        input_type: holding
+        data_type: uint16
+        precision: 0
+        # datasheet says:
+        # 0 to 5000 W for SH*K-*
+        # 0 to 100 % for SH*.0RT
+        # for my SH10RT it is set in Watt, not in %
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scan_interval: 10
+
+      - name: WR1 Max SoC
+        unique_id: wr1_max_soc
+        slave: !secret sungrow_modbus_slave
+        address: 13057 # reg 13058
+        input_type: holding
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: "%"
+        device_class: battery
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: WR1 Min SoC
+        unique_id: wr1_min_soc
+        slave: !secret sungrow_modbus_slave
+        address: 13058 # reg 13059
+        input_type: holding
+        data_type: uint16
+        precision: 1
+        unit_of_measurement: "%"
+        device_class: battery
+        state_class: measurement
+        scale: 0.1
+        scan_interval: 10
+
+      - name: Export power limit
+        unique_id: wr1_export_power_limit
+        device_address: !secret sungrow_modbus_slave
+        address: 13073 # reg 13074
+        input_type: holding
+        data_type: uint16
+        precision: 0
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      - name: Export power limit mode raw
+        unique_id: wr1_export_power_limit_mode_raw
+        device_address: !secret sungrow_modbus_slave
+        address: 13086 # reg 13087
+        input_type: holding
+        data_type: uint16
+        precision: 0
+        state_class: measurement
+        scan_interval: 10
+
+      - name: WR1 Reserved SoC for backup
+        unique_id: wr1_reserved_soc_for_backup
+        slave: !secret sungrow_modbus_slave
+        address: 13099 # reg 13100
+        input_type: holding
+        data_type: uint16
+        unit_of_measurement: "%"
+        device_class: battery
+        state_class: measurement
+        scale: 1
+        scan_interval: 10
+
+      #undocumented sensors (reverse engineered by some guys of photovoltaikforum.com and forum.iobroker.net )
+      - name: WR1 Battery max charge power
+        unique_id: wr1_battery_max_charge_power
+        slave: !secret sungrow_modbus_slave
+        address: 33046 # reg 33047
+        input_type: holding
+        data_type: uint16
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 10
+        scan_interval: 10
+
+      - name: WR1 Battery max discharge power
+        unique_id: wr1_battery_max_discharge_power
+        slave: !secret sungrow_modbus_slave
+        address: 33047 # reg 33048
+        input_type: holding
+        data_type: uint16
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 10
+        scan_interval: 10
+
+      - name: WR1 Battery charging start power
+        unique_id: wr1_battery_charging_start_power
+        slave: !secret sungrow_modbus_slave
+        address: 33148 # reg 33149
+        input_type: holding
+        data_type: uint16
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 10
+        scan_interval: 10
+
+      - name: WR1 Battery discharging start power
+        unique_id: wr1_battery_discharging_start_power
+        slave: !secret sungrow_modbus_slave
+        address: 33149 # reg 33150
+        input_type: holding
+        data_type: uint16
+        precision: 0
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        scale: 10
+        scan_interval: 10
+
+# 'virtual' template sensors for better readability
+template:
+  - binary_sensor:
+      - name: WR1 PV generating
+        unique_id: wr1_pv_generating
+        # TODO: test more with these parameters for template binary sensors
+        # device_class: none / power
+        # state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_running_state', 'unavailable') 
+          and not is_state('sensor.wr1_total_dc_power', 'unavailable') 
+          }}
+        state: >-
+          {% if states('sensor.wr1_running_state')|is_number %}
+            {# use available sensor running_state #}
+            {{ states('sensor.wr1_running_state')|int |bitwise_and(0x1) }}
+          {% else %} 
+            {# workaround for SH*RS inverters without working running_state #}
+            {% if states('sensor.wr1_total_dc_power')|int > 0 %}
+              1
+            {% else %} 
+              0 
+            {% endif %}
+          {% endif %}
+
+      - name: WR1 PV generating (delay)
+        unique_id: wr1_pv_generating_delay
+        # TODO: test more with these parameters for template binary sensors
+        # device_class: none / power
+        # state_class: measurement
+        availability: "{{ not is_state('binary_sensor.wr1_pv_generating', 'unavailable') }}"
+        delay_on:
+          seconds: 60
+        state: "{{ states('binary_sensor.wr1_pv_generating') }}"
+
+      - name: WR1 Battery charging
+        unique_id: wr1_battery_charging
+        # TODO: test more with these parameters for template binary sensors
+        # device_class: none / power
+        # state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_running_state', 'unavailable')
+          or
+            (   not is_state('sensor.wr1_ems_mode_selection_raw', 'unavailable')
+            and not is_state('sensor.wr1_battery_forced_charge_discharge_cmd_raw', 'unavailable') 
+            and not is_state('sensor.wr1_battery_power_raw', 'unavailable') 
+            and not is_state('sensor.wr1_total_dc_power', 'unavailable')
+            and not is_state('sensor.wr1_load_power', 'unavailable') 
+            )
+          }}
+        state: >-
+          {% if states('sensor.wr1_running_state')|is_number %}
+            {# use available sensor running_state #}
+            {% if states('sensor.wr1_running_state')|int(default=0)|bitwise_and(0x2) > 0 %}
+              on
+            {% else %}
+              off
+            {% endif %}
+          {% else %}
+            {# workaround for SH*RS inverters without working running_state #}
+            {% if (states('sensor.wr1_ems_mode_selection') ) == "Forced mode" %}
+              {# EMS forced mode #}
+              {% if (states('sensor.wr1_battery_forced_charge_discharge_cmd') == "Forced charge") %}
+                {# in mode Forced charge #}
+                {% if (states('sensor.wr1_battery_power_raw')|int > 0 ) %}
+                  {# power flow from/to battery #}
+                  on
+                {% else %} 
+                  {# no power flow from/to battery #}
+                  off
+                {% endif %}
+              {% else %}
+                {# in EMS mode, but not in mode Forced charge #}
+                off
+              {% endif %}
+            {% else %} 
+              {# not in EMS forced mode, assuming self consumption mode #}
+              {% if states('sensor.wr1_total_dc_power')|int > states('sensor.wr1_load_power')|int %}
+                {# more power generated than consumed. assuming battery charging #}
+                on
+              {% else %} 
+                off
+              {% endif %}
+            {% endif %}
+          {% endif %}
+
+      - name: WR1 Battery charging (delay)
+        unique_id: wr1_battery_charging_delay
+        # TODO: test more with these parameters for template binary sensors
+        # device_class: none / power
+        # state_class: measurement
+        availability: "{{ not is_state('binary_sensor.wr1_battery_charging', 'unavailable') }}"
+        delay_on:
+          seconds: 60
+        state: "{{ states('binary_sensor.wr1_battery_charging') }}"
+
+      - name: WR1 Battery discharging
+        unique_id: wr1_battery_discharging
+        # TODO: test more with these parameters for template binary sensors
+        # device_class: none / power
+        # state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_running_state', 'unavailable')
+          or
+            (   not is_state('sensor.wr1_ems_mode_selection_raw', 'unavailable')
+            and not is_state('sensor.wr1_battery_forced_charge_discharge_cmd_raw', 'unavailable')
+            and not is_state('sensor.wr1_battery_power_raw', 'unavailable')
+            and not is_state('sensor.wr1_total_dc_power', 'unavailable') 
+            and not is_state('sensor.wr1_load_power', 'unavailable') 
+            )
+          }}
+        state: >-
+          {% if states('sensor.wr1_running_state')|is_number %}
+            {# use available sensor running_state #}
+            {% if states('sensor.wr1_running_state')|int(default=0)|bitwise_and(0x4) > 0 %}
+              on
+            {% else %}
+              off
+            {% endif %}
+          {% else %}
+            {# workaround for SH*RS inverters without working running_state #}
+            {% if (states('sensor.wr1_ems_mode_selection') ) == "Forced mode" %}
+              {# EMS forced mode #}
+              {% if (states('sensor.wr1_battery_forced_charge_discharge_cmd') == "Forced discharge") %}
+                {# in mode Forced discharge #}
+                {% if (states('sensor.wr1_battery_power_raw')|int > 0 ) %}
+                  {# power flow from/to battery #}
+                  on
+                {% else %} 
+                  {# no power flow from/to battery #}
+                  off
+                {% endif %}
+              {% else %} 
+                {# in EMS mode, but not in mode Forced charge #}
+                off
+              {% endif %}
+            {% else %} 
+              {# not in EMS forced mode, assuming self consumption mode #}
+              {% if ( ( states('sensor.wr1_total_dc_power')|int < states('sensor.wr1_load_power')|int ) ) and states('sensor.wr1_battery_power_raw')|int > 0 %}
+                {# more power consumed than generated and some battery power --> assuming battery discharging #}
+                on
+              {% else %} 
+                off
+              {% endif %}
+            {% endif %}
+          {% endif %}
+
+      - name: WR1 Battery discharging (delay)
+        unique_id: wr1_battery_discharging_delay
+        # TODO: test more with these parameters for template binary sensors
+        # device_class: none / power
+        # state_class: measurement
+        availability: "{{ not is_state('binary_sensor.wr1_battery_discharging', 'unavailable') }}"
+        delay_on:
+          seconds: 60
+        state: "{{ states('binary_sensor.wr1_battery_discharging') }}"
+
+      - name: WR1 Exporting power
+        unique_id: wr1_exporting_power
+        # TODO: test more with these parameters for template binary sensors
+        # device_class: none / power
+        # state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_running_state', 'unavailable') 
+          and not is_state('sensor.wr1_signed_export_power', 'unavailable') 
+          }}
+        state: >-
+          {% if states('sensor.wr1_running_state')|is_number %}
+            {# use available sensor running_state #}
+            {{ states('sensor.wr1_running_state')|int(default=0)|bitwise_and(0x10) > 0 }}
+          {% else %} 
+            {# workaround for SH*RS inverters without working running_state #}
+            {% if states('sensor.wr1_signed_export_power')|int(0) > 0 %}
+              1
+            {% else %} 
+              0 
+            {% endif %}
+          {% endif %}
+
+      - name: WR1 Exporting power (delay)
+        unique_id: wr1_exporting_power_delay
+        # TODO: test more with these parameters for template binary sensors
+        # device_class: none / power
+        # state_class: measurement
+        availability: "{{ not is_state('binary_sensor.wr1_exporting_power', 'unavailable') }}"
+        delay_on:
+          seconds: 60
+        state: "{{ states('binary_sensor.wr1_exporting_power') }}"
+
+      - name: WR1 Importing power
+        unique_id: wr1_importing_power
+        # TODO: test more with these parameters for template binary sensors
+        # device_class: none / power
+        # state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_running_state', 'unavailable') 
+          and not is_state('sensor.wr1_running_state', 'unavailable')
+          }}
+        state: >-
+          {% if states('sensor.wr1_running_state')|is_number %}
+            {# use available sensor running_state #}
+            {{ states('sensor.wr1_running_state')|int(default=0)|bitwise_and(0x20) > 0 }}
+          {% else %} 
+            {# workaround for SH*RS inverters without working running_state #}
+            {% if states('sensor.wr1_signed_export_power')|int < 0 %}
+              1
+            {% else %}
+              0
+            {% endif %}
+          {% endif %}
+
+      - name: WR1 Importing power (delay)
+        unique_id: wr1_importing_power_delay
+        # TODO: test more with these parameters for template binary sensors
+        # device_class: none / power
+        # state_class: measurement
+        availability: "{{ not is_state('binary_sensor.wr1_importing_power', 'unavailable') }}"
+        delay_on:
+          seconds: 60
+        state: "{{ states('binary_sensor.wr1_importing_power') }}"
+
+  - sensor:
+      - name: WR1 MPPT1 power
+        unique_id: wr1_mppt1_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_mppt1_voltage', 'unavailable') 
+          and not is_state('sensor.wr1_mppt1_current', 'unavailable') 
+          }}
+        state: "{{ (states('sensor.wr1_mppt1_voltage') | float * states('sensor.wr1_mppt1_current') | float) |int }}"
+
+      - name: WR1 MPPT2 power
+        unique_id: wr1_mppt2_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_mppt2_voltage', 'unavailable') 
+          and not is_state('sensor.wr1_mppt2_current', 'unavailable' ) 
+          }}
+        state: "{{ (states('sensor.wr1_mppt2_voltage') | float * states('sensor.wr1_mppt2_current') | float) |int }}"
+
+      - name: WR1 Phase A power
+        unique_id: wr1_phase_a_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_phase_a_voltage', 'unavailable')
+          and not is_state('sensor.wr1_phase_a_current', 'unavailable')
+          }}
+        state: "{{ (states('sensor.wr1_phase_a_voltage') | float * states('sensor.wr1_phase_a_current') | float) |int }}"
+
+      - name: WR1 Phase B power
+        unique_id: wr1_phase_b_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_phase_b_voltage', 'unavailable') 
+          and not is_state('sensor.wr1_phase_b_current', 'unavailable') 
+          }}
+        state: "{{ (states('sensor.wr1_phase_b_voltage') | float * states('sensor.wr1_phase_b_current') | float) |int }}"
+
+      - name: WR1 Phase C power
+        unique_id: wr1_phase_c_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_phase_c_voltage', 'unavailable')
+          and not is_state('sensor.wr1_phase_c_current', 'unavailable')
+          }}
+        state: "{{ (states('sensor.wr1_phase_c_voltage') | float * states('sensor.wr1_phase_c_current') | float) |int }}"
+
+      - name: WR1 Meter active power
+        unique_id: wr1_meter_active_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_meter_active_power_raw', 'unavailable')
+          and states('sensor.wr1_meter_active_power_raw')|int != 0x7FFFFFFF
+          }}
+        state: "{{ states('sensor.wr1_meter_active_power_raw') }}"
+
+      - name: WR1 Meter Phase A active power
+        unique_id: wr1_meter_phase_a_active_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_meter_phase_a_active_power_raw', 'unavailable')
+          and states('sensor.wr1_meter_phase_a_active_power_raw')|int != 0x7FFFFFFF
+          }}
+        state: "{{ states('sensor.wr1_meter_phase_a_active_power_raw') }}"
+
+      - name: WR1 Meter Phase B active power
+        unique_id: wr1_meter_phase_b_active_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_meter_phase_b_active_power_raw', 'unavailable') 
+          and states('sensor.wr1_meter_phase_b_active_power_raw')|int != 0x7FFFFFFF 
+          }}
+        state: "{{ states('sensor.wr1_meter_phase_b_active_power_raw') }}"
+
+      - name: WR1 Meter Phase C active power
+        unique_id: wr1_meter_phase_c_active_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_meter_phase_c_active_power_raw', 'unavailable')
+          and states('sensor.wr1_meter_phase_c_active_power_raw')|int != 0x7FFFFFFF
+          }}
+        state: "{{ states('sensor.wr1_meter_phase_c_active_power_raw') }}"
+
+      - name: WR1 inverter state
+        unique_id: wr1_inverter_state
+        # TODO: test state_class with enum
+        # state_class: measurement
+        device_class: enum
+        availability: "{{ not is_state('sensor.wr1_system_state', 'unavailable') }}"
+        state: >-
+          {% if ((states('sensor.wr1_system_state') | int(default=0)) == 0x0002) %}
+            Stop
+          {% elif ((states('sensor.wr1_system_state') | int(default=0)) == 0x0008) %}
+            Standby
+          {% elif ((states('sensor.wr1_system_state') | int(default=0)) == 0x0010) %}
+            Initial Standby
+          {% elif ((states('sensor.wr1_system_state') | int(default=0)) == 0x0020) %}
+            Startup
+          {% elif ((states('sensor.wr1_system_state') | int(default=0)) in [0x0000,0x0040]) %}
+            Running
+          {% elif ((states('sensor.wr1_system_state') | int(default=0)) == 0x0100) %}
+            Fault
+          {% elif ((states('sensor.wr1_system_state') | int(default=0)) == 0x0400) %}
+            Maintain mode
+          {% elif ((states('sensor.wr1_system_state') | int(default=0)) == 0x0800) %}
+            Forced mode
+          {% elif ((states('sensor.wr1_system_state') | int(default=0)) == 0x1000) %}
+            Off-grid mode
+          {% elif ((states('sensor.wr1_system_state') | int(default=0)) == 0x2501) %}
+            Restarting
+          {% elif ((states('sensor.wr1_system_state') | int(default=0)) == 0x4000) %}
+            External EMS mode
+          {% else %}
+            Unknown - should not see me!
+          {% endif %}
+
+      - name: WR1 device type
+        unique_id: wr1_device_type
+        availability: "{{ not is_state('sensor.wr1_sungrow_device_type_code', 'unavailable') }}"
+        # TODO: test state_class with enum
+        # state_class: measurement
+        device_class: enum
+        state: >-
+          {% if ((states('sensor.wr1_sungrow_device_type_code') | int(default=0))  == 0x0D06) %}
+            SH3K6
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D07) %}
+            SH4K6
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D09) %}
+            SH5K-20  
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D03) %}
+            SH5K-V13
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D0A) %}
+            SH3K6-30
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D0B) %}
+            SH4K6-30
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D0C) %}
+            SH5K-30
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D17) %}
+            SH3.RS
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D0D) %}
+            SH3.6RS
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D18) %}
+            SH4.0RS
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D0F) %}
+            SH5.0RS
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D10) %}
+            SH6.0RS
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D1A) %}
+            SH8.0RS
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D1B) %}
+            SH10RS
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E00) %}
+            SH5.0RT
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E01) %}
+            SH6.0RT
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E02) %}
+            SH8.0RT
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E03) %}
+            SH10RT
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E10) %}
+            SH5.0RT-20
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E11) %}
+            SH6.0RT-20
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E12) %}
+            SH8.0RT-20
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E13) %}
+            SH10RT-20
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E0C) %}
+            SH5.0RT-V112
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E0D) %}
+            SH6.0RT-V112
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E0E) %}
+            SH8.0RT-V112
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E0F) %}
+            SH10RT-V112
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E08) %}
+            SH5.0RT-V122
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E09) %}
+            SH6.0RT-V122
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E0A) %}
+            SH8.0RT-V122
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0E0B) %}
+            SH10RT-V122
+          {% elif ((states('sensor.wr1_sungrow_device_type_code') | int(default=0)) == 0x0D0E) %}
+            SH4.6RS 
+          {% else %}
+            Unknown device code!
+          {% endif %}
+
+      # make the sensor battery_forced_charge_discharge_cmd more human readable
+      # Inverter States from modbus reference manual
+      # 0xAA forced charge
+      # 0xBB forced discharge
+      # 0xCC Stop (default)
+      - name: WR1 Battery forced charge discharge cmd
+        unique_id: wr1_battery_forced_charge_discharge_cmd
+        availability: "{{ not is_state('sensor.wr1_battery_forced_charge_discharge_cmd_raw', 'unavailable') }}"
+        # TODO: test state_class with enum
+        # state_class: measurement
+        device_class: enum
+        state: >-
+          {% if ((states('sensor.wr1_battery_forced_charge_discharge_cmd_raw') | int(default=0)) == 0x00AA) %}
+            Forced charge
+          {% elif ((states('sensor.wr1_battery_forced_charge_discharge_cmd_raw') | int(default=0))  == 0x00BB) %}
+            Forced discharge
+          {% elif ((states('sensor.wr1_battery_forced_charge_discharge_cmd_raw') | int(default=0))  == 0x00CC) %}
+            Stop (default)
+          {% else %}
+            Unknown - should not see me!
+          {% endif %}
+
+      # make the sensor ems_selection_raw more human readable
+      - name: WR1 EMS mode selection
+        unique_id: wr1_ems_mode_selection
+        availability: "{{ not is_state('sensor.wr1_ems_mode_selection_raw', 'unavailable') }}"
+        # TODO: test state_class with enum with enum
+        # state_class: measurement
+        device_class: enum
+        state: >-
+          {% if ((states('sensor.wr1_ems_mode_selection_raw') | int(default=0)) == 0) %}
+            Self-consumption mode (default)
+          {% elif ((states('sensor.wr1_ems_mode_selection_raw') | int(default=0)) == 2) %}
+            Forced mode
+          {% elif ((states('sensor.wr1_ems_mode_selection_raw') | int(default=0)) == 3) %}
+            External EMS
+          {% elif ((states('sensor.wr1_ems_mode_selection_raw') | int(default=0)) == 4) %}
+            VPP
+          {% elif ((states('sensor.wr1_ems_mode_selection_raw') | int(default=0)) == 8) %}
+            MicroGrid
+          {% else %}
+            Unknown - should not see me!
+          {% endif %}
+
+      - name: WR1 Signed battery power # positive if charging and negative if discharging
+        unique_id: wr1_signed_battery_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('binary_sensor.wr1_battery_charging', 'unavailable') 
+          and not is_state('binary_sensor.wr1_battery_discharging', 'unavailable')
+          and not is_state('sensor.wr1_battery_power_raw', 'unavailable')
+          }}
+        state: >-
+          {% if is_state('binary_sensor.wr1_battery_charging', 'on') %}
+            {{ (states('sensor.wr1_battery_power_raw') | float)}} 
+          {% elif is_state('binary_sensor.wr1_battery_discharging', 'on') %} 
+            {{ (states('sensor.wr1_battery_power_raw') | float * -1)}} 
+          {% else %} 
+            0 
+          {% endif %}
+
+      - name: WR1 Battery charging power # positive if charging else zero
+        unique_id: wr1_battery_charging_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('binary_sensor.wr1_battery_charging', 'unavailable') 
+          and not is_state('sensor.wr1_battery_power_raw', 'unavailable')
+          }}
+        state: >-
+          {% if is_state('binary_sensor.wr1_battery_charging', 'on') %}
+            {{ states('sensor.wr1_battery_power_raw') }}
+          {% else %}
+            0
+          {% endif %}
+
+      - name: WR1 Battery discharging power # positive if discharging else zero
+        unique_id: wr1_battery_discharging_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('binary_sensor.wr1_battery_discharging', 'unavailable') 
+          and not is_state('sensor.wr1_battery_power_raw', 'unavailable') 
+          }}
+        state: >-
+          {% if is_state('binary_sensor.wr1_battery_discharging', 'on') %}
+            {{ states('sensor.wr1_battery_power_raw') }}
+          {% else %}
+            0
+          {% endif %}
+
+      - name: WR1 Import power # power from grid: positive if importing, else zero
+        unique_id: wr1_import_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        state: >-
+          {% if states('sensor.wr1_signed_export_power')|int(0) < 0 %}
+            {{ states('sensor.wr1_signed_export_power')|int *-1 }}
+          {% else %}
+            0
+          {% endif %}
+
+      - name: WR1 Export power # power to grid: positive if exporting, else zero
+        unique_id: wr1_export_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: "{{states('sensor.wr1_signed_export_power')|is_number }}"
+        state: >-
+          {% if states('sensor.wr1_signed_export_power')|int(0) > 0 %}
+            {{ states('sensor.wr1_signed_export_power') }}
+          {% else %}
+            0
+          {% endif %}
+
+      - name: "WR1 Battery level (nominal)"
+        unique_id: wr1_battery_level_nom
+        unit_of_measurement: "%"
+        device_class: battery
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_battery_level', 'unavailable') 
+          and not is_state('sensor.wr1_min_soc', 'unavailable') 
+          and not is_state('sensor.wr1_max_soc', 'unavailable') 
+          }}
+        state: >-
+          {% set soc_min = states('sensor.wr1_min_soc') | float %}
+          {% set soc_max = states('sensor.wr1_max_soc') | float %}
+          {% set soc_cur = states('sensor.wr1_battery_level') | float %}
+          {{
+            ((soc_min) + ((soc_max - soc_min) * (soc_cur / 100))) | round(1)
+          }}
+
+      - name: "WR1 Battery Capacity"
+        unique_id: wr1_battery_capacity
+        unit_of_measurement: kWh
+        device_class: energy_storage
+        state_class: measurement
+        state: "12.8"
+
+      # - name: "WR1 Battery charge (nominal)"
+      #   unique_id: wr1_battery_charge_nom
+      #   unit_of_measurement: kWh
+      #   device_class: energy_storage
+      #   state_class: measurement
+      #   availability: >-
+      #     {{
+      #     not is_state('sensor.wr1_battery_capacity', 'unavailable')
+      #     and not is_state('sensor.wr1_battery_level_nominal', 'unavailable')
+      #     }}
+      #   state: >-
+      #     {{
+      #       ( states('sensor.wr1_battery_capacity') | float *
+      #       states('sensor.wr1_battery_level_nominal') | float / 100 )| round(1)
+      #     }}
+
+      - name: "WR1 Battery charge"
+        unique_id: wr1_battery_charge
+        unit_of_measurement: kWh
+        device_class: energy_storage
+        state_class: measurement
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_battery_capacity', 'unavailable') 
+          and not is_state('sensor.wr1_battery_level', 'unavailable') 
+          and not is_state('sensor.wr1_min_soc', 'unavailable') 
+          and not is_state('sensor.wr1_max_soc', 'unavailable') 
+          }}
+        state: >-
+          {{ 
+            ( states('sensor.wr1_battery_capacity')|float 
+            * ( states('sensor.wr1_max_soc')|float - states('sensor.wr1_min_soc')|float ) /100 
+            * states('sensor.wr1_battery_level')|float /100 
+            ) |round(2)
+          }}
+
+      - name: WR1 Daily consumed energy
+        unique_id: uid_daily_consumed_energy
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total_increasing
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_daily_pv_generation', 'unavailable') 
+          and not is_state('sensor.wr1_daily_exported_energy', 'unavailable') 
+          and not is_state('sensor.wr1_daily_imported_energy', 'unavailable') 
+          and not is_state('sensor.wr1_daily_battery_charge', 'unavailable') 
+          and not is_state('sensor.wr1_daily_battery_discharge', 'unavailable') 
+          }}
+        state: >-
+          {{ 
+            (
+              states('sensor.wr1_daily_pv_generation')|float 
+              - states('sensor.wr1_daily_exported_energy')|float 
+              + states('sensor.wr1_daily_imported_energy')|float 
+              - states('sensor.wr1_daily_battery_charge')|float 
+              + states('sensor.wr1_daily_battery_discharge')|float
+            )|int 
+          }}
+
+      - name: WR1 Total consumed energy
+        unique_id: uid_total_consumed_energy
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        availability: >-
+          {{ 
+          not is_state('sensor.wr1_total_pv_generation', 'unavailable') 
+          and not is_state('sensor.wr1_total_exported_energy', 'unavailable') 
+          and not is_state('sensor.wr1_total_imported_energy', 'unavailable') 
+          and not is_state('sensor.wr1_total_battery_charge', 'unavailable') 
+          and not is_state('sensor.wr1_total_battery_discharge', 'unavailable') 
+          }}
+        state: >-
+          {{ 
+            (
+              states('sensor.wr1_total_pv_generation')|float 
+              - states('sensor.wr1_total_exported_energy')|float 
+              + states('sensor.wr1_total_imported_energy')|float 
+              - states('sensor.wr1_total_battery_charge')|float 
+              + states('sensor.wr1_total_battery_discharge')|float
+            )|int 
+          }}
+
+# getting input for Min and Max SoC
+input_number:
+  set_wr1_min_soc:
+    name: Set min SoC
+    min: 0
+    max: 50
+    step: 1
+
+  set_wr1_max_soc:
+    name: Set max SoC
+    min: 50
+    max: 100
+    step: 1
+
+  set_wr1_reserved_soc_for_backup:
+    name: Set reserved SoC for backup
+    min: 0
+    max: 75
+    step: 1
+
+  set_wr1_forced_charge_discharge_power:
+    name: Set forced charge discharge power in W
+    min: 0
+    max: 5000
+    step: 100
+
+  set_wr1_battery_max_charge_power:
+    name: Set max battery charge power in W
+    min: 100
+    max: 5000
+    step: 100
+
+  set_wr1_battery_max_discharge_power:
+    name: Set max battery discharge power in W
+    #initial: 40
+    min: 100
+    max: 5000
+    step: 100
+
+  set_wr1_battery_charging_start_power:
+    name: Set battery charging start power in W
+    min: 0
+    max: 1000
+    step: 10
+
+  set_wr1_battery_discharging_start_power:
+    name: Set battery discharging start power in W
+    min: 0
+    max: 1000
+    step: 10
+
+input_select:
+  set_wr1_start_stop_mode:
+    name: Inverter mode
+    options:
+      - "Start"
+      - "Stop"
+
+  # get input for battery mode (forced charge/discharge, stop (default) )
+  set_wr1_ems_mode:
+    name: EMS mode
+    options:
+      - "Self-consumption mode (default)"
+      - "Forced mode"
+    # these are commented, because they are rarely used
+    #      - "External EMS"
+    #      - "VPP"
+    #      - "MicroGrid"
+    icon: mdi:battery-unknown
+
+  set_wr1_battery_forced_charge_discharge_cmd:
+    name: Battery forced charge discharge cmd
+    options:
+      - "Stop (default)"
+      - "Forced charge"
+      - "Forced discharge"
+    icon: mdi:battery-unknown
+
+# Automations: Write modbus registers on input changes via GUI
+# note: If you change a value by the sliders, it will take up to 60 seconds until the state variables are updated
+# Unfortunately, I could not find a way to "force update" modbus registers, yet...
+# automation:
+#   - id: "automation_sungrow_inverter1_start_stop"
+#     alias: "sungrow inverter start stop"
+#     description: "Starts/ Stops the inverter"
+#     trigger:
+#       - platform: state
+#         entity_id:
+#           - input_select.set_wr1_start_stop_mode
+#     condition: []
+#     variables:
+#       wr1_start: 0xCF
+#       wr1_stop: 0xCE
+#     action:
+#       - service: modbus.write_register
+#         data_template:
+#           hub: SungrowSHx
+#           slave: !secret sungrow_modbus_slave
+#           address: 12999 # reg 13000
+#           value: >
+#             {% if is_state('input_select.set_wr1_start_stop_mode', 'Start') %}
+#             {{wr1_start}}
+#             {% else %}  
+#             {{wr1_stop}} 
+#             {% endif %}
+#     mode: single
+
+#   - id: "automation_sungrow_inverter1_update_max_soc"
+#     alias: "sungrow inverter update max SoC"
+#     description: "Updates Sungrow max Soc holding register"
+#     trigger:
+#       - platform: state
+#         entity_id:
+#           - input_number.set_wr1_max_soc
+#     condition: []
+#     action:
+#       - service: modbus.write_register
+#         data_template:
+#           hub: SungrowSHx
+#           slave: !secret sungrow_modbus_slave
+#           address: 13057 # reg 13058
+#           value: "{{ states('input_number.set_wr1_max_soc') | int *10}}"
+#     mode: single
+
+#   - id: "automation_sungrow_inverter1_update_battery_forced_charge_discharge_cmd"
+#     alias: "sungrow inverter update battery forced charge discharge cmd"
+#     description: "Updates Sungrow holding register for battery forced charge discharge command"
+#     trigger:
+#       - platform: state
+#         entity_id:
+#           - input_select.set_wr1_battery_forced_charge_discharge_cmd
+#     condition: []
+#     variables:
+#       ems_forced_charge: 0xAA
+#       ems_forced_discharge: 0xBB
+#       ems_stop_default: 0xCC
+#     action:
+#       - service: modbus.write_register
+#         data_template:
+#           hub: SungrowSHx
+#           slave: !secret sungrow_modbus_slave
+#           address: 13050 # reg 13051
+#           value: >
+#             {% if is_state('input_select.set_wr1_battery_forced_charge_discharge_cmd', 'Stop (default)') %} {{ems_stop_default}}
+#             {% elif is_state('input_select.set_wr1_battery_forced_charge_discharge_cmd', 'Forced charge') %} {{ems_forced_charge}}
+#             {% elif is_state('input_select.set_wr1_battery_forced_charge_discharge_cmd', 'Forced discharge') %} {{ems_forced_discharge}}
+#             {% else %}
+#             {{0xCC}}
+#             {% endif %}
+#     mode: single
+
+#   - id: "automation_sungrow_inverter1_update_ems_mode"
+#     alias: "sungrow inverter update EMS mode"
+#     description: "Updates EMS mode"
+#     trigger:
+#       - platform: state
+#         entity_id:
+#           - input_select.set_wr1_ems_mode
+#     condition: []
+#     variables:
+#       ems_mode_self_consume: 0
+#       ems_mode_forced: 2
+#       ems_mode_external: 3
+#       ems_mode_vpp: 4
+#       ems_mode_microgrid: 8
+#     action:
+#       - service: modbus.write_register
+#         data_template:
+#           hub: SungrowSHx
+#           slave: !secret sungrow_modbus_slave
+#           address: 13049 # reg 13050
+#           value: >
+#             {% if is_state('input_select.set_wr1_ems_mode', 'Self-consumption mode (default)') %} {{ems_mode_self_consume}}
+#             {% elif is_state('input_select.set_wr1_ems_mode', 'Forced mode') %} {{ems_mode_forced}}
+#             {% elif is_state('input_select.set_wr1_ems_mode', 'External EMS') %} {{ems_mode_external}}
+#             {% elif is_state('input_select.set_wr1_ems_mode', 'VPP') %} {{ems_mode_vpp}}
+#             {% elif is_state('input_select.set_wr1_ems_mode', 'MicroGrid') %} {{ems_mode_microgrid}}
+#             {% else %} 
+#             0
+#             {% endif %}
+#     mode: single
+
+#   - id: "automation_sungrow_inverter1_update_battery_forced_charge_discharge_power"
+#     alias: "sungrow inverter update battery forced charge discharge power"
+#     description: "Sets battery forced charge discharge power"
+#     trigger:
+#       - platform: state
+#         entity_id:
+#           - input_number.set_wr1_forced_charge_discharge_power
+#     condition: []
+#     action:
+#       - service: modbus.write_register
+#         data_template:
+#           hub: SungrowSHx
+#           slave: !secret sungrow_modbus_slave
+#           address: 13051 # reg 13052
+#           value: "{{ states('input_number.set_wr1_forced_charge_discharge_power') | int}}"
+#     mode: single
+
+#   - id: "automation_sungrow_inverter1_update_battery_max_charge_power"
+#     alias: "sungrow inverter update battery max charge power"
+#     description: "Sets battery max charge power"
+#     trigger:
+#       - platform: state
+#         entity_id:
+#           - input_number.set_wr1_battery_max_charge_power
+#     condition: []
+#     action:
+#       - service: modbus.write_register
+#         data_template:
+#           hub: SungrowSHx
+#           slave: !secret sungrow_modbus_slave
+#           address: 33046 # reg 33047
+#           value: "{{ states('input_number.set_wr1_battery_max_charge_power')  |float /10 |int}}"
+#     mode: single
+
+#   - id: "automation_sungrow_inverter1_update_battery_max_discharge_power"
+#     alias: "sungrow inverter update battery max discharge power"
+#     description: "Sets battery max discharge power"
+#     trigger:
+#       - platform: state
+#         entity_id:
+#           - input_number.set_wr1_battery_max_discharge_power
+#     condition: []
+#     action:
+#       - service: modbus.write_register
+#         data_template:
+#           hub: SungrowSHx
+#           slave: !secret sungrow_modbus_slave
+#           address: 33047 # reg 33048
+#           value: "{{ states('input_number.set_wr1_battery_max_discharge_power')  |float /10 |int}}"
+#     mode: single
+
+#   - id: "automation_sungrow_inverter1_update_battery_discharging_start_power"
+#     alias: "sungrow inverter update battery discharging start power"
+#     description: "Sets battery discharging start power"
+#     trigger:
+#       - platform: state
+#         entity_id:
+#           - input_number.set_wr1_battery_discharging_start_power
+#     condition: []
+#     action:
+#       - service: modbus.write_register
+#         data_template:
+#           hub: SungrowSHx
+#           slave: !secret sungrow_modbus_slave
+#           address: 33149 # reg 33150
+#           value: "{{ states('input_number.set_wr1_battery_discharging_start_power') |float /10 | int}}"
+#     mode: single
