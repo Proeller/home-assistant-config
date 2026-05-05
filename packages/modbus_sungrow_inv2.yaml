@@ -347,6 +347,7 @@ template:
 
       - name: WR2 Sungrow device type
         unique_id: wr2_device_type
+        availability: "{{states('sensor.wr2_sungrow_device_type_code')|is_number }}"
         state: >-
           {% if ((states('sensor.wr2_sungrow_device_type_code') | int(default=0))  == 0x243D) %}
             SG3.0RT

@@ -1458,6 +1458,7 @@ template:
         unit_of_measurement: W
         device_class: power
         state_class: measurement
+        availability: "{{states('sensor.wr1_signed_export_power')|is_number }}"
         state: >-
           {% if states('sensor.wr1_signed_export_power')|int(0) < 0 %}
             {{ states('sensor.wr1_signed_export_power')|int *-1 }}

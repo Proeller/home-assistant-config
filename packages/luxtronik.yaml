@@ -6,6 +6,8 @@ template:
   - binary_sensor:
       - name: WP On
         unique_id: wp_on
+        availability: >-
+          {{ states('sensor.luxtronik_320218_0754_status') not in ['unknown', 'unavailable'] }}
         state: >-
           {% if states('sensor.luxtronik_320218_0754_status') in ['unavailable', 'unknown'] %}
             off
@@ -15,6 +17,8 @@ template:
 
       - name: WP Running
         unique_id: wp_running
+        availability: >-
+          {{ states('sensor.luxtronik_320218_0754_status') not in ['unknown', 'unavailable'] }}
         state: >-
           {% if states('sensor.luxtronik_320218_0754_status') in ['hot water', 'heating', 'defrost'] %}
             on
@@ -24,6 +28,8 @@ template:
 
       - name: WP Heating On
         unique_id: wp_heating_on
+        availability: >-
+          {{ states('sensor.luxtronik_320218_0754_status') not in ['unknown', 'unavailable'] }}
         state: >-
           {% if (is_state('sensor.luxtronik_320218_0754_status', 'heating')) %}
             on
@@ -33,6 +39,8 @@ template:
 
       - name: WP BW On
         unique_id: wp_bw_on
+        availability: >-
+          {{ states('sensor.luxtronik_320218_0754_status') not in ['unknown', 'unavailable'] }}
         state: >-
           {% if (is_state('sensor.luxtronik_320218_0754_status', 'hot water')) %}
             on
@@ -42,6 +50,8 @@ template:
 
       - name: WP Defrost On
         unique_id: wp_defrost_on
+        availability: >-
+          {{ states('sensor.luxtronik_320218_0754_status') not in ['unknown', 'unavailable'] }}
         state: >-
           {% if (is_state('sensor.luxtronik_320218_0754_status', 'defrost')) %}
             on
@@ -51,6 +61,8 @@ template:
 
       - name: WP Cooling On
         unique_id: wp_cooling_on
+        availability: >-
+          {{ states('sensor.luxtronik_320218_0754_status') not in ['unknown', 'unavailable'] }}
         state: >-
           {% if (is_state('sensor.luxtronik_320218_0754_status', 'cooling')) %}
             on
@@ -61,6 +73,9 @@ template:
   - sensor:
       - name: "WP COP aktuell"
         unit_of_measurement: ""
+        availability: >
+          {{ states('sensor.luxtronik_320218_0754_current_power_consumption') not in ['unknown','unavailable']
+             and states('sensor.luxtronik_320218_0754_current_heat_output') not in ['unknown','unavailable'] }}
         state: >
           {% set p = states('sensor.luxtronik_320218_0754_current_power_consumption') | float(0) %}
           {% set q = states('sensor.luxtronik_320218_0754_current_heat_output') | float(0) %}

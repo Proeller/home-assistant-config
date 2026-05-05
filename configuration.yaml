@@ -157,7 +157,8 @@ template:
           {{ states('sensor.p2s_22e8bj5b1300202_gewicht_des_drucks') | float(0) / 100 *
             states('sensor.p2s_22e8bj5b1300202_druckfortschritt') | float(0) }}
         availability: >
-          {{ states('sensor.p2s_22e8bj5b1300202_gewicht_des_drucks') not in ['unknown', 'unavailable'] }}
+          {{ states('sensor.p2s_22e8bj5b1300202_gewicht_des_drucks') not in ['unknown', 'unavailable']
+             and states('sensor.p2s_22e8bj5b1300202_druckfortschritt') not in ['unknown', 'unavailable'] }}
 
       # 22e8bj5b1300202: Detect active AMS tray from all sensors
       - name: "SpoolmanSync 22e8bj5b1300202 Active Tray"
