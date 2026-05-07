@@ -1,0 +1,173 @@
+template:
+  - sensor:
+      - name: "WR1 Total DC power"
+        unique_id: wr1_total_dc_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: "{{ states('sensor.total_dc_power_inv_1')|is_number }}"
+        state: "{{ states('sensor.total_dc_power_inv_1')|int(0) }}"
+
+      - name: "WR2 Total DC power"
+        unique_id: wr2_total_dc_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: "{{ states('sensor.total_dc_power_inv_2')|is_number }}"
+        state: "{{ states('sensor.total_dc_power_inv_2')|int(0) }}"
+
+      - name: "WR1 Load power"
+        unique_id: wr1_load_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: "{{ states('sensor.load_power_inv_1')|is_number }}"
+        state: "{{ states('sensor.load_power_inv_1')|int(0) }}"
+
+      - name: "WR1 Total active power"
+        unique_id: wr1_total_active_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: "{{ states('sensor.total_active_power_inv_1')|is_number }}"
+        state: "{{ states('sensor.total_active_power_inv_1')|int(0) }}"
+
+      - name: "WR1 signed battery power"
+        unique_id: wr1_signed_battery_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: "{{ states('sensor.battery_charging_power_signed_inv_1')|is_number }}"
+        state: "{{ states('sensor.battery_charging_power_signed_inv_1')|int(0) }}"
+
+      - name: "WR1 Battery charging power"
+        unique_id: wr1_battery_charging_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: "{{ states('sensor.battery_charging_power_inv_1')|is_number }}"
+        state: "{{ states('sensor.battery_charging_power_inv_1')|int(0) }}"
+
+      - name: "WR1 Battery discharging power"
+        unique_id: wr1_battery_discharging_power
+        unit_of_measurement: W
+        device_class: power
+        state_class: measurement
+        availability: "{{ states('sensor.battery_discharging_power_inv_1')|is_number }}"
+        state: "{{ states('sensor.battery_discharging_power_inv_1')|int(0) }}"
+
+      - name: "WR1 Total exported energy"
+        unique_id: wr1_total_exported_energy
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        availability: "{{ states('sensor.total_exported_energy_inv_1')|is_number }}"
+        state: "{{ states('sensor.total_exported_energy_inv_1')|float(0) }}"
+
+      - name: "WR1 Total imported energy"
+        unique_id: wr1_total_imported_energy
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        availability: "{{ states('sensor.total_imported_energy_inv_1')|is_number }}"
+        state: "{{ states('sensor.total_imported_energy_inv_1')|float(0) }}"
+
+      - name: "WR1 Total battery charge"
+        unique_id: wr1_total_battery_charge
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        availability: "{{ states('sensor.total_battery_charge_inv_1')|is_number }}"
+        state: "{{ states('sensor.total_battery_charge_inv_1')|float(0) }}"
+
+      - name: "WR1 Total battery discharge"
+        unique_id: wr1_total_battery_discharge
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        availability: "{{ states('sensor.total_battery_discharge_inv_1')|is_number }}"
+        state: "{{ states('sensor.total_battery_discharge_inv_1')|float(0) }}"
+
+      - name: "WR1 Total PV generation"
+        unique_id: wr1_total_pv_generation
+        unit_of_measurement: kWh
+        device_class: energy
+        state_class: total
+        availability: "{{ states('sensor.total_pv_generation_inv_1')|is_number }}"
+        state: "{{ states('sensor.total_pv_generation_inv_1')|float(0) }}"
+
+      - name: "WR1 Battery Capacity"
+        unique_id: wr1_battery_capacity
+        unit_of_measurement: kWh
+        device_class: energy_storage
+        state_class: measurement
+        availability: "{{ states('sensor.battery_capacity_high_precision_inv_1') not in ['unavailable', 'none', ''] }}"
+        state: >
+          {% if states('sensor.battery_capacity_high_precision_inv_1')|is_number %}
+            {{ states('sensor.battery_capacity_high_precision_inv_1')|float(0) }}
+          {% else %}
+            22.4
+          {% endif %}
+
+      - name: "WR1 Battery charge"
+        unique_id: wr1_battery_charge
+        unit_of_measurement: kWh
+        device_class: energy_storage
+        state_class: measurement
+        availability: "{{ states('sensor.battery_charge_inv_1')|is_number or states('sensor.wr1_battery_capacity')|is_number }}"
+        state: >
+          {% if states('sensor.battery_charge_inv_1')|is_number %}
+            {{ states('sensor.battery_charge_inv_1')|float(0) }}
+          {% else %}
+            {{ (states('sensor.wr1_battery_capacity')|float(22.4)
+              * (states('sensor.battery_max_soc_inv_1')|float(100) - states('sensor.battery_min_soc_inv_1')|float(0)) / 100
+              * states('sensor.battery_level_inv_1')|float(0) / 100) | round(2) }}
+          {% endif %}
+
+      - name: "WR1 Battery current"
+        unique_id: wr1_battery_current
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        availability: "{{ states('sensor.battery_current_inv_1')|is_number }}"
+        state: "{{ states('sensor.battery_current_inv_1')|float(0) }}"
+
+      - name: "WR1 Phase C current"
+        unique_id: wr1_phase_c_current
+        unit_of_measurement: A
+        device_class: current
+        state_class: measurement
+        availability: "{{ states('sensor.phase_c_current_inv_1')|is_number }}"
+        state: "{{ states('sensor.phase_c_current_inv_1')|float(0) }}"
+
+      - name: "WR2 Nominal active power"
+        unique_id: wr2_nominal_active_power
+        unit_of_measurement: kW
+        device_class: power
+        state_class: measurement
+        availability: "{{ states('sensor.inverter_rated_output_inv_2')|is_number }}"
+        state: "{{ (states('sensor.inverter_rated_output_inv_2')|float(0) / 1000) | round(1) }}"
+
+      - name: "WR1 Battery level"
+        unique_id: wr1_battery_level
+        unit_of_measurement: "%"
+        device_class: battery
+        state_class: measurement
+        availability: "{{ states('sensor.battery_level_inv_1')|is_number }}"
+        state: "{{ states('sensor.battery_level_inv_1')|float(0) }}"
+
+      - name: "WR1 Min SoC"
+        unique_id: wr1_min_soc
+        unit_of_measurement: "%"
+        # Configuration limit, not the actual battery level.
+        state_class: measurement
+        availability: "{{ states('sensor.battery_min_soc_inv_1')|is_number }}"
+        state: "{{ states('sensor.battery_min_soc_inv_1')|float(0) }}"
+
+      - name: "WR1 Max SoC"
+        unique_id: wr1_max_soc
+        unit_of_measurement: "%"
+        # Configuration limit, not the actual battery level.
+        state_class: measurement
+        availability: "{{ states('sensor.battery_max_soc_inv_1')|is_number }}"
+        state: "{{ states('sensor.battery_max_soc_inv_1')|float(0) }}"

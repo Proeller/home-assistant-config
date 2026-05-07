@@ -10,9 +10,9 @@ template:
         device_class: power
         state_class: measurement
         availability: >
-          {{ states('sensor.wr1_meter_active_power') not in ['unknown','unavailable','none',''] }}
+          {{ states('sensor.meter_active_power_inv_1') not in ['unknown','unavailable','none',''] }}
         state: >
-          {{ states('sensor.wr1_meter_active_power')|float(default=0) }}
+          {{ states('sensor.meter_active_power_inv_1')|float(default=0) }}
 
       - name: "Grid export power"
         unique_id: grid_export_power
@@ -46,18 +46,18 @@ template:
         device_class: power
         state_class: measurement
         availability: >
-          {{ states('sensor.wr1_total_dc_power') not in ['unknown','unavailable','none','']
-             and states('sensor.wr2_total_dc_power') not in ['unknown','unavailable','none',''] }}
+          {{ states('sensor.total_dc_power_inv_1') not in ['unknown','unavailable','none','']
+             and states('sensor.total_dc_power_inv_2') not in ['unknown','unavailable','none',''] }}
         state: >
-          {{ states('sensor.wr1_total_dc_power')|int(default=0) + states('sensor.wr2_total_dc_power')|int(default=0) }}
+          {{ states('sensor.total_dc_power_inv_1')|int(default=0) + states('sensor.total_dc_power_inv_2')|int(default=0) }}
 
       - name: "Load power"
         unit_of_measurement: W
         device_class: power
         availability: >
-          {{ states('sensor.wr1_load_power') not in ['unknown','unavailable','none',''] }}
+          {{ states('sensor.load_power_inv_1') not in ['unknown','unavailable','none',''] }}
         state: >
-          {{ states('sensor.wr1_load_power')|float(default=0) }}
+          {{ states('sensor.load_power_inv_1')|float(default=0) }}
 
       # Um die effektive PV-Power von WR1 zu berechnen, muss zur wr1_total_active_power (Wirkleistung)
       # die wr1_signed_battery_power addiert werden, die negativ ist, wenn der WR Strom aus der Batterie entnimmt.Total PV
@@ -66,13 +66,13 @@ template:
         unit_of_measurement: W
         device_class: power
         availability: >
-          {{ states('sensor.wr1_total_active_power') not in ['unknown','unavailable','none','']
-             and states('sensor.wr1_signed_battery_power') not in ['unknown','unavailable','none','']
-             and states('sensor.wr2_total_active_power') not in ['unknown','unavailable','none',''] }}
+          {{ states('sensor.total_active_power_inv_1') not in ['unknown','unavailable','none','']
+             and states('sensor.battery_charging_power_signed_inv_1') not in ['unknown','unavailable','none','']
+             and states('sensor.total_active_power_inv_2') not in ['unknown','unavailable','none',''] }}
         state: >
-          {{ states('sensor.wr1_total_active_power')|float(default=0)
-          + states('sensor.wr1_signed_battery_power')|float(default=0)
-          + states('sensor.wr2_total_active_power')|float(default=0) }}
+          {{ states('sensor.total_active_power_inv_1')|float(default=0)
+          + states('sensor.battery_charging_power_signed_inv_1')|float(default=0)
+          + states('sensor.total_active_power_inv_2')|float(default=0) }}
 
       - name: "Total PV power"
         unique_id: total_pv_power
@@ -117,11 +117,11 @@ template:
         availability: >
           {{ states('sensor.total_pv_power') not in ['unknown','unavailable']
              and states('sensor.grid_metered_power') not in ['unknown','unavailable']
-             and states('sensor.wr1_signed_battery_power') not in ['unknown','unavailable'] }}
+             and states('sensor.battery_charging_power_signed_inv_1') not in ['unknown','unavailable'] }}
         state: >
           {{ states('sensor.total_pv_power')|float(0)
             + states('sensor.grid_metered_power')|float(0)
-            - states('sensor.wr1_signed_battery_power')|float(0) }}
+            - states('sensor.battery_charging_power_signed_inv_1')|float(0) }}
 
       - name: "Total active power"
         unique_id: total_active_power
@@ -189,14 +189,14 @@ template:
         unit_of_measurement: W
         device_class: power
         availability: >
-          {{ states('sensor.wr1_signed_battery_power') not in ['unknown','unavailable']
+          {{ states('sensor.battery_charging_power_signed_inv_1') not in ['unknown','unavailable']
              and states('sensor.real_load') not in ['unknown','unavailable'] }}
         state: >
-          {% if states('sensor.wr1_signed_battery_power')|float(default=0) < 0 %}
-              {% if states('sensor.wr1_signed_battery_power')|float(default=0)|abs > states('sensor.real_load')|float(default=0) %}
+          {% if states('sensor.battery_charging_power_signed_inv_1')|float(default=0) < 0 %}
+              {% if states('sensor.battery_charging_power_signed_inv_1')|float(default=0)|abs > states('sensor.real_load')|float(default=0) %}
                   {{ states('sensor.real_load')|float(default=0) }}
               {% else %}
-                  {{ states('sensor.wr1_signed_battery_power')|float(default=0)|abs }}
+                  {{ states('sensor.battery_charging_power_signed_inv_1')|float(default=0)|abs }}
               {% endif %}
           {% else %}
               0
@@ -207,12 +207,12 @@ template:
         unit_of_measurement: W
         device_class: power
         availability: >
-          {{ states('sensor.wr1_signed_battery_power') not in ['unknown','unavailable']
+          {{ states('sensor.battery_charging_power_signed_inv_1') not in ['unknown','unavailable']
              and states('sensor.real_load') not in ['unknown','unavailable'] }}
         state: >
-          {% if states('sensor.wr1_signed_battery_power')|float(default=0) < 0 %}
-              {% if states('sensor.wr1_signed_battery_power')|float(default=0)|abs > states('sensor.real_load')|float(default=0) %}
-                  {{ states('sensor.wr1_signed_battery_power')|float(default=0)|abs - states('sensor.real_load')|float(default=0) }}
+          {% if states('sensor.battery_charging_power_signed_inv_1')|float(default=0) < 0 %}
+              {% if states('sensor.battery_charging_power_signed_inv_1')|float(default=0)|abs > states('sensor.real_load')|float(default=0) %}
+                  {{ states('sensor.battery_charging_power_signed_inv_1')|float(default=0)|abs - states('sensor.real_load')|float(default=0) }}
               {% else %}
                   0
               {% endif %}
@@ -261,15 +261,15 @@ template:
         device_class: power
         availability: >
           {{ states('sensor.total_dc_power') not in ['unknown','unavailable']
-             and states('sensor.wr1_signed_battery_power') not in ['unknown','unavailable']
+             and states('sensor.battery_charging_power_signed_inv_1') not in ['unknown','unavailable']
              and states('sensor.grid_to_battery') not in ['unknown','unavailable']
              and states('sensor.solar_to_house') not in ['unknown','unavailable']
              and states('sensor.solar_to_grid') not in ['unknown','unavailable'] }}
         state: >
-          {% if states('sensor.total_dc_power')|float(default=0) > 0 and states('sensor.wr1_signed_battery_power')|float(default=0) > 0 %}
-              {% if states('sensor.wr1_signed_battery_power')|float(default=0) > states('sensor.grid_to_battery')|float(default=0) %}
-                  {% if states('sensor.total_dc_power')|float(default=0) - states('sensor.solar_to_house')|float(default=0) > states('sensor.wr1_signed_battery_power')|float(default=0) - states('sensor.grid_to_battery')|float(default=0) %}
-                      {{ states('sensor.wr1_signed_battery_power')|float(default=0) - states('sensor.grid_to_battery')|float(default=0) }}
+          {% if states('sensor.total_dc_power')|float(default=0) > 0 and states('sensor.battery_charging_power_signed_inv_1')|float(default=0) > 0 %}
+              {% if states('sensor.battery_charging_power_signed_inv_1')|float(default=0) > states('sensor.grid_to_battery')|float(default=0) %}
+                  {% if states('sensor.total_dc_power')|float(default=0) - states('sensor.solar_to_house')|float(default=0) > states('sensor.battery_charging_power_signed_inv_1')|float(default=0) - states('sensor.grid_to_battery')|float(default=0) %}
+                      {{ states('sensor.battery_charging_power_signed_inv_1')|float(default=0) - states('sensor.grid_to_battery')|float(default=0) }}
                   {% else %}
                       {{ states('sensor.total_dc_power')|float(default=0) - states('sensor.solar_to_house')|float(default=0) - states('sensor.solar_to_grid')|float(default=0) }}
                   {% endif %}
@@ -290,8 +290,8 @@ template:
         device_class: energy
         state_class: total
         availability: >
-          {{ states('sensor.wr1_total_exported_energy') not in ['unknown','unavailable','none',''] }}
-        state: "{{ states('sensor.wr1_total_exported_energy')|float(0)|round(2) }}"
+          {{ states('sensor.total_exported_energy_inv_1') not in ['unknown','unavailable','none',''] }}
+        state: "{{ states('sensor.total_exported_energy_inv_1')|float(0)|round(2) }}"
 
       # We take wr1_total imported_energy instead of grid_imported_energy_raw!
       - name: Grid imported energy
@@ -300,8 +300,8 @@ template:
         device_class: energy
         state_class: total
         availability: >
-          {{ states('sensor.wr1_total_imported_energy') not in ['unknown','unavailable','none',''] }}
-        state: "{{ states('sensor.wr1_total_imported_energy')|float(0)|round(2) }}"
+          {{ states('sensor.total_imported_energy_inv_1') not in ['unknown','unavailable','none',''] }}
+        state: "{{ states('sensor.total_imported_energy_inv_1')|float(0)|round(2) }}"
 
       - name: WP used energy
         unique_id: wp_used_energy
@@ -328,10 +328,21 @@ template:
         device_class: energy
         state_class: total
         availability: >
-          {{ states('sensor.wr1_total_pv_generation') not in ['unknown','unavailable','none','']
-             and states('sensor.wr2_total_power_yield') not in ['unknown','unavailable','none',''] }}
+          {{ states('sensor.total_pv_generation_inv_1') not in ['unknown','unavailable','none','']
+             and states('sensor.wr2_total_pv_generation_corrected') not in ['unknown','unavailable','none',''] }}
         state: >
-          {{ states('sensor.wr1_total_pv_generation')|float(0) + states('sensor.wr2_total_power_yield')|float(0) }}
+          {{ states('sensor.total_pv_generation_inv_1')|float(0) + states('sensor.wr2_total_pv_generation_corrected')|float(0) }}
+
+      - name: "WR2 Total PV Generation Corrected"
+        unique_id: wr2_total_pv_generation_corrected
+        unit_of_measurement: "kWh"
+        device_class: energy
+        state_class: total
+        availability: >
+          {{ states('sensor.total_pv_generation_battery_discharge_inv_2') not in ['unknown','unavailable','none',''] }}
+        state: >
+          {# Estimated offset from WR1/WR2 module ratio on 2026-05-07. Replace with exact iSolarCloud value if available. #}
+          {{ states('sensor.total_pv_generation_battery_discharge_inv_2')|float(0) + 21828.2 }}
 
       - name: "Wallbox Total Energy"
         unique_id: wallbox_total_energy
@@ -349,15 +360,15 @@ template:
         device_class: energy
         state_class: total
         availability: >
-          {{ states('sensor.wr1_total_imported_energy') not in ['unknown','unavailable']
+          {{ states('sensor.total_imported_energy_inv_1') not in ['unknown','unavailable']
              and states('sensor.total_pv_generation') not in ['unknown','unavailable']
-             and states('sensor.wr1_total_battery_discharge') not in ['unknown','unavailable']
-             and states('sensor.wr1_total_exported_energy') not in ['unknown','unavailable']
-             and states('sensor.wr1_total_battery_charge') not in ['unknown','unavailable'] }}
+             and states('sensor.total_battery_discharge_inv_1') not in ['unknown','unavailable']
+             and states('sensor.total_exported_energy_inv_1') not in ['unknown','unavailable']
+             and states('sensor.total_battery_charge_inv_1') not in ['unknown','unavailable'] }}
         state: >
-          {{ states('sensor.wr1_total_imported_energy')|float + states('sensor.total_pv_generation')|float
-            + states('sensor.wr1_total_battery_discharge')|float
-            - states('sensor.wr1_total_exported_energy')|float - states('sensor.wr1_total_battery_charge')|float
+          {{ states('sensor.total_imported_energy_inv_1')|float + states('sensor.total_pv_generation')|float
+            + states('sensor.total_battery_discharge_inv_1')|float
+            - states('sensor.total_exported_energy_inv_1')|float - states('sensor.total_battery_charge_inv_1')|float
             }}
 
       - name: "House Used Energy"
@@ -428,3 +439,4 @@ template:
              and states('input_number.feed_in_tariff') not in ['unknown','unavailable'] }}
         state: >
           {{ (states('sensor.grid_exported_energy')|float(0) * states('input_number.feed_in_tariff')|float(0))|round(2) }}
+
