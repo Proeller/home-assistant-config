@@ -9,6 +9,8 @@ template:
         unit_of_measurement: "W"
         device_class: power
         state_class: measurement
+        availability: >
+          {{ states('sensor.wr1_meter_active_power') not in ['unknown','unavailable','none',''] }}
         state: >
           {{ states('sensor.wr1_meter_active_power')|float(default=0) }}
 
@@ -43,12 +45,17 @@ template:
         unit_of_measurement: "W"
         device_class: power
         state_class: measurement
+        availability: >
+          {{ states('sensor.wr1_total_dc_power') not in ['unknown','unavailable','none','']
+             and states('sensor.wr2_total_dc_power') not in ['unknown','unavailable','none',''] }}
         state: >
           {{ states('sensor.wr1_total_dc_power')|int(default=0) + states('sensor.wr2_total_dc_power')|int(default=0) }}
 
       - name: "Load power"
         unit_of_measurement: W
         device_class: power
+        availability: >
+          {{ states('sensor.wr1_load_power') not in ['unknown','unavailable','none',''] }}
         state: >
           {{ states('sensor.wr1_load_power')|float(default=0) }}
 
@@ -58,6 +65,10 @@ template:
         unique_id: total_pv_power_raw
         unit_of_measurement: W
         device_class: power
+        availability: >
+          {{ states('sensor.wr1_total_active_power') not in ['unknown','unavailable','none','']
+             and states('sensor.wr1_signed_battery_power') not in ['unknown','unavailable','none','']
+             and states('sensor.wr2_total_active_power') not in ['unknown','unavailable','none',''] }}
         state: >
           {{ states('sensor.wr1_total_active_power')|float(default=0)
           + states('sensor.wr1_signed_battery_power')|float(default=0)
@@ -80,6 +91,8 @@ template:
         unique_id: wallbox_active_power
         unit_of_measurement: W
         device_class: power
+        availability: >
+          {{ states('sensor.em_wallbox_total_active_power') not in ['unknown','unavailable','none',''] }}
         state: >
           {{ states('sensor.em_wallbox_total_active_power')|float(0)|round(0) }}
 
@@ -276,6 +289,8 @@ template:
         unit_of_measurement: "kWh"
         device_class: energy
         state_class: total
+        availability: >
+          {{ states('sensor.wr1_total_exported_energy') not in ['unknown','unavailable','none',''] }}
         state: "{{ states('sensor.wr1_total_exported_energy')|float(0)|round(2) }}"
 
       # We take wr1_total imported_energy instead of grid_imported_energy_raw!
@@ -284,6 +299,8 @@ template:
         unit_of_measurement: "kWh"
         device_class: energy
         state_class: total
+        availability: >
+          {{ states('sensor.wr1_total_imported_energy') not in ['unknown','unavailable','none',''] }}
         state: "{{ states('sensor.wr1_total_imported_energy')|float(0)|round(2) }}"
 
       - name: WP used energy
@@ -291,6 +308,8 @@ template:
         unit_of_measurement: "kWh"
         device_class: energy
         state_class: total
+        availability: >
+          {{ states('sensor.3em_heatpump_total_active_energy') not in ['unknown','unavailable','none',''] }}
         state: "{{ states('sensor.3em_heatpump_total_active_energy')|float(0) }}"
 
       - name: Selfuse energy
@@ -308,11 +327,16 @@ template:
         unit_of_measurement: "kWh"
         device_class: energy
         state_class: total
+        availability: >
+          {{ states('sensor.wr1_total_pv_generation') not in ['unknown','unavailable','none','']
+             and states('sensor.wr2_total_power_yield') not in ['unknown','unavailable','none',''] }}
         state: >
           {{ states('sensor.wr1_total_pv_generation')|float(0) + states('sensor.wr2_total_power_yield')|float(0) }}
 
       - name: "Wallbox Total Energy"
         unique_id: wallbox_total_energy
+        availability: >
+          {{ states('sensor.em_wallbox_total_active_energy') not in ['unknown','unavailable','none',''] }}
         state: >
           {{ states('sensor.em_wallbox_total_active_energy')|float(0)|round(1)}}
         unit_of_measurement: kWh
@@ -357,10 +381,13 @@ template:
         device_class: power_factor
         availability: >
           {{ states('sensor.selfuse_energy_d') not in ['unknown','unavailable']
-             and states('sensor.wr1_daily_pv_generation') not in ['unknown','unavailable'] }}
+             and states('sensor.grid_exported_energy_d') not in ['unknown','unavailable'] }}
         state: >
-          {% if states('sensor.wr1_daily_pv_generation')|float(0) > 0 %}
-            {{ (states('sensor.selfuse_energy_d')|float(0) / states('sensor.wr1_daily_pv_generation')|float(0) * 100) | round(1) }}
+          {% set selfuse = states('sensor.selfuse_energy_d')|float(0) %}
+          {% set exported = states('sensor.grid_exported_energy_d')|float(0) %}
+          {% set generated = selfuse + exported %}
+          {% if generated > 0 %}
+            {{ (selfuse / generated * 100) | round(1) }}
           {% else %}
             0
           {% endif %}
